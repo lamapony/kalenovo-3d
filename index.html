@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#d6dfdf" />
+    <meta name="description" content="Тихая прогулка по Калёново в первый снег. A small winter walk through Kalenovo, Buryatia." />
+    <title>Калёново · Первый снег</title>
+  </head>
+  <body>
+    <main id="walk" aria-label="Трёхмерная прогулка по зимнему Калёново">
+      <canvas id="scene" tabindex="0" aria-label="Winter village. WASD or arrow keys to walk, drag to look, Shift to sprint, R to return." aria-describedby="controls"></canvas>
+      <header class="hud">
+        <h1>Калёново <span>· Первый снег</span></h1>
+        <p>Бурятия · У подножия Малан-Хада</p>
+      </header>
+      <div class="actions">
+        <button id="lights" type="button" aria-pressed="true"><kbd>L</kbd> <span>Тёплый свет: вкл.</span></button>
+        <button id="reset" type="button"><kbd>R</kbd> К началу</button>
+      </div>
+      <div id="status" role="status">Собираем зимний пейзаж…</div>
+      <div id="marker" hidden>Family house <span>(placeholder)</span></div>
+      <div class="walk-help" id="controls">
+        <button id="enter" type="button" disabled>Загрузка…</button>
+        <p><span>WASD / ↑↓←→</span> идти <b>·</b> <span>Shift</span> быстрее <b>·</b> <span>Мышь</span> осмотреться</p>
+        <p class="secondary" id="look-hint">Можно зажать и тянуть мышью · Esc освобождает курсор</p>
+      </div>
+      <footer>Map data © OpenStreetMap contributors (ODbL) · Elevation: Copernicus DEM GLO-30 · Footprints: GlobalBuildingAtlas (TUM, CC BY-NC 4.0)</footer>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

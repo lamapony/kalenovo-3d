@@ -1,0 +1,30 @@
+{
+  "name": "Kalenovo (Калёново), Ivolginsky District, Buryatia",
+  "centerLat": 51.757214,
+  "centerLon": 107.114639,
+  "metersPerDegLat": 111320.0,
+  "metersPerDegLon": 68906.5308,
+  "halfSizeM": 1800.0,
+  "gridSize": 257,
+  "minElev": 632.15,
+  "maxElev": 880.96,
+  "centerElev": 672.0,
+  "bbox": [
+    107.088517,
+    51.741044,
+    107.140761,
+    51.773384
+  ],
+  "defaultSpawn": {
+    "lat": 51.7551737,
+    "lon": 107.1162151,
+    "x": 108.6,
+    "z": 227.13,
+    "elev": 669.94
+  },
+  "counts": {
+    "osmFeatures": 25,
+    "osmBuildings": 5,
+    "gbaBuildings": 460
+  }
+}
