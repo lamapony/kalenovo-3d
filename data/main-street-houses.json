@@ -291,11 +291,11 @@
      "gableColor": "#291d15"
     },
     "windows": {
-     "street": 3,
+     "street": 2,
      "side": 2,
      "frameColor": "#bdb9ac",
      "nalichnik": {
-      "style": "plain",
+      "style": "carved-crown",
       "color": "#1c5a7c"
      },
      "shutters": {
@@ -340,7 +340,7 @@
     "floors": 2,
     "wall": {
      "material": "planks",
-     "color": "#9d6d45",
+     "color": "#c48f60",
      "cornerJoint": "boxed"
     },
     "roof": {
@@ -348,7 +348,7 @@
      "ridge": "perpendicular",
      "pitchDeg": 35,
      "material": "metal-tile",
-     "color": "#cacbca",
+     "color": "#78706d",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#a36e44"
@@ -404,19 +404,19 @@
      "shape": "gable",
      "ridge": "perpendicular",
      "pitchDeg": 28,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#cecbc4",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#38271b"
     },
     "windows": {
-     "street": 3,
+     "street": 2,
      "side": 2,
      "frameColor": "#bebaac",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#3b5f8d"
+      "color": "#e8e4dc"
      },
      "shutters": {
       "type": "wooden",
@@ -431,12 +431,12 @@
    },
    "fence": {
     "type": "picket",
-    "color": "#406692",
+    "color": "#487570",
     "heightM": 1.2,
     "lengthM": 3.6,
     "gate": {
      "type": "double",
-     "color": "#3c2318",
+     "color": "#487570",
      "roofed": false,
      "wicket": true
     }
@@ -503,9 +503,9 @@
     "lengthM": 5.5,
     "gate": {
      "type": "swing",
-     "color": "#87783d",
+     "color": "#b98932",
      "roofed": false,
-     "wicket": false
+     "wicket": true
     }
    },
    "outbuildings": [],
@@ -545,7 +545,7 @@
      "gableFinish": "planks",
      "gableColor": "#3a2316",
      "gableArch": true,
-     "gableBoards": "sunburst"
+     "gableBoards": "horizontal"
     },
     "windows": {
      "street": 3,
@@ -555,7 +555,7 @@
       "style": "carved-crown",
       "color": "#c9ccc6",
       "crownColor": "#d6d8d2",
-      "crownShape": "kokoshnik"
+      "crownShape": "pediment"
      },
      "shutters": {
       "type": "wooden",
@@ -623,7 +623,7 @@
      "color": "#b2a7a2",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#426882"
+     "gableColor": "#6d756c"
     },
     "windows": {
      "street": 3,
@@ -724,7 +724,8 @@
     "color": "#41372c",
     "heightM": 1.5,
     "lengthM": 3.9,
-    "gate": null
+    "gate": null,
+    "pattern": "horizontal"
    },
    "outbuildings": [],
    "notes": "red brick chimney; horizontal log-slab fence"
@@ -830,7 +831,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#b9bbb7",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -899,7 +900,9 @@
      "frameColor": "#c7bfad",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#1a5a55"
+      "color": "#c8c0ae",
+      "crownColor": "#1a5a55",
+      "crownShape": "pediment"
      },
      "shutters": {
       "type": "wooden",
@@ -944,7 +947,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#cac7c1",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -970,7 +973,7 @@
     "notes": ""
    },
    "fence": {
-    "type": "plank",
+    "type": "profiled",
     "color": "#38694f",
     "heightM": 1.8,
     "lengthM": 3,
@@ -1070,10 +1073,10 @@
     },
     "roof": {
      "shape": "gable",
-     "ridge": "perpendicular",
+     "ridge": "parallel",
      "pitchDeg": 33,
      "material": "corrugated",
-     "color": "#937a5f",
+     "color": "#c4beb4",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#362a1e"
@@ -1141,7 +1144,7 @@
      "ridge": "perpendicular",
      "pitchDeg": 33,
      "material": "corrugated",
-     "color": "#8d624b",
+     "color": "#b7aea0",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#3c2617"
@@ -1191,7 +1194,7 @@
    "mergedFootprint": false,
    "house": null,
    "fence": {
-    "type": "plank",
+    "type": "picket",
     "color": "#694d2c",
     "heightM": 1.8,
     "lengthM": 7.1,
@@ -1292,8 +1295,8 @@
     "depthM": 7,
     "floors": 1,
     "wall": {
-     "material": "planks",
-     "color": "#8f6543",
+     "material": "log",
+     "color": "#624028",
      "cornerJoint": "boxed"
     },
     "roof": {
@@ -1361,7 +1364,7 @@
     },
     "roof": {
      "shape": "gable",
-     "ridge": "perpendicular",
+     "ridge": "parallel",
      "pitchDeg": 33,
      "material": "corrugated",
      "color": "#896748",
@@ -1498,7 +1501,7 @@
      "ridge": "parallel",
      "pitchDeg": 28,
      "material": "slate",
-     "color": "#9d866a",
+     "color": "#b5ad9c",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#678991"
@@ -1509,7 +1512,7 @@
      "frameColor": "#cac5ba",
      "nalichnik": {
       "style": "carved",
-      "color": "#cbc6ba"
+      "color": "#1a4060"
      },
      "shutters": {
       "type": "wooden",
@@ -1599,7 +1602,7 @@
     "lengthM": 6.9,
     "gate": {
      "type": "double",
-     "color": "#9f9272",
+     "color": "#d8d0c8",
      "roofed": false,
      "wicket": false
     }
@@ -1624,7 +1627,7 @@
    "house": null,
    "fence": {
     "type": "picket",
-    "color": "#4c8274",
+    "color": "#78b0a0",
     "heightM": 1.2,
     "lengthM": 4.1,
     "gate": {
@@ -1852,7 +1855,7 @@
       "color": "#27574a"
      }
     },
-    "chimney": false,
+    "chimney": true,
     "porch": null,
     "veranda": true,
     "basementM": 0.3,
@@ -1988,7 +1991,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "profiled",
      "color": "#b7b8b6",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -2154,7 +2157,7 @@
      "shape": "gable",
      "ridge": "perpendicular",
      "pitchDeg": 35,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#ac9f9a",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -2215,7 +2218,7 @@
     "floors": 1,
     "wall": {
      "material": "planks",
-     "color": "#1a5d5c",
+     "color": "#554333",
      "cornerJoint": "boxed"
     },
     "roof": {
@@ -2223,7 +2226,7 @@
      "ridge": "parallel",
      "pitchDeg": 30,
      "material": "metal-tile",
-     "color": "#2a9fb3",
+     "color": "#5aa6ae",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#4e858f"
@@ -2277,7 +2280,7 @@
     },
     "roof": {
      "shape": "gable",
-     "ridge": "perpendicular",
+     "ridge": "parallel",
      "pitchDeg": 33,
      "material": "corrugated",
      "color": "#87745c",
@@ -2375,7 +2378,7 @@
      },
      "shutters": {
       "type": "wooden",
-      "color": "#d8ddd8"
+      "color": "#2f7a66"
      }
     },
     "chimney": false,
@@ -2435,7 +2438,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "profiled",
      "color": "#cdc8be",
      "overhangM": 0.4,
      "gableFinish": null,
@@ -2602,7 +2605,7 @@
      "ridge": "parallel",
      "pitchDeg": 20,
      "material": "profiled",
-     "color": "#6a6866",
+     "color": "#b8ad9c",
      "overhangM": 0.4,
      "gableFinish": "siding",
      "gableColor": "#6c6a69"
@@ -2625,7 +2628,7 @@
    },
    "fence": {
     "type": "metal-rail",
-    "color": "#5b4a2e",
+    "color": "#2c2e30",
     "heightM": 1.2,
     "lengthM": 4.5,
     "gate": null
@@ -2724,7 +2727,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "profiled",
      "color": "#ccc6bc",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -2792,7 +2795,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "profiled",
      "color": "#9e9c8d",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -3044,7 +3047,7 @@
       "color": "#ded2c4"
      }
     },
-    "chimney": false,
+    "chimney": true,
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
@@ -3239,7 +3242,7 @@
     "basementM": 0.5,
     "notes": "",
     "wallHeightM": 3,
-    "plinthColor": "#6fc0c0"
+    "plinthColor": "#6c9e8a"
    },
    "fence": {
     "type": "plank",
@@ -3361,7 +3364,18 @@
     "basementM": 0.3,
     "notes": ""
    },
-   "fence": null,
+   "fence": {
+    "type": "plank",
+    "color": "#61472e",
+    "heightM": 1.8,
+    "lengthM": 9,
+    "gate": {
+     "type": "double",
+     "color": "#7a6548",
+     "roofed": false,
+     "wicket": false
+    }
+   },
    "outbuildings": [],
    "notes": ""
   },
@@ -3394,7 +3408,7 @@
      "ridge": "perpendicular",
      "pitchDeg": 38,
      "material": "profiled",
-     "color": "#342017",
+     "color": "#1c120f",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#332016"
@@ -3405,7 +3419,7 @@
      "frameColor": "#d5c9ba",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#698e99"
+      "color": "#d7caba"
      },
      "shutters": {
       "type": "wooden",
@@ -3416,7 +3430,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.5,
-    "notes": ""
+    "notes": "",
+    "plinthColor": "#786e58"
    },
    "fence": {
     "type": "plank",
@@ -3743,7 +3758,7 @@
       "color": "#38645a"
      }
     },
-    "chimney": false,
+    "chimney": true,
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
@@ -3945,7 +3960,7 @@
      "frameColor": "#ccc1b5",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#3f768c"
+      "color": "#d4c7b6"
      },
      "shutters": {
       "type": "wooden",
@@ -4075,7 +4090,7 @@
      "ridge": "parallel",
      "pitchDeg": 28,
      "material": "corrugated",
-     "color": "#a18c72",
+     "color": "#b3b4af",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#382b1f"
@@ -4654,7 +4669,7 @@
     },
     "roof": {
      "shape": "gable",
-     "ridge": "perpendicular",
+     "ridge": "parallel",
      "pitchDeg": 33,
      "material": "corrugated",
      "color": "#7a5f46",
@@ -4663,7 +4678,7 @@
      "gableColor": "#2d2319"
     },
     "windows": {
-     "street": 3,
+     "street": 5,
      "side": 2,
      "frameColor": "#bdb9ac",
      "nalichnik": {
@@ -4691,7 +4706,8 @@
      "color": "#374a16",
      "roofed": false,
      "wicket": false
-    }
+    },
+    "gateSide": "right"
    },
    "outbuildings": [
     {
@@ -4801,7 +4817,7 @@
    "house": null,
    "fence": {
     "type": "plank",
-    "color": "#979a8f",
+    "color": "#6e5f4d",
     "heightM": 1.8,
     "lengthM": 10.3,
     "gate": null
@@ -4837,7 +4853,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#a8a49b",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -4900,7 +4916,7 @@
     },
     "roof": {
      "shape": "gable",
-     "ridge": "perpendicular",
+     "ridge": "parallel",
      "pitchDeg": 35,
      "material": "slate",
      "color": "#cdc9c2",
@@ -4914,7 +4930,8 @@
      "frameColor": "#b8b8b0",
      "nalichnik": {
       "style": "carved",
-      "color": "#25324f"
+      "color": "#25324f",
+      "crownShape": "pediment"
      },
      "shutters": {
       "type": "wooden",
@@ -4929,7 +4946,7 @@
    },
    "fence": {
     "type": "plank",
-    "color": "#7f623f",
+    "color": "#ae8e62",
     "heightM": 2,
     "lengthM": 13.1,
     "gate": null
@@ -4968,7 +4985,7 @@
      "material": "corrugated",
      "color": "#241c13",
      "overhangM": 0.4,
-     "gableFinish": "planks",
+     "gableFinish": "log",
      "gableColor": "#241c13"
     },
     "windows": {
@@ -4977,7 +4994,7 @@
      "frameColor": "#d4cbc0",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#d5ccc2"
+      "color": "#277079"
      },
      "shutters": {
       "type": "wooden",
@@ -4992,7 +5009,7 @@
    },
    "fence": {
     "type": "picket",
-    "color": "#2a6363",
+    "color": "#53a390",
     "heightM": 1.1,
     "lengthM": 7.7,
     "gate": {
@@ -5025,7 +5042,13 @@
     "color": "#5c432c",
     "heightM": 1.4,
     "lengthM": 13.1,
-    "gate": null
+    "gate": {
+     "type": "swing",
+     "color": "#6a5340",
+     "roofed": false,
+     "wicket": false
+    },
+    "pattern": "horizontal"
    },
    "outbuildings": [],
    "notes": "horizontal log-slab fence, empty plot"
@@ -5050,7 +5073,7 @@
     "floors": 1,
     "wall": {
      "material": "planks",
-     "color": "#2a7a74",
+     "color": "#9a9486",
      "cornerJoint": "boxed"
     },
     "roof": {
@@ -5254,7 +5277,7 @@
     "depthM": 5.5,
     "floors": 1,
     "wall": {
-     "material": "planks",
+     "material": "siding",
      "color": "#51241b",
      "cornerJoint": "boxed"
     },
@@ -5576,7 +5599,7 @@
    },
    "fence": {
     "type": "picket",
-    "color": "#dcd9d0",
+    "color": "#406155",
     "heightM": 1.2,
     "lengthM": 4.9,
     "gate": null
@@ -5681,7 +5704,7 @@
     "depthM": 5.5,
     "floors": 1,
     "wall": {
-     "material": "log",
+     "material": "planks",
      "color": "#423426",
      "logDiameterCm": 24,
      "cornerJoint": "saddle"
@@ -5742,7 +5765,7 @@
     "floors": 1,
     "wall": {
      "material": "plaster",
-     "color": "#c0c0bc",
+     "color": "#a99882",
      "cornerJoint": null
     },
     "roof": {
@@ -5925,7 +5948,18 @@
     "basementM": 0.3,
     "notes": ""
    },
-   "fence": null,
+   "fence": {
+    "type": "profiled",
+    "color": "#053163",
+    "heightM": 1.9,
+    "lengthM": 9.6,
+    "gate": {
+     "type": "double",
+     "color": "#093365",
+     "roofed": false,
+     "wicket": false
+    }
+   },
    "outbuildings": [],
    "notes": ""
   },
@@ -6012,7 +6046,7 @@
     "floors": 1,
     "wall": {
      "material": "plaster",
-     "color": "#918468",
+     "color": "#dcc8af",
      "cornerJoint": null
     },
     "roof": {
@@ -6044,18 +6078,7 @@
     "basementM": 0.5,
     "notes": ""
    },
-   "fence": {
-    "type": "profiled",
-    "color": "#053163",
-    "heightM": 1.9,
-    "lengthM": 9.6,
-    "gate": {
-     "type": "double",
-     "color": "#093365",
-     "roofed": false,
-     "wicket": false
-    }
-   },
+   "fence": null,
    "outbuildings": [],
    "notes": "smooth cream walls, blue cornice band, white plinth"
   },
@@ -6114,7 +6137,7 @@
    },
    "fence": {
     "type": "picket",
-    "color": "#395a52",
+    "color": "#718f7d",
     "heightM": 1.2,
     "lengthM": 3.3,
     "gate": {
@@ -6364,11 +6387,11 @@
      "frameColor": "#bab9b3",
      "nalichnik": {
       "style": "plain",
-      "color": "#277271"
+      "color": "#7a8b6b"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#267272"
+      "color": "#7a8b6b"
      }
     },
     "chimney": true,
@@ -6543,8 +6566,8 @@
     "notes": ""
    },
    "fence": {
-    "type": "picket",
-    "color": "#2e3926",
+    "type": "plank",
+    "color": "#46543b",
     "heightM": 1.2,
     "lengthM": 2.6,
     "gate": null
@@ -6572,7 +6595,7 @@
     "floors": 1,
     "wall": {
      "material": "planks",
-     "color": "#46738e",
+     "color": "#6495a3",
      "cornerJoint": "boxed"
     },
     "roof": {
@@ -6606,7 +6629,7 @@
    },
    "fence": {
     "type": "plank",
-    "color": "#155a22",
+    "color": "#1b682e",
     "heightM": 1.9,
     "lengthM": 6.1,
     "gate": null
@@ -6646,7 +6669,7 @@
     "lengthM": 9,
     "gate": {
      "type": "double",
-     "color": "#246d6c",
+     "color": "#5c9d9e",
      "roofed": false,
      "wicket": false
     }
@@ -6761,7 +6784,9 @@
      "frameColor": "#babeb8",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#255835"
+      "color": "#255835",
+      "crownColor": "#9a7438",
+      "crownShape": "kokoshnik"
      },
      "shutters": {
       "type": "wooden",
@@ -6798,7 +6823,7 @@
     "floors": 1,
     "wall": {
      "material": "planks",
-     "color": "#7a673b",
+     "color": "#a07040",
      "cornerJoint": "boxed"
     },
     "roof": {
@@ -6809,7 +6834,8 @@
      "color": "#bbbebe",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#7a673d"
+     "gableColor": "#a07040",
+     "trimColor": "#c5c3bf"
     },
     "windows": {
      "street": 2,
@@ -6832,7 +6858,7 @@
    },
    "fence": {
     "type": "metal-rail",
-    "color": "#524331",
+    "color": "#4a453f",
     "heightM": 1.2,
     "lengthM": 7.7,
     "gate": null
@@ -6892,7 +6918,7 @@
      "shape": "gable",
      "ridge": "perpendicular",
      "pitchDeg": 35,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#c4c1ba",
      "overhangM": 0.4,
      "gableFinish": "planks",
@@ -6989,7 +7015,8 @@
      "color": "#3c261c",
      "roofed": false,
      "wicket": true
-    }
+    },
+    "gateSide": "right"
    },
    "outbuildings": [
     {
@@ -7032,7 +7059,7 @@
      "shape": "gable",
      "ridge": "perpendicular",
      "pitchDeg": 35,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#d1c8bb",
      "overhangM": 0.4,
      "gableFinish": "log",
@@ -7044,7 +7071,8 @@
      "frameColor": "#c8beae",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#264c68"
+      "color": "#264c68",
+      "crownShape": "pediment"
      },
      "shutters": {
       "type": "wooden",
@@ -7059,7 +7087,7 @@
    },
    "fence": {
     "type": "picket",
-    "color": "#625a57",
+    "color": "#a09070",
     "heightM": 1.3,
     "lengthM": 4.4,
     "gate": null
@@ -7099,7 +7127,7 @@
      "color": "#9c6d46",
      "overhangM": 0.7,
      "gableFinish": "planks",
-     "gableColor": "#53663e"
+     "gableColor": "#849270"
     },
     "windows": {
      "street": 2,
@@ -7197,7 +7225,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#c2c1bf",
      "overhangM": 0.4,
      "gableFinish": null,
@@ -7269,7 +7297,7 @@
      "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 27,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#b4afa2",
      "overhangM": 0.4,
      "gableFinish": null,
@@ -7466,9 +7494,9 @@
      "ridge": "perpendicular",
      "pitchDeg": 35,
      "material": "corrugated",
-     "color": "#302219",
+     "color": "#8a6848",
      "overhangM": 0.4,
-     "gableFinish": "planks",
+     "gableFinish": "log",
      "gableColor": "#302218"
     },
     "windows": {
@@ -7477,7 +7505,8 @@
      "frameColor": "#bbb5a4",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#2e4b60"
+      "color": "#2e4b60",
+      "crownShape": "pediment"
      },
      "shutters": {
       "type": "wooden",
@@ -7548,7 +7577,7 @@
       "color": "#bfbaaf"
      }
     },
-    "chimney": false,
+    "chimney": true,
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
@@ -7587,7 +7616,7 @@
      "ridge": "perpendicular",
      "pitchDeg": 38,
      "material": "slate",
-     "color": "#bdbec0",
+     "color": "#b7aa94",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#69503b"
@@ -7682,7 +7711,7 @@
    },
    "fence": {
     "type": "lattice",
-    "color": "#3a6a71",
+    "color": "#4a828d",
     "heightM": 0.9,
     "lengthM": 7.1,
     "gate": {
@@ -7727,7 +7756,8 @@
      "color": "#9db77b",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#b9bcb6"
+     "gableColor": "#b9bcb6",
+     "gableBoards": "vertical"
     },
     "windows": {
      "street": 2,
@@ -7794,7 +7824,8 @@
      "color": "#412415",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#5c331c"
+     "gableColor": "#5c331c",
+     "gableBoards": "vertical"
     },
     "windows": {
      "street": 2,
@@ -7912,7 +7943,7 @@
       "style": "carved-crown",
       "color": "#dfe0dc",
       "crownColor": "#5fa59a",
-      "crownShape": "trapezoid"
+      "crownShape": "pediment"
      },
      "shutters": {
       "type": "wooden",
@@ -7930,7 +7961,7 @@
      "widthM": 3.6,
      "depthM": 5,
      "color": "#6a4529",
-     "glazed": false
+     "glazed": true
     }
    },
    "fence": {
