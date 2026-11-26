@@ -15,7 +15,7 @@ const SETS = {
   grass: { file: 'withered_grass', tile: 2, mean: [.426, .304, .202] },
   rock: { file: 'rock_ground_02', tile: 3, mean: [.19, .165, .12] },
   // Village ground: trodden dirt and gravel (both seasons), patchy summer grass.
-  trail: { file: 'rocky_trail', tile: 2, mean: [.298, .222, .147] },
+  trail: { file: 'rocky_trail', tile: 2, mean: [.298, .222, .147], summerOnly: true },
   sgrass: { file: 'sparse_grass', tile: 2, mean: [.077, .044, .004], summerOnly: true },
 };
 
@@ -103,7 +103,8 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
   let maskR = float(0), maskG = float(0), maskB = float(0);
   if (groundMask && !far) {
     const mt = new THREE.DataTexture(groundMask.data, groundMask.width, groundMask.height, THREE.RGBAFormat);
-    mt.magFilter = mt.minFilter = THREE.LinearFilter; mt.generateMipmaps = false; mt.needsUpdate = true;
+    // Mipmapped: distant terrain then reads a small, cache-friendly level of the 20 MB mask.
+    mt.magFilter = THREE.LinearFilter; mt.minFilter = THREE.LinearMipmapLinearFilter; mt.generateMipmaps = true; mt.needsUpdate = true;
     const wob = vec2(breakup, mid).mul(1.2); // reuse the ground noises: no extra noise cost
     const muv = p.add(wob).sub(vec2(groundMask.x0, groundMask.z0)).div(vec2(groundMask.sizeX, groundMask.sizeZ));
     const inside = step(0, muv.x).mul(step(muv.x, 1)).mul(step(0, muv.y)).mul(step(muv.y, 1));
@@ -111,8 +112,9 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
     const edge = fine.mul(.35).add(breakup.mul(.15));
     maskR = smoothstep(.25, .75, m.r.add(edge)); maskG = smoothstep(.3, .7, m.g.add(edge.mul(.5))); maskB = smoothstep(.4, .6, m.b);
   }
-  const trailMap = far ? vec3(...SETS.trail.mean) : mix(texture(tex.trail.map, p.div(tex.trail.tile)).rgb, vec3(...SETS.trail.mean), flatten);
-  const trailN = far ? vec3(0, 0, 1) : decode(texture(tex.trail.normal, p.div(tex.trail.tile)));
+  // Winter only needs the dirt colour where wheels wear through the snow: no texture there.
+  const trailMap = far || !season.summer ? vec3(...SETS.trail.mean).mul(fine.mul(.25).add(1)) : mix(texture(tex.trail.map, p.div(tex.trail.tile)).rgb, vec3(...SETS.trail.mean), flatten);
+  const trailN = far || !season.summer ? vec3(0, 0, 1) : decode(texture(tex.trail.normal, p.div(tex.trail.tile)));
   // ?season=summer: no snow. Patchy steppe grass (the sparse-grass photo texture white-balanced
   // to the green of the street imagery), dry yellow patches, darker weedy clumps, bare spots;
   // sandy trodden dirt in yards and along fences, gravel at the gates, tilled soil in the beds.
