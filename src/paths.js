@@ -4,6 +4,7 @@ import {
 } from 'three/tsl';
 import { wayLines } from './village/plan.js';
 import { textureSet } from './textures.js';
+import { season } from './season.js';
 
 // Cross-section height profile (metres above the sampled ground) for offset o.
 function profile(o, hw, bank, water) {
@@ -96,6 +97,26 @@ function roadMaterial(layer) {
   const roadCol = mix(mix(packed, packed.mul(vec3(.82, .8, .78)), traffic), dirty, rut.mul(.85)).mul(float(1).sub(rutCore.mul(.25)));
   m.normalNode = normalMap(texture(road.normal, uvR), vec2(.9, .9));
   m.metalnessNode = float(0);
+  if (season.summer) {
+    // Dry dirt road: sandy grey-brown, darker compacted ruts, pebbles, grassy fringes.
+    const dirt = vec3(.3, .235, .16).mul(n1.mul(.12).add(1)).mul(mx_noise_float(positionWorld.xz.mul(3.1)).mul(.1).add(1));
+    const grit = texture(ruts.color, uvR.mul(1.7)).rgb.dot(vec3(.33)).mul(.5).add(.6);
+    const rutDirt = mix(dirt.mul(grit), dirt.mul(vec3(.62, .58, .55)), rut.mul(.7));
+    const grassy = smoothstep(hw.mul(.55), hw.add(.3), a.add(n2.mul(.5))).mul(.75);
+    m.colorNode = mix(rutDirt, vec3(.09, .12, .04), grassy);
+    m.roughnessNode = float(.95);
+    if (layer === 'bank') {
+      // Trampled verge: bare earth breaking up into sparse grass away from the road.
+      const verge = mix(dirt.mul(.85), vec3(.12, .15, .05), smoothstep(hw.add(bank.mul(.35)), hw.add(bank), a.add(n2.mul(1.2))).mul(.8));
+      m.colorNode = verge;
+      m.opacityNode = float(1).sub(smoothstep(hw.add(bank.mul(.6)), hw.add(bank), a.add(n1.mul(.9)))).mul(smoothstep(-.8, -.1, n2.add(.25))).mul(fade);
+      m.name = 'road verge (summer)';
+    } else {
+      m.opacityNode = onRoad.mul(fade);
+      m.name = 'dry dirt road';
+    }
+    return m;
+  }
   if (layer === 'bank') {
     m.colorNode = bankCol;
     m.roughnessNode = float(.9);
@@ -137,7 +158,7 @@ export function createPaths(features, meta, ground) {
   for (const line of lines) {
     const water = line.kind === 'water';
     for (let i = 1; i < line.points.length; i++) exclusions.push({ a: line.points[i - 1], b: line.points[i], radius: line.width / 2 + (water ? 4 : 3) });
-    const bank = water ? (line.waterway === 'river' ? 4 : 1.6) : line.foot ? .6 : 1.9;
+    const bank = water ? (line.waterway === 'river' ? 4 : 1.6) : line.foot ? .6 : season.summer ? 5 : 1.9;
     const fadeLen = Math.max(3, line.width * .8);
     const geo = ribbonGeometry(line.points, line.width, bank, ground, {
       water, columns: water ? 12 : line.foot ? 6 : 16, lift: water ? .14 : .1,

@@ -5,6 +5,7 @@ import {
   uniform, color, mx_noise_float, fract, clamp,
 } from 'three/tsl';
 import { textureSet } from '../textures.js';
+import { season } from '../season.js';
 
 export const SNOW_COLOR = '#eef2f6';
 
@@ -16,6 +17,7 @@ export const TEXTURE_MEAN = {
 
 // Snow settling on up-facing surfaces (sills, rails, picket tips) via world normal + noise.
 export function snowCap(baseColor, { threshold = .62, strength = 1 } = {}) {
+  if (season.summer) return baseColor;
   const n = mx_noise_float(positionWorld.mul(2.7)).mul(.18);
   const k = smoothstep(threshold, threshold + .22, normalWorld.y.add(n)).mul(strength);
   return mix(baseColor, color(SNOW_COLOR), k);

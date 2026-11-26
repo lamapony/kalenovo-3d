@@ -6,6 +6,7 @@ import {
 import { ao } from 'three/addons/tsl/display/GTAONode.js';
 import { bloom } from 'three/addons/tsl/display/BloomNode.js';
 import { denoise } from 'three/addons/tsl/display/DenoiseNode.js';
+import { season } from './season.js';
 
 // Colour grade per time of day, applied in display space after tone mapping
 // (like a grade on top of a camera LUT): lift tints the shadows, gain the
@@ -13,6 +14,7 @@ import { denoise } from 'three/addons/tsl/display/DenoiseNode.js';
 export const GRADES = {
   afternoon: { lift: [-.01, .0, .03], gamma: [1.0, 1.0, 1.02], gain: [1.03, 1.0, .97], saturation: 1.12, split: .035, contrast: 1.1 },
   sunset: { lift: [-.005, -.01, .035], gamma: [1.02, .99, 1.0], gain: [1.06, .99, .92], saturation: 1.1, split: .05, contrast: 1.1 },
+  summer: { lift: [0, .003, .01], gamma: [1.0, 1.0, 1.0], gain: [1.0, 1.0, 1.0], saturation: 1.06, split: .01, contrast: 1.1 },
   night: { lift: [-.004, .004, .03], gamma: [.97, 1.0, 1.06], gain: [1.05, 1.0, 1.0], saturation: .95, split: .03, contrast: 1.05 },
 };
 
@@ -69,7 +71,7 @@ export function createPost(renderer, scene, camera, { quality = 'high', tod = 'a
     }
   }
 
-  const grade = GRADES[tod] ?? GRADES.afternoon;
+  const grade = (season.summer && tod === 'afternoon' ? GRADES.summer : GRADES[tod]) ?? GRADES.afternoon;
   const lift = uniform(new THREE.Vector3(...grade.lift));
   const gamma = uniform(new THREE.Vector3(...grade.gamma));
   const gain = uniform(new THREE.Vector3(...grade.gain));

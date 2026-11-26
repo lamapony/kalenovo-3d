@@ -16,6 +16,10 @@ export const SCENE_TIME = new Date(Date.UTC(2025, 10, 25, 6, 0, 0));
 // default scene time; "sunset" is 16:20, about 3 degrees before the sun sets;
 // "night" is 21:00, when the sun is far below the horizon and only artistic
 // moonlight lights the scene (no lunar ephemeris is computed).
+// ?season=summer: 15 August 2021, 13:30 local time (UTC+8), the month of the street
+// imagery the main-street houses were observed in; the sun is then about 50 degrees high.
+export const SUMMER_TIME = new Date(Date.UTC(2021, 7, 15, 5, 30, 0));
+
 export const TIMES_OF_DAY = Object.freeze({
   afternoon: SCENE_TIME,
   sunset: new Date(Date.UTC(2025, 10, 25, 8, 20, 0)),

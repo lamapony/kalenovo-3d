@@ -5,6 +5,7 @@ import { texture, vec2, vec3, positionWorld, normalWorld, attribute, float, clam
 import { textureSet } from './textures.js';
 import { snowCap, lin, jitter, TEXTURE_MEAN } from './village/materials.js';
 import { randomGenerator } from './geo.js';
+import { season } from './season.js';
 
 const FENCE_PAINT = ['#8a8276', '#8a8276', '#7b746a', '#958a7a', '#6f8f6a', '#6c8aa3', '#8a6a52', '#c9c2b2', '#5d7f99', '#8f9c78'];
 
@@ -73,9 +74,11 @@ export function createFences(plots, ground, B, { tileSize = 220 } = {}) {
         w.setColor(jitter(lin('#9a7c5c'), random, .12));
         w.log(-.21, .21, .09 + r * .165, -L / 2 + .09 + c * .18 + (r % 2) * .09, .085, .085, { segments: 6, caps: [true, true], uo: random() * 3, vo: random() * 3, capColor: jitter(lin('#e3c79a'), random, .1) });
       }
-      const sn = B.get('snow', x, z);
-      sn.setMatrix(frame);
-      sn.box(.5, .09, L - .05, 0, .09 + rows * .165 + .01, 0);
+      if (!season.summer) {
+        const sn = B.get('snow', x, z);
+        sn.setMatrix(frame);
+        sn.box(.5, .09, L - .05, 0, .09 + rows * .165 + .01, 0);
+      }
     }
   }
 
@@ -191,9 +194,11 @@ export function createFences(plots, ground, B, { tileSize = 220 } = {}) {
           for (const s of [-1, 1]) {
             const m = new THREE.Matrix4().multiplyMatrices(frame, new THREE.Matrix4().makeTranslation(0, ph + .13, s * .2).multiply(new THREE.Matrix4().makeRotationX(s * .55)));
             pb.setMatrix(m); pb.box(roofW, .03, .5);
-            const sn = B.get('snow', cx, cz);
-            sn.setMatrix(new THREE.Matrix4().multiplyMatrices(m, new THREE.Matrix4().makeTranslation(0, .07, 0)));
-            sn.box(roofW - .06, .1, .46);
+            if (!season.summer) {
+              const sn = B.get('snow', cx, cz);
+              sn.setMatrix(new THREE.Matrix4().multiplyMatrices(m, new THREE.Matrix4().makeTranslation(0, .07, 0)));
+              sn.box(roofW - .06, .1, .46);
+            }
           }
         }
       }

@@ -4,6 +4,7 @@
 // inspection camera: { x, z, yaw, pitch (degrees), height above ground (m) }.
 // Yaw follows src/controls.js: the camera looks along (-sin yaw, -cos yaw).
 import { toLocal } from './geo.js';
+import { streetLines, nearestOnLines } from './village/passports.js';
 
 const DEG = 180 / Math.PI;
 export const STREET_NAME = 'улица Толстихина';
@@ -49,4 +50,18 @@ export function birdView(farHeights, { gridSize: n, halfSizeM: half }, { height 
   const len = Math.hypot(target[0], target[1]) || 1;
   const x = -target[0] / len * back, z = -target[1] / len * back;
   return { x, z, yaw: yawTowards([x, z], target), pitch, height, target, peakElevation: farHeights[peak] };
+}
+
+// Street imagery framing (?cam=ll:lat,lon,N|S,pitch,height): the camera stands at
+// (lat, lon) and looks perpendicular to the nearest segment of the named street,
+// towards its north (N) or south (S) side. A numeric yaw is used as is.
+export function refCamera(features, meta, { lat, lon, side = null, yaw = 0, pitch = 0, height = 1.7 }, { name = STREET_NAME } = {}) {
+  const [x, z] = toLocal(lon, lat, meta);
+  if (!side) return { x, z, yaw, pitch, height };
+  const lines = streetLines(features, meta, name);
+  const { dir } = nearestOnLines(x, z, lines);
+  if (!dir) return { x, z, yaw: side === 'N' ? 0 : 180, pitch, height };
+  let nx = -dir[1], nz = dir[0];
+  if ((side === 'N') !== (nz < 0)) { nx = -nx; nz = -nz; }
+  return { x, z, yaw: Math.atan2(-nx, -nz) * DEG, pitch, height };
 }

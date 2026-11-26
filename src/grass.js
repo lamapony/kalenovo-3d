@@ -4,6 +4,7 @@ import * as THREE from 'three/webgpu';
 import { vec3, float, mix, sin, cos, time, positionLocal, positionGeometry, attribute, hash, instanceIndex, color, smoothstep } from 'three/tsl';
 import { randomGenerator } from './geo.js';
 import { inRect, fencePoint } from './village/plan.js';
+import { season } from './season.js';
 
 const CHUNK = 120, VISIBLE = 175;
 
@@ -35,7 +36,7 @@ function grassMaterial() {
   const m = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 1 });
   const h = positionGeometry.y;
   const variation = hash(instanceIndex).mul(.35).add(.8);
-  m.colorNode = mix(color('#4d4130'), color('#cdb67f'), smoothstep(0, .45, h)).mul(variation);
+  m.colorNode = (season.summer ? mix(color('#2c3a16'), color('#8a9a4a'), smoothstep(0, .45, h)) : mix(color('#4d4130'), color('#cdb67f'), smoothstep(0, .45, h))).mul(variation);
   const phase = attribute('phase', 'float');
   const gust = sin(time.mul(.55).add(phase.mul(.35))).mul(.5).add(.5);
   const sway = sin(time.mul(1.9).add(phase)).mul(.06).add(gust.mul(.09));

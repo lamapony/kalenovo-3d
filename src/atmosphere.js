@@ -6,7 +6,8 @@ import {
 } from 'three/tsl';
 import { CSMShadowNode } from 'three/addons/csm/CSMShadowNode.js';
 import { randomGenerator } from './geo.js';
-import { TIMES_OF_DAY, sceneSun, sunDirection } from './sun.js';
+import { SUMMER_TIME, TIMES_OF_DAY, sceneSun, sunDirection } from './sun.js';
+import { season } from './season.js';
 
 // Look presets per time of day (?tod=). Colours are linear radiance before
 // exposure and tone mapping. The sun direction always comes from src/sun.js;
@@ -26,6 +27,16 @@ export const LOOKS = {
     glow: [3.4, 1.4, .5], cloudLit: [2.6, 1.15, .62], cloudShade: [.27, .23, .4], coverage: .48,
     aerial: [.2, .16, .4], fogDensity: 1 / 6000, valleyMist: .16, envIntensity: .38, hemi: ['#8e9cff', '#e7c9b6', .12],
     exposure: .95, flakes: [1, .86, .78], sunDisc: 45, smoke: [.26, .23, .27],
+  },
+  // ?season=summer: a hazy, softly overcast August day as in the street imagery and the
+  // owner's 2013 photo: pale grey-blue sky, strong blue-grey aerial haze over the hills,
+  // diffuse light with soft shadows.
+  summer: {
+    light: '#fff1dc', intensity: 4.2,
+    zenith: [.82, .93, 1.12], mid: [1.06, 1.13, 1.25], horizonCool: [1.28, 1.34, 1.42], horizonWarm: [1.4, 1.38, 1.33],
+    glow: [.3, .27, .22], cloudLit: [1.42, 1.44, 1.48], cloudShade: [.92, .98, 1.1], coverage: .28,
+    aerial: [.62, .7, .86], fogDensity: 1 / 4200, valleyMist: .06, envIntensity: .9, hemi: ['#dfe8f5', '#9a9a80', .7],
+    exposure: .64, flakes: [1, 1, 1], sunDisc: 4, smoke: [.5, .5, .5],
   },
   night: {
     light: '#c2d0ff', intensity: .7, moon: { azimuth: 130, elevation: 32 },
@@ -71,13 +82,15 @@ export function prepareEnvironment(texture) {
 // Direction towards the key light (sun, or the night moon) for a time of day.
 export function keyLightDirection(tod = 'afternoon') {
   const look = LOOKS[tod] ?? LOOKS.afternoon;
+  if (season.summer && tod === 'afternoon') { const d = sceneSun(SUMMER_TIME).direction; return new THREE.Vector3(d.x, d.y, d.z).normalize(); }
   const d = look.moon ? sunDirection(look.moon.azimuth, look.moon.elevation) : sceneSun(TIMES_OF_DAY[tod] ?? TIMES_OF_DAY.afternoon).direction;
   return new THREE.Vector3(d.x, d.y, d.z).normalize();
 }
 
 export function createAtmosphere(scene, camera, { quality = 'high', tod = 'afternoon', environment = null } = {}) {
-  const look = LOOKS[tod] ?? LOOKS.afternoon;
-  const sun = sceneSun(TIMES_OF_DAY[tod] ?? TIMES_OF_DAY.afternoon);
+  const summerDay = season.summer && tod === 'afternoon';
+  const look = summerDay ? LOOKS.summer : LOOKS[tod] ?? LOOKS.afternoon;
+  const sun = sceneSun(summerDay ? SUMMER_TIME : TIMES_OF_DAY[tod] ?? TIMES_OF_DAY.afternoon);
   const lightDir = keyLightDirection(tod);
   const lightDirNode = uniform(lightDir);
   const v3 = c => vec3(...c);
@@ -228,8 +241,8 @@ export function createAtmosphere(scene, camera, { quality = 'high', tod = 'after
     light.position.copy(snapped).addScaledVector(lightDir, 500);
   }
 
-  const flakes = createSnow(camera, look.flakes);
-  scene.add(flakes.mesh);
+  const flakes = season.summer ? { update() {} } : createSnow(camera, look.flakes);
+  if (flakes.mesh) scene.add(flakes.mesh);
 
   let elapsed = 0;
   return {

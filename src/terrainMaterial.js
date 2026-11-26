@@ -2,7 +2,9 @@ import * as THREE from 'three/webgpu';
 import {
   cameraPosition, cameraViewMatrix, clamp, float, floor, uniform, mix, mx_cell_noise_float, mx_fractal_noise_float,
   mx_noise_float, normalWorldGeometry, positionWorld, smoothstep, texture, vec2, vec3, vec4,
+  dot,
 } from 'three/tsl';
+import { season } from './season.js';
 
 // CC0 PBR maps from Poly Haven (public/textures/terrain/CREDITS.md). Real
 // size of one texture tile in metres, from each asset's published dimensions.
@@ -93,13 +95,26 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
   const ground = mix(earth, rock, rockMix);
   // Snow takes a faint blue in hollows and on the far, large-scale dips.
   const snow = snowAlbedo.mul(2.15).mul(large.mul(.07).add(1)).mul(mix(vec3(.93, .96, 1.0), vec3(1), smoothstep(-.3, .3, mid)));
-  material.colorNode = mix(ground, snow, snowCover);
+  // ?season=summer: no snow. Steppe grass (the withered-grass texture's luminance carried
+  // into olive and yellow-green, as in the street imagery and the owner's 2013 photo), bare
+  // sandy earth in patches, on steeper ground and near the village, rock on the steepest.
+  const summer = season.summer;
+  let summerGround = null;
+  if (summer) {
+    const lum = dot(grassAlbedo, vec3(.3, .59, .11)).div(.33);
+    const lush = vec3(.115, .165, .055), dry = vec3(.23, .22, .1);
+    const green = mix(lush, dry, smoothstep(-.35, .55, mid.mul(.7).add(large.mul(.6)).add(slope.mul(3)))).mul(lum.mul(.55).add(.45));
+    const dirt = grassAlbedo.mul(vec3(.66, .64, .6)).mul(fine.mul(.15).add(1));
+    const dirtMask = clamp(smoothstep(.62, .86, patch).mul(.8).add(smoothstep(.1, .22, slope)), 0, 1);
+    summerGround = mix(mix(green, dirt, dirtMask), rock, rockMix);
+  }
+  material.colorNode = summer ? summerGround : mix(ground, snow, snowCover);
 
   // Normals: tangent-space blend, then into world space for the XZ
   // projection (tangent +x = +u, bitangent +z = +v for OpenGL-style maps).
   const groundN = mix(grassN, rockN, rockMix);
   const strength = mix(float(.35), float(1), detailFade);
-  const tn = mix(groundN, snowN.mul(vec3(.8, .8, 1)), snowCover);
+  const tn = summer ? groundN : mix(groundN, snowN.mul(vec3(.8, .8, 1)), snowCover);
 
   // Wind-packed drifts: a low (~0.3 m) procedural relief, stretched along the
   // wind, that the grazing winter sun picks out. Normal only, from finite
@@ -107,7 +122,7 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
   const drift = q => mx_noise_float(vec3(q.x.mul(.028), q.y.mul(.065), 9.1));
   const h0 = drift(p), e = 1.2;
   const slopeX = drift(p.add(vec2(e, 0))).sub(h0).div(e), slopeZ = drift(p.add(vec2(0, e))).sub(h0).div(e);
-  const driftAmp = snowCover.mul(smoothstep(700, 120, distance)).mul(.24);
+  const driftAmp = summer ? float(0) : snowCover.mul(smoothstep(700, 120, distance)).mul(.24);
   const base = far ? n : n.sub(vec3(slopeX, 0, slopeZ).mul(driftAmp)).normalize();
 
   const t = vec3(1, 0, 0), b = vec3(0, 0, 1);
@@ -122,10 +137,10 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
   const half = glintLight.add(view).normalize();
   const cellPos = vec3(positionWorld.mul(40));
   const cell = mx_cell_noise_float(cellPos.add(floor(view.mul(14)).mul(7.31)));
-  const glint = smoothstep(.9955, .9975, cell).mul(snowCover).mul(smoothstep(35, 5, distance)).mul(smoothstep(.02, .12, glintLight.y));
+  const glint = summer ? float(0) : smoothstep(.9955, .9975, cell).mul(snowCover).mul(smoothstep(35, 5, distance)).mul(smoothstep(.02, .12, glintLight.y));
   const shaded = far ? world : mix(world, half, glint).normalize();
   material.normalNode = cameraViewMatrix.mul(vec4(shaded, 0)).xyz.normalize();
 
-  material.roughnessNode = far ? mix(float(.96), float(.78), snowCover) : mix(mix(float(.96), float(.78), snowCover), float(.22), glint);
+  material.roughnessNode = summer ? float(.95) : far ? mix(float(.96), float(.78), snowCover) : mix(mix(float(.96), float(.78), snowCover), float(.22), glint);
   return material;
 }
