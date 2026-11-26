@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import './style.css';
 import { createTerrain } from './terrain.js';
 import { createPaths } from './paths.js';
@@ -44,9 +44,10 @@ function createFamilyMarker(meta,ground,houses) {
 }
 
 async function start(){
-  renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
+  renderer=new THREE.WebGPURenderer({canvas,antialias:true,powerPreference:'high-performance'});
+  await renderer.init();
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
-  renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFShadowMap;
   renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
   const scene=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(64,1,.08,4200);
@@ -56,7 +57,7 @@ async function start(){
   const terrain=createTerrain(meta,heightmap); scene.add(terrain.mesh);
   const paths=createPaths(osm.features,meta,terrain.getGroundHeight); scene.add(paths.group);
   const houses=createBuildings(osm.features,gba.features,meta,terrain.getGroundHeight); scene.add(houses.group);
-  scene.add(createForest(osm.features,meta,terrain.getGroundHeight,paths.exclusions,houses.rects));
+  scene.add(createForest(osm.features,meta,terrain.getGroundHeight,paths.exclusions,houses.rects,{plots:houses.plots}));
   const family=createFamilyMarker(meta,terrain.getGroundHeight,houses.rects); scene.add(family.group);
   const atmosphere=createAtmosphere(scene,camera);
   const controls=createWalkControls(camera,canvas,meta,terrain.getGroundHeight,houses.rects);

@@ -1,0 +1,20 @@
+{
+ "source": "Copernicus DEM GLO-30, 1x1 deg tile N51 E107 (2400x3600 px, 1.5 x 1 arcsec), file glo30_N51_E107.tif",
+ "near": {
+  "file": "heightmap-513.f32",
+  "gridSize": 513,
+  "halfSizeM": 1800.0,
+  "min": 632.1150512695312,
+  "max": 881.4378662109375,
+  "resampling": "cubic spline from ~30 m native; spacing 7.03 m (interpolated, not extra detail)"
+ },
+ "far": {
+  "file": "heightmap-far-7500m-257.f32",
+  "gridSize": 257,
+  "halfSizeM": 7500,
+  "min": 546.5571899414062,
+  "max": 1336.573974609375,
+  "resampling": "cubic spline, spacing 58.6 m"
+ },
+ "layout": "Float32 little-endian, row-major; row 0 = z=-half (north), col 0 = x=-half (west); x=(lon-centerLon)*metersPerDegLon, z=-(lat-centerLat)*metersPerDegLat; metres above EGM2008 geoid"
+}
