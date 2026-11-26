@@ -1,60 +1,101 @@
-import * as THREE from 'three';
-export const VERTICAL_EXAGGERATION = 1.25;
-let activeGroundHeight;
+import * as THREE from 'three/webgpu';
+import { VERTICAL_EXAGGERATION, createGroundSampler, parseHeightmap } from './heightfield.js';
+import { createTerrainMaterial } from './terrainMaterial.js';
 
-// World-space meters, relative to centerElev. Coordinates outside the DEM clamp
-// to its edge. This is bilinear interpolation of all four Float32 grid samples.
-export function createGroundSampler(meta, elevations) {
-  const { gridSize: n, halfSizeM: half, centerElev } = meta;
-  return (x, z) => {
-    const gx = THREE.MathUtils.clamp((x + half) / (half * 2) * (n - 1), 0, n - 1);
-    const gz = THREE.MathUtils.clamp((z + half) / (half * 2) * (n - 1), 0, n - 1);
-    const x0 = Math.min(Math.floor(gx), n - 2), z0 = Math.min(Math.floor(gz), n - 2);
-    const tx = gx - x0, tz = gz - z0, i = z0 * n + x0;
-    const north = elevations[i] * (1 - tx) + elevations[i + 1] * tx;
-    const south = elevations[i + n] * (1 - tx) + elevations[i + n + 1] * tx;
-    return (north * (1 - tz) + south * tz - centerElev) * VERTICAL_EXAGGERATION;
-  };
-}
+export { VERTICAL_EXAGGERATION, createGroundSampler };
+let activeGroundHeight;
 
 export function getGroundHeight(x, z) {
   if (!activeGroundHeight) throw new Error('Terrain must be loaded before sampling ground height.');
   return activeGroundHeight(x, z);
 }
 
-export function createTerrain(meta, buffer) {
-  const expected = meta.gridSize ** 2;
-  if (buffer.byteLength !== expected * 4) throw new Error('Invalid heightmap size.');
-  const view = new DataView(buffer);
-  const elevations = new Float32Array(expected);
-  for (let i = 0; i < expected; i++) {
-    elevations[i] = view.getFloat32(i * 4, true);
-    if (!Number.isFinite(elevations[i])) throw new Error('Invalid heightmap sample.');
+// Builds an indexed n x n grid plus a skirt: every perimeter vertex is
+// duplicated `skirtDepth` metres lower and joined to the edge, which hides
+// hairline gaps between tiles and the far edge of the world.
+function gridGeometry(n, positionAt, { keepQuad, skirtDepth }) {
+  const ring = [];
+  for (let i = 0; i < n - 1; i++) ring.push(i);
+  for (let j = 0; j < n - 1; j++) ring.push(j * n + n - 1);
+  for (let i = n - 1; i > 0; i--) ring.push((n - 1) * n + i);
+  for (let j = n - 1; j > 0; j--) ring.push(j * n);
+  const positions = new Float32Array((n * n + ring.length) * 3), p = [0, 0, 0];
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+    positionAt(i, j, p);
+    positions.set(p, (j * n + i) * 3);
   }
-  activeGroundHeight = createGroundSampler(meta, elevations);
-  // Half-cell tessellation limits the bilinear/triangle discrepancy to 16 cm.
-  const n = (meta.gridSize - 1) * 2 + 1, half = meta.halfSizeM, step = half * 2 / (n - 1);
-  const geometry = new THREE.PlaneGeometry(half * 2, half * 2, n - 1, n - 1);
-  geometry.rotateX(-Math.PI / 2);
-  const positions = geometry.attributes.position;
-  const colors = new Float32Array(n * n * 3), color = new THREE.Color();
-  const snow = new THREE.Color('#d9e0da'), earth = new THREE.Color('#858c80');
-  for (let i = 0; i < positions.count; i++) {
-    const x = positions.getX(i), z = positions.getZ(i), y = getGroundHeight(x, z);
-    positions.setY(i, y);
-    const dx = (getGroundHeight(x + step, z) - getGroundHeight(x - step, z)) / (2 * step);
-    const dz = (getGroundHeight(x, z + step) - getGroundHeight(x, z - step)) / (2 * step);
-    const slope = Math.hypot(dx, dz);
-    const patch = (Math.sin(x * .027 + Math.sin(z * .019)) + Math.cos(z * .033 + x * .011)) * .035;
-    const clearing = Math.exp(-((x - meta.defaultSpawn.x) ** 2 + (z - meta.defaultSpawn.z) ** 2) / 50000);
-    color.copy(snow).lerp(earth, THREE.MathUtils.clamp(slope * 1.7 + patch - clearing * .17, .015, .67));
-    color.multiplyScalar(1 + Math.sin(x * .14) * Math.cos(z * .12) * .018);
-    color.toArray(colors, i * 3);
+  const indices = [];
+  for (let j = 0; j < n - 1; j++) for (let i = 0; i < n - 1; i++) {
+    if (keepQuad && !keepQuad(i, j)) continue;
+    const a = j * n + i, b = a + 1, c = a + n, d = c + 1;
+    indices.push(a, c, b, b, c, d);
   }
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  // Normals from the surface only, so the skirt does not tilt edge normals
+  // (the terrain material reads slope from the normal).
+  geometry.setIndex(indices);
   geometry.computeVertexNormals();
-  const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 }));
-  mesh.receiveShadow = true;
-  mesh.name = 'Copernicus terrain';
-  return { mesh, getGroundHeight, elevations };
+  const normals = geometry.attributes.normal.array;
+  ring.forEach((top, r) => {
+    const k = (n * n + r) * 3;
+    positions[k] = positions[top * 3]; positions[k + 1] = positions[top * 3 + 1] - skirtDepth; positions[k + 2] = positions[top * 3 + 2];
+    normals[k] = normals[top * 3]; normals[k + 1] = normals[top * 3 + 1]; normals[k + 2] = normals[top * 3 + 2];
+    const b = ring[(r + 1) % ring.length], la = n * n + r, lb = n * n + (r + 1) % ring.length;
+    // Wound so the skirt faces outward.
+    indices.push(top, b, la, b, lb, la);
+  });
+  geometry.setIndex(indices);
+  geometry.computeBoundingSphere();
+  return geometry;
+}
+
+// Copernicus GLO-30 near tile (walkable) plus a far ring that fills the horizon.
+export function createTerrain(meta, dem, nearBuffer, farBuffer) {
+  const centerElev = meta.centerElev, ve = VERTICAL_EXAGGERATION;
+  const nearN = dem.near.gridSize, nearHalf = dem.near.halfSizeM;
+  const near = parseHeightmap(nearBuffer, nearN);
+  activeGroundHeight = createGroundSampler({ gridSize: nearN, halfSizeM: nearHalf, centerElev }, near);
+  const material = createTerrainMaterial();
+  const group = new THREE.Group();
+  group.name = 'Copernicus DEM GLO-30 terrain';
+
+  // Near tile: one vertex per DEM sample (7 m spacing). The grid is cubic
+  // resampled from 30 m, so a denser mesh would not add real relief.
+  const nearStep = nearHalf * 2 / (nearN - 1);
+  const nearMesh = new THREE.Mesh(gridGeometry(nearN, (i, j, p) => {
+    p[0] = -nearHalf + i * nearStep; p[1] = (near[j * nearN + i] - centerElev) * ve; p[2] = -nearHalf + j * nearStep;
+  }, { skirtDepth: 25 }), material);
+  nearMesh.receiveShadow = true;
+  nearMesh.name = `Near terrain ${nearN} (Copernicus GLO-30)`;
+  group.add(nearMesh);
+
+  // Far ring: the coarse grid over +-7.5 km with a hole where the near tile is.
+  // Quads that straddle the near edge get their inner vertices moved onto the
+  // edge with the near tile's height (minus 0.6 m), so the meshes meet
+  // without overlapping (no z-fighting) and without a visible step.
+  if (farBuffer) {
+    const n = dem.far.gridSize, half = dem.far.halfSizeM, step = half * 2 / (n - 1);
+    const far = parseHeightmap(farBuffer, n);
+    const inner = new Uint8Array(n * n);
+    const geometry = gridGeometry(n, (i, j, p) => {
+      let x = -half + i * step, z = -half + j * step, y = (far[j * n + i] - centerElev) * ve;
+      if (Math.abs(x) < nearHalf && Math.abs(z) < nearHalf) {
+        inner[j * n + i] = 1;
+        if (Math.abs(x) > nearHalf - step) x = Math.sign(x) * nearHalf;
+        if (Math.abs(z) > nearHalf - step) z = Math.sign(z) * nearHalf;
+        y = activeGroundHeight(x, z) - .6;
+      }
+      p[0] = x; p[1] = y; p[2] = z;
+    }, {
+      skirtDepth: 400,
+      keepQuad: (i, j) => { const a = j * n + i; return !(inner[a] && inner[a + 1] && inner[a + n] && inner[a + n + 1]); },
+    });
+    const farMesh = new THREE.Mesh(geometry, material);
+    farMesh.name = `Far terrain ring ${half / 1000} km (Copernicus GLO-30)`;
+    farMesh.receiveShadow = true;
+    group.add(farMesh);
+  }
+
+  return { mesh: group, getGroundHeight, elevations: near };
 }

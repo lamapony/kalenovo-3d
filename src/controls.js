@@ -1,16 +1,23 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { inBuilding } from './buildings.js';
 
-export function createWalkControls(camera, canvas, meta, ground, buildings, onReset) {
+export function createWalkControls(camera, canvas, meta, ground, buildings, { onReset, inspect } = {}) {
   const keys=new Set(), euler=new THREE.Euler(0,0,0,'YXZ');
   const spawn=meta.defaultSpawn, limit=meta.halfSizeM-12;
-  let dragging=false, pointerId=null, yaw=0, pitch=0;
+  let dragging=false, pointerId=null, yaw=0, pitch=0, eye=1.7;
   function applyLook(){ euler.set(pitch,yaw,0); camera.quaternion.setFromEuler(euler); }
   function reset(){
     keys.clear();
-    camera.position.set(spawn.x,ground(spawn.x,spawn.z)+1.7,spawn.z);
-    // The DEM rises to the southwest: frame the village against Malan-Khada.
-    yaw=2.15; pitch=.025; applyLook(); onReset?.();
+    if(inspect){
+      // ?cam= inspection view (debugging and screenshots only).
+      eye=inspect.height; camera.position.set(inspect.x,ground(inspect.x,inspect.z)+eye,inspect.z);
+      yaw=THREE.MathUtils.degToRad(inspect.yaw); pitch=THREE.MathUtils.degToRad(inspect.pitch); applyLook(); onReset?.();
+      return;
+    }
+    camera.position.set(spawn.x,ground(spawn.x,spawn.z)+eye,spawn.z);
+    // Look west along the street: the DEM hills rise beyond its end and to the
+    // south-west (straight south-west, yaw 2.15, the nearest house hides them).
+    yaw=1.75; pitch=.05; applyLook(); onReset?.();
   }
   function look(dx,dy){ yaw-=dx*.0022; pitch=THREE.MathUtils.clamp(pitch-dy*.0022,-Math.PI/2+.04,Math.PI/2-.04); applyLook(); }
   canvas.addEventListener('pointerdown',event=>{
@@ -71,7 +78,7 @@ export function createWalkControls(camera, canvas, meta, ground, buildings, onRe
           if(!blocked(camera.position.x,z)) camera.position.z=z;
         }
       }
-      camera.position.y=ground(camera.position.x,camera.position.z)+1.7;
+      camera.position.y=ground(camera.position.x,camera.position.z)+eye;
     }
   };
 }

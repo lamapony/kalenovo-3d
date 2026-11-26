@@ -1,11 +1,13 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { toLocal, clipSegment } from './geo.js';
 
 export function createPaths(features, meta, ground) {
   const group = new THREE.Group(), exclusions = [];
-  const road = new THREE.MeshStandardMaterial({ color: '#aeb8b1', roughness: 1, side: THREE.DoubleSide });
-  const ice = new THREE.MeshStandardMaterial({ color: '#849f9e', roughness: .38, metalness: .12, side: THREE.DoubleSide });
-  const bank = new THREE.MeshStandardMaterial({ color: '#e2e8e1', roughness: 1, side: THREE.DoubleSide });
+  // Depth bias keeps the thin ribbons above the terrain at distance.
+  const decal = { side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 };
+  const road = new THREE.MeshStandardMaterial({ color: '#bcc2bc', roughness: 1, ...decal });
+  const ice = new THREE.MeshStandardMaterial({ color: '#849f9e', roughness: .38, metalness: .12, ...decal });
+  const bank = new THREE.MeshStandardMaterial({ color: '#e2e8e1', roughness: 1, ...decal });
   function ribbon(a, b, width, material, offset) {
     const dx = b[0] - a[0], dz = b[1] - a[1], length = Math.hypot(dx, dz);
     if (length < .01) return;

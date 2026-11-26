@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { polygons, toLocal, pointInPolygon, segmentDistanceSq, randomGenerator } from './geo.js';
 import { inBuilding } from './buildings.js';

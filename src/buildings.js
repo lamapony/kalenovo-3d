@@ -1,6 +1,7 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { polygons, toLocal, randomGenerator } from './geo.js';
+import { footprintRange } from './heightfield.js';
 
 // Minimum-area enclosing rectangle among all footprint edge orientations.
 export function fitRectangle(ring) {
@@ -48,7 +49,7 @@ export function createBuildings(osm, gba, meta, ground) {
   const snow = new THREE.MeshStandardMaterial({ color: '#e5e9e2', roughness: .92 });
   const timber = new THREE.MeshStandardMaterial({ color: '#5e6255', roughness: 1 });
   const foundation = new THREE.MeshStandardMaterial({ color: '#858b83', roughness: 1 });
-  const windows = new THREE.MeshStandardMaterial({ color: '#dcb782', emissive: '#ffbf6c', emissiveIntensity: .85, roughness: .4 });
+  const windows = new THREE.MeshStandardMaterial({ color: '#dcb782', emissive: '#ffbf6c', emissiveIntensity: 1.1, roughness: .4 });
   function add(geometry, material, matrix) {
     geometry.applyMatrix4(matrix);
     if (!batches.has(material)) batches.set(material, []);
@@ -64,9 +65,13 @@ export function createBuildings(osm, gba, meta, ground) {
     if (!rect || rect.w < 1.8 || rect.d < 1.8 || Math.abs(rect.x) + rect.w > meta.halfSizeM || Math.abs(rect.z) + rect.w > meta.halfSizeM) continue;
     // OSM has precedence; overlapping GBA detections must not double up houses.
     if (rects.some(r => overlaps(r, rect))) continue;
+    // Floor sits on the highest ground under the whole fitted footprint (grid
+    // samples plus the original outline); the foundation reaches 0.35 m below
+    // the lowest, so no corner floats on a slope.
+    const range = footprintRange(ground, rect);
     const samples = ring.map(([x,z]) => ground(x,z));
-    const base = Math.max(...samples) + .06;
-    const bottom = Math.min(...samples) - .25;
+    const base = Math.max(range.max, ...samples) + .06;
+    const bottom = Math.min(range.min, ...samples) - .35;
     const height = THREE.MathUtils.clamp(Number(feature.properties.height_est) || 3.2, 2.8, 4);
     rect.base = base; rect.height = height; rects.push(rect);
     transform.position.set(rect.x, base, rect.z); transform.rotation.set(0, -rect.angle, 0); transform.updateMatrix();
@@ -108,5 +113,5 @@ export function createBuildings(osm, gba, meta, ground) {
     const mesh = new THREE.Mesh(merged, material); mesh.castShadow = material !== windows; mesh.receiveShadow = true; group.add(mesh);
   }
   group.name = 'Village houses: deduplicated OSM and GBA';
-  return { group, rects, setLights(on) { windows.emissiveIntensity = on ? .85 : 0; windows.color.set(on ? '#dcb782' : '#526365'); } };
+  return { group, rects, setLights(on) { windows.emissiveIntensity = on ? 1.1 : 0; windows.color.set(on ? '#dcb782' : '#526365'); } };
 }
