@@ -197,3 +197,69 @@ test('the kit can express the school style: ochre plank siding, turquoise carved
   assert.equal(windowSlots(14, 5, 1.1).length, 5);
   assert.ok(school.windows.sill + 1.8 < school.wallH);
 });
+
+// ---------------------------------------------------------------- round 2 ----
+import { yardLayout, rectOverlap, rectInside, SOLID_YARD } from '../src/village/kit/yard.js';
+import { groundShapes, maskBounds, rasterizeMask, sampleMask } from '../src/village/kit/groundMask.js';
+import { annexFootprint } from '../src/village/kit/spec.js';
+
+test('yard layout: items stay inside the plot, clear of the house and of each other, deterministic', () => {
+  const plot = { s0: -12, s1: 14, zBack: -26, zFacade: 4, garden: 2, yardSide: 1, seed: 12345 };
+  const house = { kind: 'house', x: 0, z: 0, w: 9, d: 10 };
+  const a = yardLayout(plot, [house]), b = yardLayout(plot, [house]);
+  assert.deepEqual(a, b);
+  assert.ok(a.length >= 3, `only ${a.length} items`);
+  const box = { x0: plot.s0, x1: plot.s1, z0: plot.zBack, z1: plot.zFacade };
+  for (const it of a) {
+    assert.ok(rectInside(it, box), `${it.kind} outside the plot`);
+    assert.ok(!rectOverlap(it, house), `${it.kind} overlaps the house`);
+  }
+  for (let i = 0; i < a.length; i++) for (let j = i + 1; j < a.length; j++)
+    if (SOLID_YARD.has(a[i].kind) && SOLID_YARD.has(a[j].kind)) assert.ok(!rectOverlap(a[i], a[j]), `${a[i].kind} overlaps ${a[j].kind}`);
+  // A passport shed means no generic shed.
+  for (let s = 1; s < 40; s++) assert.ok(!yardLayout({ ...plot, seed: s }, [house], { kinds: ['shed'] }).some(i => i.kind === 'shed'));
+  // Too small a plot gets nothing.
+  assert.deepEqual(yardLayout({ ...plot, s0: -2, s1: 2 }, [house]), []);
+});
+
+test('main street yards: every passport house gets lived-in content, solid items collide', () => {
+  const houses = main.plots.filter(p => p.house);
+  const withBeds = houses.filter(p => p.yard.some(y => y.kind === 'beds')).length;
+  assert.ok(withBeds > houses.length * .6, `${withBeds} of ${houses.length} plots have beds`);
+  for (const p of houses) for (const y of p.yard) {
+    assert.ok(inRect(y.x, y.z, p.rect), `${y.id} outside its plot`);
+    assert.ok(!rectsOverlap(y, p.house, .3) || y.kind === 'birch', `${y.id} overlaps its house`);
+    if (SOLID_YARD.has(y.kind)) assert.ok(main.rects.includes(y), `${y.id} not collidable`);
+  }
+  // Side fences reach the back of the plot and every house plot has a back fence.
+  for (const p of houses) assert.ok(p.fences.some(f => f.role === 'back'), `${p.id} has no back fence`);
+});
+
+test('annex footprint matches the veranda placement', () => {
+  const spec = resolveHouse(house({ veranda: true, widthM: 8, depthM: 6, roof: { ...house().house.roof, ridge: 'parallel' } }));
+  const a = annexFootprint(spec, -1);
+  assert.equal(a.side, -1);
+  assert.ok(near(a.x1, -4) && a.w > 2 && a.d > 3);
+  assert.equal(annexFootprint(resolveHouse(house()), 1), null);
+});
+
+test('ground mask: feathered rectangles rasterise into the right channels', () => {
+  const shapes = [{ x: 0, z: 0, w: 10, d: 4, angle: 0, ch: 1, v: 1, f: 1 }, { x: 0, z: 0, w: 2, d: 2, angle: Math.PI / 4, ch: 0, v: .5, f: .2 }];
+  const m = rasterizeMask(shapes, maskBounds(shapes, 2), .5);
+  assert.ok(m.width > 20 && m.height > 8);
+  assert.ok(sampleMask(m, 0, 0)[1] > .95, 'gravel at the centre');
+  assert.ok(sampleMask(m, 4.8, 0)[1] < .4, 'feathered edge');
+  assert.equal(sampleMask(m, 0, 3)[1], 0);
+  assert.ok(Math.abs(sampleMask(m, 0, 0)[0] - .5) < .02, 'dirt channel at half strength');
+  assert.deepEqual(sampleMask(m, 100, 100), [0, 0, 0]);
+});
+
+test('main street ground shapes: drives at gates, yards beside houses, soil under beds', () => {
+  const shapes = groundShapes(main.plots, lines);
+  assert.ok(shapes.some(s => s.ch === 1), 'gravel drives');
+  assert.ok(shapes.some(s => s.ch === 2), 'tilled soil');
+  const m = rasterizeMask(shapes, maskBounds(shapes));
+  const bed = main.plots.flatMap(p => p.yard).find(y => y.kind === 'beds');
+  assert.ok(sampleMask(m, bed.x, bed.z)[2] > .9, 'soil under a bed');
+  assert.ok(m.width <= 4096 && m.height <= 4096);
+});

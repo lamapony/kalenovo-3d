@@ -67,7 +67,9 @@ solar position algorithm (elevation about 15°, azimuth about 200°).
   details in `public/textures/terrain/CREDITS.md`:
   **Snow 02** (Rob Tuytel, https://polyhaven.com/a/snow_02),
   **Withered Grass** (Charlotte Baglioni, https://polyhaven.com/a/withered_grass),
-  **Rock Ground 02** (Rob Tuytel, https://polyhaven.com/a/rock_ground_02).
+  **Rock Ground 02** (Rob Tuytel, https://polyhaven.com/a/rock_ground_02),
+  **Rocky Trail** and **Sparse Grass** (Amal Kumar, https://polyhaven.com/a/rocky_trail,
+  https://polyhaven.com/a/sparse_grass).
 - Village textures (houses, roofs, fences, roads, bark), CC0 1.0, in
   `public/textures/<set>/`, per-folder sources in `public/textures/CREDITS.md`:
   Poly Haven **Rough Wood**, **Wood Planks Grey**, **Corrugated Iron**,
@@ -98,7 +100,11 @@ distance from the ground line against the horizon (camera about 2.5 m up), so
 expect errors of a metre or two (several metres for satellite passports).
 Colours are medians of photo pixels under overcast light, not paint codes.
 The houses are rebuilt with a procedural kit (`src/village/kit/`); details the
-photos do not show (backs of houses, yards, interiors) are generic.
+photos do not show (backs of houses, yards, interiors) are generic. The yards behind
+and beside the passport houses (vegetable beds, banyas, sheds, woodpiles,
+greenhouses, outhouses, garden trees, fences between and behind plots) and the
+trodden ground, gravel drives and tilled soil are seeded generic content
+(`src/village/kit/yard.js`, `groundMask.js`): illustrative, not observed.
 
 CC0 needs no attribution; the footer credits Poly Haven and ambientCG anyway.
 The main-street kit adds no texture files: roofing (wave slate, profiled sheet,
