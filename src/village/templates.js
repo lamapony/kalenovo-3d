@@ -33,6 +33,11 @@ export function trimTemplates() {
   wav.quadraticCurveTo(.4, .26, .22, .14); wav.quadraticCurveTo(0, .34, -.22, .14); wav.quadraticCurveTo(-.4, .26, -.56, .1); wav.closePath();
   for (const x of [-.34, 0, .34]) wav.holes.push(circleHole(x, x === 0 ? .17 : .1, .03));
 
+  // 3b. Trapezoid crown: a solid board crown with sloped sides and a small peak.
+  const tra = new THREE.Shape();
+  tra.moveTo(-.56, 0); tra.lineTo(.56, 0); tra.lineTo(.56, .05); tra.lineTo(.42, .2); tra.lineTo(.12, .22);
+  tra.lineTo(0, .34); tra.lineTo(-.12, .22); tra.lineTo(-.42, .2); tra.lineTo(-.56, .05); tra.closePath();
+
   // 4. Skirt under the sill: straight top, scalloped bottom (5 scallops), width 1.
   const sk = new THREE.Shape();
   sk.moveTo(-.5, 0); sk.lineTo(.5, 0); sk.lineTo(.5, -.07);
@@ -55,7 +60,7 @@ export function trimTemplates() {
   di.moveTo(0, -.5); di.lineTo(.5, 0); di.lineTo(0, .5); di.lineTo(-.5, 0); di.closePath();
 
   cache = {
-    crests: [extrude(kok, .036), extrude(ped, .036), extrude(wav, .036)],
+    crests: [extrude(kok, .036), extrude(ped, .036), extrude(wav, .036), extrude(tra, .04)],
     skirt: extrude(sk, .03),
     rake: extrude(rk, .035, 4),
     towel: extrude(tw, .035),

@@ -5,13 +5,14 @@ import * as THREE from 'three/webgpu';
 import { randomGenerator } from '../geo.js';
 import { trimTemplates } from './templates.js';
 import { lin, jitter } from './materials.js';
+import { season } from '../season.js';
 
-const V = (x, y, z) => new THREE.Vector3(x, y, z);
-const T = (x, y, z) => new THREE.Matrix4().makeTranslation(x, y, z);
-const RY = a => new THREE.Matrix4().makeRotationY(a);
-const S = (x, y, z) => new THREE.Matrix4().makeScale(x, y, z);
-const mul = (...ms) => ms.reduce((acc, m) => acc.multiply(m), new THREE.Matrix4());
-function basis(origin, X, Y) {
+export const V = (x, y, z) => new THREE.Vector3(x, y, z);
+export const T = (x, y, z) => new THREE.Matrix4().makeTranslation(x, y, z);
+export const RY = a => new THREE.Matrix4().makeRotationY(a);
+export const S = (x, y, z) => new THREE.Matrix4().makeScale(x, y, z);
+export const mul = (...ms) => ms.reduce((acc, m) => acc.multiply(m), new THREE.Matrix4());
+export function basis(origin, X, Y) {
   const x = X.clone().normalize(), y = Y.clone().normalize(), z = new THREE.Vector3().crossVectors(x, y).normalize();
   return new THREE.Matrix4().makeBasis(x, y, z).setPosition(origin);
 }
@@ -31,7 +32,7 @@ export const PALETTE = {
 const LOG_P = .22, LOG_RY = .125, LOG_RZ = .135;
 
 // Context bound to one building: world matrix + tiled builders.
-function context(B, x, z, base, angle) {
+export function context(B, x, z, base, angle) {
   const M = mul(T(x, base, z), RY(-angle));
   const tmp = new THREE.Matrix4();
   return {
@@ -48,7 +49,7 @@ function context(B, x, z, base, angle) {
   };
 }
 
-function groundStats(ctx, ground, w, d, extra = []) {
+export function groundStats(ctx, ground, w, d, extra = []) {
   // Grid no coarser than 1.5 m (as heightfield.footprintRange) so no corner floats on a slope.
   const pts = [], nu = Math.max(2, Math.ceil(w / 1.5)), nv = Math.max(2, Math.ceil(d / 1.5));
   for (let i = 0; i <= nu; i++) for (let j = 0; j <= nv; j++) pts.push([(i / nu - .5) * w, (j / nv - .5) * d]);
@@ -58,7 +59,7 @@ function groundStats(ctx, ground, w, d, extra = []) {
 }
 
 // Four wall frames: local x along the wall, local +z outward, y up.
-function wallFrames(w, d) {
+export function wallFrames(w, d) {
   return {
     front: { m: T(0, 0, d / 2), L: w, A: true },
     back: { m: mul(T(0, 0, -d / 2), RY(Math.PI)), L: w, A: true },
@@ -218,7 +219,7 @@ function gableRoof(ctx, { w, d, H, ridge, pitch, eave = .45, gov = .4, roofMat, 
     soffit.box(lr - .02, .03, Ls - .02, 0, 0, 0, { faces: ['ny', 'px', 'nx'] });
     // Snow slab from just below the ridge toward (and past) the eave, with a rounded cornice.
     const start = -Ls / 2 + .07, end = -Ls / 2 + Ls * snowCover + (snowCover >= 1 ? .06 : 0);
-    if (end - start > .4) {
+    if (end - start > .4 && !season.summer) {
       const sn = ctx.b('snow', mul(F, T(0, t + snowT / 2 - .01, zSign * (start + end) / 2)));
       sn.setColor([1, 1, 1]);
       sn.box(lr - .06, snowT, end - start, 0, 0, 0, { uo: random() * 4, vo: random() * 4 });
@@ -275,7 +276,7 @@ function shedRoof(ctx, local, { w, d, yHigh, yLow, over = .3, roofMat, roofTint,
   const so = ctx.b('planks', mul(F, T(0, -.02, 0)));
   so.setColor([.2, .17, .14]);
   so.box(w + 2 * over - .02, .03, L - .02, 0, 0, 0, { faces: ['ny'] });
-  if (snow) {
+  if (snow && !season.summer) {
     const st = .15 + random() * .06;
     const sn = ctx.b('snow', mul(F, T(0, t + st / 2 - .01, .03)));
     sn.box(w + 2 * over - .08, st, L - .04, 0, 0, 0, { uo: random() * 4 });
@@ -293,8 +294,10 @@ function chimney(ctx, x, z, yBase, yTop, brick = true, random) {
     const c = ctx.b('concrete');
     c.setColor([1, 1, 1]);
     c.box(.66, .06, .66, x, yTop + .03, z);
-    const sn = ctx.b('snow');
-    sn.box(.6, .07, .6, x, yTop + .09, z, { faces: ['py', 'px', 'nx', 'pz', 'nz'] });
+    if (!season.summer) {
+      const sn = ctx.b('snow');
+      sn.box(.6, .07, .6, x, yTop + .09, z, { faces: ['py', 'px', 'nx', 'pz', 'nz'] });
+    }
     const pipe = ctx.b('darkMetal', null, 'detail');
     pipe.setColor([1, 1, 1]);
     pipe.cylinder(.08, .08, yTop + .06, yTop + .32, x, z, 8);

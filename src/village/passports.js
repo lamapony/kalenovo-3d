@@ -23,7 +23,13 @@ export const ENUMS = {
   nalichnik: ['none', 'plain', 'carved', 'carved-crown'],
   shutters: ['none', 'wooden', 'roller'],
   porchSide: ['front', 'left', 'right'],
-  fence: ['picket', 'plank', 'profiled', 'stripe', 'lattice', 'mesh', 'metal-rail', 'none'],
+  fence: ['picket', 'plank', 'profiled', 'stripe', 'lattice', 'mesh', 'metal-rail', 'concrete', 'none'],
+  // Optional phase B refinements (kit details checked against the photos).
+  gableBoards: ['vertical', 'horizontal', 'sunburst'],
+  annexSide: ['left', 'right', 'yard'],
+  fencePattern: ['vertical', 'horizontal'],
+  gateSide: ['left', 'right'],
+  crownShape: ['kokoshnik', 'pediment', 'trapezoid'],
   gate: ['swing', 'double', 'sliding'],
   outbuilding: ['shed', 'garage', 'banya', 'barn', 'greenhouse'],
   floors: [1, 1.5, 2],
@@ -98,24 +104,38 @@ export function validatePassport(p) {
       else {
         if (!(sat && r.shape === null)) oneOf(r.shape, ENUMS.roofShape, 'roof.shape');
         if (!(sat && r.ridge === null)) oneOf(r.ridge, ENUMS.ridge, 'roof.ridge');
-        if (!(sat && r.pitchDeg === null)) num(r.pitchDeg, 'roof.pitchDeg', 5, 70);
+        if (!(sat && r.pitchDeg === null)) num(r.pitchDeg, 'roof.pitchDeg', 5, 80);
         if (!(sat && r.material === null)) oneOf(r.material, ENUMS.roofMaterial, 'roof.material');
         if (!(sat && r.color === null)) hex(r.color, 'roof.color');
         if (!(sat && r.overhangM === null)) num(r.overhangM, 'roof.overhangM', 0, 1.5);
         if (r.gableFinish !== null) oneOf(r.gableFinish, ENUMS.gableFinish, 'roof.gableFinish');
         opt(r.gableColor, v => hex(v, 'roof.gableColor'));
+        opt(r.gableBoards, v => oneOf(v, ENUMS.gableBoards, 'roof.gableBoards'));
+        opt(r.trimColor, v => hex(v, 'roof.trimColor'));
+        for (const k of ['gableArch', 'frieze']) opt(r[k], v => { if (typeof v !== 'boolean') err(`roof.${k} must be boolean`); });
       }
       if (h.windows === null) { if (!sat) err('house.windows required'); } else {
         const w = h.windows;
         num(w?.street, 'windows.street', 0, 12);
         num(w?.side, 'windows.side', 0, 12);
         hex(w?.frameColor, 'windows.frameColor');
-        opt(w?.nalichnik, n => { oneOf(n.style, ENUMS.nalichnik, 'nalichnik.style'); hex(n.color, 'nalichnik.color'); });
-        opt(w?.shutters, s => { oneOf(s.type, ENUMS.shutters, 'shutters.type'); hex(s.color, 'shutters.color'); });
+        opt(w?.nalichnik, n => { oneOf(n.style, ENUMS.nalichnik, 'nalichnik.style'); hex(n.color, 'nalichnik.color'); opt(n.crownColor, v => hex(v, 'nalichnik.crownColor')); opt(n.crownShape, v => oneOf(v, ENUMS.crownShape, 'nalichnik.crownShape')); });
+        opt(w?.shutters, s => {
+          oneOf(s.type, ENUMS.shutters, 'shutters.type'); hex(s.color, 'shutters.color');
+          opt(s.closed, v => { if (typeof v !== 'boolean') err('shutters.closed must be boolean'); });
+        });
       }
       for (const k of ['chimney', 'veranda']) if (!(sat && h[k] === null) && typeof h[k] !== 'boolean') err(`house.${k} must be boolean`);
       opt(h.porch, v => { oneOf(v.side, ENUMS.porchSide, 'porch.side'); if (typeof v.roofed !== 'boolean') err('porch.roofed must be boolean'); });
       if (!(sat && h.basementM === null)) num(h.basementM, 'house.basementM', 0, 2);
+      opt(h.plinthColor, v => hex(v, 'house.plinthColor'));
+      opt(h.wallHeightM, v => num(v, 'house.wallHeightM', 2, 7));
+      opt(h.annex, a => {
+        oneOf(a.side, ENUMS.annexSide, 'annex.side');
+        opt(a.widthM, v => num(v, 'annex.widthM', 1, 12)); opt(a.depthM, v => num(v, 'annex.depthM', 1, 15));
+        opt(a.color, v => hex(v, 'annex.color'));
+        if (typeof a.glazed !== 'boolean') err('annex.glazed must be boolean');
+      });
       if (typeof h.notes !== 'string') err('house.notes must be a string');
     }
   }
@@ -126,6 +146,11 @@ export function validatePassport(p) {
     if (f.type === 'stripe') hex(f.color2, 'fence.color2'); else opt(f.color2, v => hex(v, 'fence.color2'));
     num(f.heightM, 'fence.heightM', 0, 3.5);
     num(f.lengthM, 'fence.lengthM', 0, 80);
+    opt(f.yardType, v => oneOf(v, ENUMS.fence, 'fence.yardType'));
+    opt(f.yardColor, v => hex(v, 'fence.yardColor'));
+    opt(f.pattern, v => oneOf(v, ENUMS.fencePattern, 'fence.pattern'));
+    opt(f.gateSide, v => oneOf(v, ENUMS.gateSide, 'fence.gateSide'));
+    opt(f.gardenM, v => num(v, 'fence.gardenM', 0, 12));
     opt(f.gate, g => {
       oneOf(g.type, ENUMS.gate, 'gate.type');
       hex(g.color, 'gate.color');
