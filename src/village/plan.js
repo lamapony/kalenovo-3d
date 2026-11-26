@@ -12,6 +12,8 @@ export const FOOT_HIGHWAYS = new Set(['footway', 'path', 'cycleway', 'bridleway'
 
 export function wayWidth(props) {
   if (props.layer === 'waterway') return props.waterway === 'river' ? 17 : 3.2;
+  // The main street is a wide dirt road (about 9 m between the verges in the street imagery).
+  if (props.name === 'улица Толстихина') return 9;
   return ROAD_WIDTHS[props.highway] ?? 4.5;
 }
 
@@ -164,11 +166,11 @@ class RectGrid {
 
 export function collectFootprints(osmFeatures, gbaFeatures, meta) {
   const out = [];
-  const add = (feature, source) => {
-    for (const poly of polygons(feature.geometry)) out.push({ ring: poly[0].map(p => toLocal(...p, meta)), source, props: feature.properties || {} });
+  const add = (feature, source, index) => {
+    for (const poly of polygons(feature.geometry)) out.push({ ring: poly[0].map(p => toLocal(...p, meta)), source, index, props: feature.properties || {} });
   };
-  osmFeatures.filter(f => f.properties?.layer === 'building').forEach(f => add(f, 'osm'));
-  gbaFeatures.forEach(f => add(f, 'gba'));
+  osmFeatures.filter(f => f.properties?.layer === 'building').forEach((f, i) => add(f, 'osm', i));
+  gbaFeatures.forEach((f, i) => add(f, 'gba', i));
   return out;
 }
 
@@ -237,15 +239,25 @@ function frameRect(frame, sc, fc, w, d, extra = {}) {
 
 // ------------------------------------------------------------- planning ----
 
-export function planVillage({ footprints, lines, halfSize, seed = 83 }) {
+// reserved: rects owned by hand-placed content (the main-street passport plots); no generic
+// house, outbuilding or fence is built inside them. skipGba: GBA footprint indexes already
+// represented by a passport house. reservedFences: segments generic fences must keep clear of.
+export function planVillage({ footprints, lines, halfSize, seed = 83, reserved = [], skipGba = new Set(), reservedFences = [] }) {
   const roadSegs = lineSegments(lines);
   const roadGrid = new SegmentGrid(roadSegs);
   const grid = new RectGrid();
+  const reservedGrid = new RectGrid();
+  reserved.forEach(r => { const q = { ...r, owner: 'reserved' }; grid.add(q); reservedGrid.add(q); });
   const fits = [];
   // 1. Fit and deduplicate (OSM first: it has precedence over overlapping GBA detections).
   for (const fp of footprints) {
+    if (fp.source === 'gba' && skipGba.has(fp.index)) continue;
     const rect = fitRectangle(fp.ring);
     if (!rect || rect.w < 1.8 || rect.d < 1.8) continue;
+    if (reservedGrid.overlaps(rect)) continue;
+    // A footprint whose centre lies on a mapped road (misplaced detection) is not built.
+    const onRoad = roadGrid.nearest(rect.x, rect.z, 30, sg => sg.kind === 'road' && !sg.foot);
+    if (onRoad && onRoad.dist < onRoad.segment.width / 2 + Math.min(rect.w, rect.d) / 2 - .5) continue;
     if (Math.abs(rect.x) + rect.w > halfSize || Math.abs(rect.z) + rect.w > halfSize) continue;
     if (fits.some(o => rectsOverlap(o.rect, rect))) continue;
     fits.push({ rect, fp });
@@ -370,6 +382,13 @@ export function planVillage({ footprints, lines, halfSize, seed = 83 }) {
     return false;
   };
   const step = .4;
+  for (const f of reservedFences) {
+    const len = Math.hypot(f.b[0] - f.a[0], f.b[1] - f.a[1]);
+    for (let d = 0; d <= len; d += step) {
+      const x = f.a[0] + (f.b[0] - f.a[0]) * d / (len || 1), z = f.a[1] + (f.b[1] - f.a[1]) * d / (len || 1), key = fenceKey(x, z);
+      let list = fenceGrid.get(key); if (!list) fenceGrid.set(key, list = []); list.push({ x, z, owner: 'reserved' });
+    }
+  }
   function clipLine(a, b, owner, inside = null) {
     const len = Math.hypot(b[0] - a[0], b[1] - a[1]), count = Math.max(1, Math.round(len / step));
     const ok = [];
@@ -446,7 +465,7 @@ export function planVillage({ footprints, lines, halfSize, seed = 83 }) {
     }
   }
 
-  return { plots, standalone, rects, roadGrid, footprintCount: fits.length };
+  return { plots, standalone, rects, roadGrid, footprintCount: fits.length, reserved };
 }
 
 // Points along a fence run, for vegetation and tests.

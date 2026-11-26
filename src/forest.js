@@ -10,6 +10,7 @@ import { inRect, wayLines } from './village/plan.js';
 import { textureSet } from './textures.js';
 import { snowCap, SNOW_COLOR } from './village/materials.js';
 import { createGrass } from './grass.js';
+import { season } from './season.js';
 
 const CHUNK = 200, NEAR_DISTANCE = 270;
 
@@ -163,14 +164,21 @@ function impostorMaterials() {
   pine.opacityNode = max(crown, trunk);
   const needle = mix(color('#1f3326'), color('#3a5638'), n2.mul(.5).add(.5));
   const snowy = smoothstep(.05, .45, n.mul(.6).add(n2.mul(.4)).add(v.sub(.72).mul(2.5)));
-  pine.colorNode = mix(vec3(.42, .24, .14), mix(needle, color(SNOW_COLOR), snowy.mul(.6)), crown);
+  pine.colorNode = mix(vec3(.42, .24, .14), season.summer ? needle : mix(needle, color(SNOW_COLOR), snowy.mul(.6)), crown);
   pine.name = 'pine impostor';
   const birch = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, alphaTest: .5, roughness: 1 });
   const bt = step(abs(u.sub(v.mul(.03))), float(.016)).mul(step(v, float(.82)));
   const hazeE = u.div(.4).pow(2).add(v.sub(.66).div(.32).pow(2));
   const twigs = step(float(.15), mx_noise_float(vec2(u.mul(38), v.mul(30)).add(seed))).mul(step(hazeE, float(1).add(n.mul(.4))));
-  birch.opacityNode = max(bt, twigs);
-  birch.colorNode = mix(vec3(.26, .19, .18), vec3(.85, .84, .8), bt);
+  if (season.summer) {
+    // Summer crown: a leafy mass instead of the purple-brown winter twig haze.
+    const leaves = step(hazeE, float(1).add(n.mul(.45))).mul(step(float(-.25), mx_noise_float(vec2(u.mul(16), v.mul(13)).add(seed))));
+    birch.opacityNode = max(bt, leaves);
+    birch.colorNode = mix(mix(vec3(.05, .09, .03), vec3(.13, .19, .06), n2.mul(.5).add(.5)), vec3(.85, .84, .8), bt);
+  } else {
+    birch.opacityNode = max(bt, twigs);
+    birch.colorNode = mix(vec3(.26, .19, .18), vec3(.85, .84, .8), bt);
+  }
   birch.name = 'birch impostor';
   return { pine, birch };
 }
@@ -191,7 +199,7 @@ function materials() {
   const nn = mx_noise_float(positionGeometry.mul(1.7)).mul(.5).add(.5);
   const needleCol = mix(color('#22382a'), color('#3d5a3a'), nn).mul(variation);
   const snowK = smoothstep(.35, .7, normalWorld.y.add(mx_noise_float(positionWorld.mul(.9)).mul(.35)));
-  needles.colorNode = mix(needleCol, color(SNOW_COLOR), snowK.mul(.92));
+  needles.colorNode = season.summer ? needleCol : mix(needleCol, color(SNOW_COLOR), snowK.mul(.92));
   needles.roughnessNode = mix(float(.95), float(.8), snowK);
   needles.name = 'pine needles + snow';
 
@@ -206,11 +214,11 @@ function materials() {
   birch.name = 'birch bark';
 
   const haze = new THREE.MeshStandardNodeMaterial({ roughness: 1, side: THREE.DoubleSide, transparent: true, depthWrite: false });
-  haze.colorNode = vec3(.2, .12, .1).mul(variation);
+  haze.colorNode = season.summer ? mix(vec3(.05, .085, .025), vec3(.12, .17, .05), mx_noise_float(positionGeometry.mul(2.3)).mul(.5).add(.5)).mul(variation) : vec3(.2, .12, .1).mul(variation);
   // Fade toward the silhouette so the twig mass has no hard 'ball' outline.
   const facing = smoothstep(.15, .75, abs(normalView.z));
   const twig = mx_noise_float(positionGeometry.mul(6.5)).add(mx_noise_float(positionGeometry.mul(26)).mul(.7));
-  haze.opacityNode = smoothstep(-.05, .55, twig).mul(.3).mul(facing);
+  haze.opacityNode = season.summer ? smoothstep(-.35, .2, twig).mul(.92).mul(smoothstep(.05, .45, abs(normalView.z))) : smoothstep(-.05, .55, twig).mul(.3).mul(facing);
   haze.name = 'birch twig haze';
 
   const far = new THREE.MeshStandardNodeMaterial({ roughness: 1, flatShading: true });
@@ -314,6 +322,7 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
     trees.push({ x, y: ground(x, z), z, scale, angle: pr() * 6.28, birch: pr() > pineChance });
   };
   for (const plot of plots) {
+    if (plot.filler) continue;
     const pr = randomGenerator(plot.seed ^ 0x9e3779b9);
     const r = plot.rect, c = Math.cos(r.angle), s = Math.sin(r.angle);
     const at = (u, v) => [r.x + u * c - v * s, r.z + u * s + v * c];
@@ -321,15 +330,16 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
       const [x, z] = at((pr() - .5) * (r.w - 3), -r.d / 2 + 2 + pr() * r.d * .35);
       villageTree(x, z, .55 + pr() * .5, pr);
     }
-    if (pr() < .55) {
-      // Front yard, between the house and the street fence.
+    if (pr() < .55 && !plot.passport) {
+      // Front yard, between the house and the street fence (passport plots keep what the photos show).
       const [x, z] = at((pr() < .5 ? -1 : 1) * (r.w / 2 - 1.5 - pr() * 2), r.d / 2 - 1.2 - pr() * 1.5);
       villageTree(x, z, .45 + pr() * .4, pr, .1);
     }
   }
   const streetRandom = randomGenerator(5150);
   for (const line of wayLines(features, meta)) {
-    if (line.kind !== 'road' || line.foot) continue;
+    // улица Толстихина is drawn from the street imagery: no invented roadside trees there.
+    if (line.kind !== 'road' || line.foot || line.name === 'улица Толстихина') continue;
     for (let i = 1; i < line.points.length; i++) {
       const [ax, az] = line.points[i - 1], [bx, bz] = line.points[i], len = Math.hypot(bx - ax, bz - az) || 1;
       const nx = -(bz - az) / len, nz = (bx - ax) / len;
@@ -401,6 +411,6 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
   }
   if (options.grass !== false) group.add(createGrass({ plots, buildings, ground, lines: wayLines(features, meta), nearPath }));
   const pineCount = trees.filter(t => !t.birch).length;
-  group.name = `${trees.length - pineCount} birches, ${pineCount} snow-topped pines`;
+  group.name = `${trees.length - pineCount} birches, ${pineCount} ${season.summer ? '' : 'snow-topped '}pines`;
   return group;
 }

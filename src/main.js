@@ -9,17 +9,18 @@ import { createWalkControls } from './controls.js';
 import { createPost } from './post.js';
 import { createStats } from './debug.js';
 import { parseParams } from './params.js';
-import { birdView, streetView } from './views.js';
+import { birdView, refCamera, streetView } from './views.js';
 import { loadTerrainTextures } from './terrainMaterial.js';
 import { keyLightDirection, prepareEnvironment } from './atmosphere.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
-import { fenceColliders } from './village/plan.js';
+import { setSeason } from './season.js';
 
 const canvas = document.querySelector('#scene');
 const status = document.querySelector('#status');
 const enter = document.querySelector('#enter');
 const lightsButton = document.querySelector('#lights');
 const params = parseParams(window.location.search);
+const season = setSeason(params.season);
 let renderer;
 if (params.nohud) document.body.classList.add('nohud');
 
@@ -29,35 +30,10 @@ async function fetchData(file, type = 'json') {
   return type === 'binary' ? response.arrayBuffer() : response.json();
 }
 
-function createFamilyMarker(meta, ground, rects) {
-  const spawn = meta.defaultSpawn;
-  // Placeholder beside a dwelling (never a shed, banya or barn); not the real family house.
-  const houses = rects.filter(r => r.kind === 'house');
-  const facing = houses.filter(h => {
-    const dx = h.x - spawn.x, dz = h.z - spawn.z;
-    return (-Math.sin(2.15) * dx - Math.cos(2.15) * dz) / (Math.hypot(dx, dz) || 1) > .85;
-  });
-  const nearest = [...(facing.length ? facing : houses)].sort((a, b) => Math.hypot(a.x - spawn.x, a.z - spawn.z) - Math.hypot(b.x - spawn.x, b.z - spawn.z))[0];
-  // A fictional memory marker beside a nearby house, never an address/identity.
-  let x = spawn.x + 8, z = spawn.z - 6;
-  if (nearest && Math.hypot(nearest.x - spawn.x, nearest.z - spawn.z) < 100) {
-    const dx = spawn.x - nearest.x, dz = spawn.z - nearest.z, len = Math.hypot(dx, dz) || 1;
-    x = nearest.x + dx / len * (Math.hypot(nearest.w, nearest.d) / 2 + 1.5);
-    z = nearest.z + dz / len * (Math.hypot(nearest.w, nearest.d) / 2 + 1.5);
-  }
-  // Seat the post on the lowest ground under its base so no side floats.
-  const y = Math.min(ground(x, z), ground(x + .1, z), ground(x - .1, z), ground(x, z + .1), ground(x, z - .1));
-  const group = new THREE.Group(); group.position.set(x, y, z);
-  const wood = new THREE.MeshStandardMaterial({ color: '#6e6856', roughness: 1 });
-  const post = new THREE.Mesh(new THREE.BoxGeometry(.15, 1.85, .15), wood); post.position.y = .725; post.castShadow = true; group.add(post);
-  const lampMaterial = new THREE.MeshStandardMaterial({ color: '#ffe0a0', emissive: '#ffbe66', emissiveIntensity: 2.2 });
-  const lamp = new THREE.Mesh(new THREE.BoxGeometry(.25, .33, .25), lampMaterial); lamp.position.y = 1.7; group.add(lamp);
-  const cap = new THREE.Mesh(new THREE.ConeGeometry(.27, .2, 4), new THREE.MeshStandardMaterial({ color: '#e4e8df', roughness: 1 })); cap.rotation.y = Math.PI / 4; cap.position.y = 1.96; cap.castShadow = true; group.add(cap);
-  const light = new THREE.PointLight('#ffd394', 9, 9, 2); light.position.y = 1.65; group.add(light);
-  return {
-    group, anchor: new THREE.Vector3(x, y + 2.6, z),
-    setLights(on) { light.visible = on; lampMaterial.emissiveIntensity = on ? 2.2 : 0; lampMaterial.color.set(on ? '#ffe0a0' : '#74827b'); },
-  };
+// Label over the family house (passport tolstikhina-45, "Толстихина, 45"), built by the kit.
+function createFamilyMarker(family) {
+  const anchor = family ? new THREE.Vector3(...family.top) : null;
+  return { anchor, label: family?.label ?? '' };
 }
 
 async function createRenderer() {
@@ -84,19 +60,20 @@ async function start() {
     new HDRLoader().setDataType(THREE.FloatType).loadAsync(`${base}env/stierberg_sunrise_1k.hdr`).then(prepareEnvironment),
   ]);
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(64, 1, .2, 16000);
+  const camera = new THREE.PerspectiveCamera(params.fov ?? 64, 1, .2, 16000);
   const terrain = createTerrain(meta, dem, nearHeights, farHeights, { textures, lightDirection: keyLightDirection(params.tod) }); scene.add(terrain.mesh);
   const ground = terrain.getGroundHeight;
   const paths = createPaths(osm.features, meta, ground); scene.add(paths.group);
   const houses = createBuildings(osm.features, gba.features, meta, ground); scene.add(houses.group);
   scene.add(createForest(osm.features, meta, ground, paths.exclusions, houses.rects, { plots: houses.plots }));
-  const family = createFamilyMarker(meta, ground, houses.rects); scene.add(family.group);
+  const family = createFamilyMarker(houses.family);
   const atmosphere = createAtmosphere(scene, camera, { quality: params.quality, tod: params.tod, environment });
   renderer.toneMappingExposure = atmosphere.exposure;
   // ?cam= wins over ?view=; both are inspection cameras for screenshots.
   const preset = params.view === 'street' ? streetView(osm.features, meta)
     : params.view === 'bird' && terrain.farElevations ? birdView(terrain.farElevations, dem.far) : null;
-  const controls = createWalkControls(camera, canvas, meta, ground, houses.rects, { inspect: params.camera ?? preset, fences: fenceColliders(houses.plots) });
+  const inspect = params.camera?.lat !== undefined ? refCamera(osm.features, meta, params.camera) : params.camera;
+  const controls = createWalkControls(camera, canvas, meta, ground, houses.rects, { inspect: inspect ?? preset, fences: houses.fenceColliders });
   const post = createPost(renderer, scene, camera, { quality: params.quality, tod: params.tod });
   const stats = createStats(renderer, { backend, quality: params.quality, effects: post.enabled, debug: params.debug && !params.nohud, tod: params.tod });
 
@@ -107,9 +84,13 @@ async function start() {
   scene.traverse(o => { if (o.isLOD) { o.autoUpdate = false; lods.push(o); } });
   scene.updateMatrixWorld();  houses.smoke.tint.value.setRGB(...atmosphere.look.smoke);
 
-  let lightsOn = true;
+  // Summer daylight: windows dark, no chimney smoke.
+  let lightsOn = !season.summer;
+  houses.setLights(lightsOn); lightsButton.setAttribute('aria-pressed', String(lightsOn));
+  lightsButton.querySelector('span').textContent = `Тёплый свет: ${lightsOn ? 'вкл.' : 'выкл.'}`;
+  houses.smoke.object.visible = !season.summer;
   function toggleLights() {
-    lightsOn = !lightsOn; houses.setLights(lightsOn); family.setLights(lightsOn);
+    lightsOn = !lightsOn; houses.setLights(lightsOn);
     lightsButton.setAttribute('aria-pressed', String(lightsOn));
     lightsButton.querySelector('span').textContent = `Тёплый свет: ${lightsOn ? 'вкл.' : 'выкл.'}`;
   }
@@ -126,6 +107,7 @@ async function start() {
     status.hidden = false; status.textContent = 'Графика приостановлена. Обновите страницу, чтобы вернуться к прогулке.';
   };
   const label = document.querySelector('#marker'), projected = new THREE.Vector3();
+  if (family.anchor) label.textContent = family.label;
   let previous = performance.now();
   function frame(now) {
     const dt = Math.min((now - previous) / 1000, .05); previous = now;
@@ -134,8 +116,8 @@ async function start() {
     for (const lod of lods) lod.update(camera);
     post.render();
     stats.frame(now);
-    projected.copy(family.anchor).project(camera);
-    const distance = camera.position.distanceTo(family.anchor);
+    const distance = family.anchor ? camera.position.distanceTo(family.anchor) : Infinity;
+    if (family.anchor) projected.copy(family.anchor).project(camera);
     const show = distance < 65 && projected.z > -1 && projected.z < 1 && Math.abs(projected.x) < .85 && Math.abs(projected.y) < .75;
     label.hidden = !show;
     if (show) label.style.transform = `translate(${(projected.x * .5 + .5) * canvas.clientWidth}px,${(-projected.y * .5 + .5) * canvas.clientHeight}px) translate(-50%,-100%)`;
