@@ -1,0 +1,9056 @@
+{
+ "version": 1,
+ "street": "улица Толстихина",
+ "source": "own observation of public street imagery, Aug 2021; satellite where no street imagery",
+ "houses": [
+  {
+   "id": "tolstikhina-s-2924",
+   "refs": [],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7517466,
+   "lon": 107.1262211,
+   "side": "S",
+   "setbackM": 23.9,
+   "facadeYawDeg": 153.1,
+   "footprintIndex": 36,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 13,
+    "depthM": 11,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": null,
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "GlobalBuildingAtlas footprint only: no street or satellite imagery of this stretch in the inputs; roof unknown"
+  },
+  {
+   "id": "tolstikhina-s-2875",
+   "refs": [],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7519682,
+   "lon": 107.1256119,
+   "side": "S",
+   "setbackM": 22.0,
+   "facadeYawDeg": 153.1,
+   "footprintIndex": 38,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 13,
+    "depthM": 8.8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": null,
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "GlobalBuildingAtlas footprint only: no street or satellite imagery of this stretch in the inputs; roof unknown"
+  },
+  {
+   "id": "tolstikhina-n-2841",
+   "refs": [],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7524138,
+   "lon": 107.125419,
+   "side": "N",
+   "setbackM": 7.2,
+   "facadeYawDeg": -26.9,
+   "footprintIndex": 43,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 11.1,
+    "depthM": 9.2,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": null,
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "GlobalBuildingAtlas footprint only: no street or satellite imagery of this stretch in the inputs; roof unknown"
+  },
+  {
+   "id": "tolstikhina-s-2838",
+   "refs": [],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7521257,
+   "lon": 107.125138,
+   "side": "S",
+   "setbackM": 20.6,
+   "facadeYawDeg": 153.1,
+   "footprintIndex": 40,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 13,
+    "depthM": 9.8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": null,
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "GlobalBuildingAtlas footprint only: no street or satellite imagery of this stretch in the inputs; roof unknown"
+  },
+  {
+   "id": "tolstikhina-n-2701",
+   "refs": [],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7530641,
+   "lon": 107.1236862,
+   "side": "N",
+   "setbackM": 18.7,
+   "facadeYawDeg": -26.9,
+   "footprintIndex": 275,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 13,
+    "depthM": 7.4,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": null,
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "GlobalBuildingAtlas footprint only: no street or satellite imagery of this stretch in the inputs; roof unknown"
+  },
+  {
+   "id": "tolstikhina-n-2682",
+   "refs": [],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7530806,
+   "lon": 107.1233904,
+   "side": "N",
+   "setbackM": 9.3,
+   "facadeYawDeg": -26.9,
+   "footprintIndex": 276,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 13,
+    "depthM": 11,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": null,
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "GlobalBuildingAtlas footprint only: no street or satellite imagery of this stretch in the inputs; roof unknown"
+  },
+  {
+   "id": "tolstikhina-n-2545",
+   "refs": [
+    "east/001"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7536175,
+   "lon": 107.1215913,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#937d61",
+    "heightM": 2.0,
+    "lengthM": 10.8,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "tall unpainted plank fence with a banner; plot interior not visible"
+  },
+  {
+   "id": "tolstikhina-s-2520",
+   "refs": [
+    "east/004"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7534897,
+   "lon": 107.1210822,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3a2f1c",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "corrugated",
+     "color": "#8d775c",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#291d15"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bdb9ac",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#1c5a7c"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#1c5a7c"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#644927",
+    "heightM": 1.8,
+    "lengthM": 6.0,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-2506",
+   "refs": [
+    "east/003",
+    "east/005"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7539402,
+   "lon": 107.1212179,
+   "side": "N",
+   "setbackM": 29.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 291,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 2,
+    "wall": {
+     "material": "planks",
+     "color": "#9d6d45",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "metal-tile",
+     "color": "#cacbca",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#a36e44"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c0c1bc",
+     "nalichnik": {
+      "style": "none",
+      "color": "#c1c2bd"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c0c1bc"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "new two-storey timber house set back behind the street row; seen from three shots at distance"
+  },
+  {
+   "id": "tolstikhina-n-2505",
+   "refs": [
+    "east/003"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7537838,
+   "lon": 107.1210826,
+   "side": "N",
+   "setbackM": 10.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.2,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#38271a",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "slate",
+     "color": "#cecbc4",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#38271b"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bebaac",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#3b5f8d"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#3b5f8c"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#406692",
+    "heightM": 1.2,
+    "lengthM": 3.6,
+    "gate": {
+     "type": "double",
+     "color": "#3c2318",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "two windows with blue shutters and carved crowns, third smaller window"
+  },
+  {
+   "id": "tolstikhina-s-2501",
+   "refs": [
+    "east/004"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7535732,
+   "lon": 107.1208467,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#185658",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "profiled",
+     "color": "#99978a",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#2a5a4f"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#cac3b0",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#c5bdaf"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#cac3b0"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#134d4f",
+    "heightM": 1.9,
+    "lengthM": 5.5,
+    "gate": {
+     "type": "swing",
+     "color": "#87783d",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "yellow-and-teal gate"
+  },
+  {
+   "id": "tolstikhina-n-2477",
+   "refs": [
+    "east/005"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7539214,
+   "lon": 107.1207301,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#321f15",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "soft-tile",
+     "color": "#392216",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#3a2316"
+    },
+    "windows": {
+     "street": 3,
+     "side": 1,
+     "frameColor": "#bfbeb5",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#bfc0bc"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#2d5c78"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#5d432b",
+    "heightM": 1.4,
+    "lengthM": 9.3,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#62482f",
+     "approxOffsetM": [
+      -9,
+      15
+     ]
+    }
+   ],
+   "notes": "front gable boarded in a sunburst pattern under a curved eave; dark roofing (boards or bitumen, seen from the street); fence of horizontal log slabs; derelict plank sheds behind"
+  },
+  {
+   "id": "tolstikhina-s-2470",
+   "refs": [
+    "east/006"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7537158,
+   "lon": 107.1204539,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#3a5557",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#b2a7a2",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#426882"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c3bba9",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#c3bba9"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#144e7f"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#3b6156",
+    "heightM": 1.8,
+    "lengthM": 3.0,
+    "gate": {
+     "type": "double",
+     "color": "#4d7369",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#446662",
+     "approxOffsetM": [
+      5,
+      1
+     ]
+    }
+   ],
+   "notes": "vertical plank walls; plank lean-to on the west side"
+  },
+  {
+   "id": "tolstikhina-s-2462",
+   "refs": [
+    "east/006"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7537295,
+   "lon": 107.1203375,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#41362a",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#94836a",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#413527"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c1b9a8",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#c1b9a8"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#41372c",
+    "heightM": 1.5,
+    "lengthM": 3.9,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "red brick chimney; horizontal log-slab fence"
+  },
+  {
+   "id": "tolstikhina-s-2443",
+   "refs": [
+    "east/008"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7537984,
+   "lon": 107.1200816,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.6,
+    "depthM": 5.7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#42392a",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#8c6e52",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#352b23"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bcb6aa",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#bcb7aa"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bcb6aa"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#697069",
+    "heightM": 1.8,
+    "lengthM": 8.0,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#524737",
+     "approxOffsetM": [
+      7,
+      3
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-2441",
+   "refs": [
+    "east/007"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7540715,
+   "lon": 107.1202652,
+   "side": "N",
+   "setbackM": 12.3,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 274,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9.9,
+    "depthM": 7.4,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#452c1b",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#b9bbb7",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#a18a71"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c0b9ac",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#7fb2c8"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#7fb2c8"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "one street window boarded up"
+  },
+  {
+   "id": "tolstikhina-s-2430",
+   "refs": [
+    "east/008"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.753862,
+   "lon": 107.1199205,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3c2e21",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "corrugated",
+     "color": "#31251e",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#30251e"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c7bfad",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#1a5a55"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#1a5a55"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-2427",
+   "refs": [
+    "east/007"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7541327,
+   "lon": 107.1200992,
+   "side": "N",
+   "setbackM": 13.6,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 268,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8.8,
+    "depthM": 6.6,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2f2016",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#cac7c1",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#2a1d15"
+    },
+    "windows": {
+     "street": 5,
+     "side": 2,
+     "frameColor": "#b9bab4",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#7b949e"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#7b949e"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#38694f",
+    "heightM": 1.8,
+    "lengthM": 3.0,
+    "gate": {
+     "type": "double",
+     "color": "#23432e",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "long house, two window groups"
+  },
+  {
+   "id": "tolstikhina-s-2423",
+   "refs": [
+    "east/008"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7538875,
+   "lon": 107.1198283,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.9,
+    "depthM": 5.7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#403226",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#8c7a5f",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#4a422e"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c8c0ae",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#c8c0ae"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#614e3a",
+    "heightM": 1.8,
+    "lengthM": 2.4,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "two chimneys"
+  },
+  {
+   "id": "tolstikhina-s-2403",
+   "refs": [
+    "east/010"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7539529,
+   "lon": 107.1195648,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": 296,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#35281c",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "corrugated",
+     "color": "#937a5f",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#362a1e"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bebaaf",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#105021"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bebaaf"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#104f1f",
+    "heightM": 1.8,
+    "lengthM": 4.7,
+    "gate": {
+     "type": "double",
+     "color": "#0f4f1f",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-2401",
+   "refs": [
+    "east/009"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.754221,
+   "lon": 107.1197372,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#372215",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "corrugated",
+     "color": "#8d624b",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#3c2617"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b8bab8",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#babbb8"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#b8bab8"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 3.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-2394",
+   "refs": [
+    "east/009"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7541953,
+   "lon": 107.11961,
+   "side": "N",
+   "setbackM": 8.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#694d2c",
+    "heightM": 1.8,
+    "lengthM": 7.1,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "empty plot behind a plank fence, field behind"
+  },
+  {
+   "id": "tolstikhina-s-2388",
+   "refs": [
+    "east/010"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7539862,
+   "lon": 107.1193371,
+   "side": "S",
+   "setbackM": 16.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": 296,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 8.5,
+    "depthM": 10.5,
+    "floors": 1,
+    "wall": {
+     "material": "plaster",
+     "color": "#a39981",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "corrugated",
+     "color": "#443c29",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d3cbc1",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#d4cbc2"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#d3cbc1"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "mesh",
+    "color": "#273d27",
+    "heightM": 1.0,
+    "lengthM": 6.3,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#c8c1b9",
+     "approxOffsetM": [
+      8,
+      -2
+     ]
+    }
+   ],
+   "notes": "house largely hidden by a spruce and trees; olive walls; roof shape uncertain"
+  },
+  {
+   "id": "tolstikhina-n-2382",
+   "refs": [
+    "east/009",
+    "east/011"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7543016,
+   "lon": 107.1194944,
+   "side": "N",
+   "setbackM": 11.5,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 270,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#8f6543",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#cdc8bf",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#ab7a53"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bab9b1",
+     "nalichnik": {
+      "style": "none",
+      "color": "#bab9b1"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bab9b1"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#125128",
+    "heightM": 1.9,
+    "lengthM": 4.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "orange-brown boarded gable, lower walls dark"
+  },
+  {
+   "id": "tolstikhina-s-2361",
+   "refs": [
+    "east/012"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.754133,
+   "lon": 107.1190195,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2f2619",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "corrugated",
+     "color": "#896748",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#2a2216"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c7c1b2",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#2a5248"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#2a5248"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "mesh",
+    "color": "#32462b",
+    "heightM": 1.2,
+    "lengthM": 5.0,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#826243",
+     "approxOffsetM": [
+      5,
+      1
+     ]
+    }
+   ],
+   "notes": "plank lean-to with shed roof on the west side"
+  },
+  {
+   "id": "tolstikhina-s-2345",
+   "refs": [
+    "east/012"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7541885,
+   "lon": 107.1188093,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#463729",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "corrugated",
+     "color": "#46382c",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#45382c"
+    },
+    "windows": {
+     "street": 0,
+     "side": 1,
+     "frameColor": "#bfb7a5",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bfb7a5"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#54483a",
+    "heightM": 1.8,
+    "lengthM": 2,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "street face boarded with vertical planks; may be a barn"
+  },
+  {
+   "id": "tolstikhina-n-2343",
+   "refs": [
+    "east/011",
+    "east/013"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7544735,
+   "lon": 107.1190003,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#688a94",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "slate",
+     "color": "#9d866a",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#678991"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#cac5ba",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#cbc6ba"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#1e3f5a"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#c3bdaf",
+    "heightM": 1.8,
+    "lengthM": 10.5,
+    "gate": {
+     "type": "double",
+     "color": "#bab7af",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "blue-painted log walls; roof colour differs between the two shots (pale grey vs orange-brown)"
+  },
+  {
+   "id": "tolstikhina-s-2317",
+   "refs": [
+    "east/014"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7543156,
+   "lon": 107.1184584,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.3,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3e3126",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "corrugated",
+     "color": "#9c7556",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c9c5bc",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#cdc8bf"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#7a9097"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#788e93",
+    "heightM": 1.2,
+    "lengthM": 6.9,
+    "gate": {
+     "type": "double",
+     "color": "#9f9272",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "red brick chimney; yellow plank gate with diamonds further east"
+  },
+  {
+   "id": "tolstikhina-n-2314",
+   "refs": [
+    "east/013"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7545257,
+   "lon": 107.118583,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 263,
+   "mergedFootprint": true,
+   "house": null,
+   "fence": {
+    "type": "picket",
+    "color": "#4c8274",
+    "heightM": 1.2,
+    "lengthM": 4.1,
+    "gate": {
+     "type": "double",
+     "color": "#71a99e",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "garage",
+     "roof": "shed",
+     "color": "#c0ac8e",
+     "approxOffsetM": [
+      -6,
+      2
+     ]
+    }
+   ],
+   "notes": "house hidden by a large tree; teal gates with a diamond pattern; beige garage at the left (east) end"
+  },
+  {
+   "id": "tolstikhina-45",
+   "refs": [
+    "east/015",
+    "east/013"
+   ],
+   "source": "owner",
+   "confidence": "high",
+   "lat": 51.754756,
+   "lon": 107.118296,
+   "side": "N",
+   "setbackM": 17.2,
+   "facadeYawDeg": -25.0,
+   "footprintIndex": 263,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 8.6,
+    "depthM": 11.6,
+    "floors": 1.5,
+    "wall": {
+     "material": "siding",
+     "color": "#a98b62",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "mansard",
+     "ridge": "perpendicular",
+     "pitchDeg": 60,
+     "material": "metal-tile",
+     "color": "#7c4847",
+     "overhangM": 0.45,
+     "gableFinish": "siding",
+     "gableColor": "#a88a61"
+    },
+    "windows": {
+     "street": 4,
+     "side": 1,
+     "frameColor": "#b9b6a0",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#b9b6a0"
+     },
+     "shutters": {
+      "type": "roller",
+      "color": "#c5bdae"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": "owner passport: position and size from the owner model (satellite fit, about 5 m uncertainty); appearance from the street photo; living floor inside the mansard"
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 14.0,
+    "gate": {
+     "type": "swing",
+     "color": "#6c3429",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "Толстихина, 45. Red-brown profiled gate with a wicket on the west side of the house; red profiled fence to the east behind the picket."
+  },
+  {
+   "id": "tolstikhina-s-2274",
+   "refs": [
+    "east/016"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7544904,
+   "lon": 107.117906,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#372c1f",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#194c20",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#194b20"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d8cbba",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#dacebd"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#1a4e20"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#244418",
+    "heightM": 1.1,
+    "lengthM": 3.9,
+    "gate": {
+     "type": "double",
+     "color": "#0f4314",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "garage",
+     "roof": "shed",
+     "color": "#dbccb7",
+     "approxOffsetM": [
+      -7,
+      0
+     ]
+    }
+   ],
+   "notes": "green picket with white diamonds; beige garage with ochre doors to the east"
+  },
+  {
+   "id": "tolstikhina-n-2267",
+   "refs": [
+    "east/015"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7547671,
+   "lon": 107.1180103,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 263,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 8.6,
+    "depthM": 6.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#27574a",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#c9c6be",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#184136"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#beb9af",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#bcbab1"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#27574a"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "stripe",
+    "color": "#a17e20",
+    "color2": "#2e5630",
+    "heightM": 1.8,
+    "lengthM": 3.0,
+    "gate": {
+     "type": "double",
+     "color": "#165035",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#b9b9b4",
+     "approxOffsetM": [
+      7,
+      4
+     ]
+    }
+   ],
+   "notes": "teal-green painted log house, glazed veranda under a roof extension to the east"
+  },
+  {
+   "id": "tolstikhina-s-2266",
+   "refs": [
+    "east/016"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7545202,
+   "lon": 107.1177905,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8.3,
+    "depthM": 6.2,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3f3024",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "profiled",
+     "color": "#959386",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#423326"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c2bba9",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#3e7083"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#35647d"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#35647d",
+    "heightM": 1.8,
+    "lengthM": 3.9,
+    "gate": {
+     "type": "double",
+     "color": "#35647d",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "blue plank gate with a diamond pattern; white picket further west"
+  },
+  {
+   "id": "tolstikhina-n-2244",
+   "refs": [
+    "east/017"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7548542,
+   "lon": 107.1177152,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 261,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#442b1b",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#b7b8b6",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#2f5148"
+    },
+    "windows": {
+     "street": 1,
+     "side": 1,
+     "frameColor": "#c2b8a8",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#2f5047"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#2f5148"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#2f5148",
+    "heightM": 1.8,
+    "lengthM": 3.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "long building, brown plank wall over dark log, two chimneys"
+  },
+  {
+   "id": "tolstikhina-s-2242",
+   "refs": [
+    "east/018"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.754666,
+   "lon": 107.1175204,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 2.1,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "garage",
+     "roof": "gable",
+     "color": "#59442d",
+     "approxOffsetM": [
+      0,
+      4
+     ]
+    }
+   ],
+   "notes": "plank garage with double doors attached to a log section, pale grey corrugated roof"
+  },
+  {
+   "id": "tolstikhina-n-2234",
+   "refs": [
+    "east/017"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7549113,
+   "lon": 107.1175966,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 261,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#382717",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 30,
+     "material": "corrugated",
+     "color": "#342a19",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#352b1a"
+    },
+    "windows": {
+     "street": 2,
+     "side": 1,
+     "frameColor": "#bebdbb",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#286466"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#286466"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#356631",
+    "heightM": 1.0,
+    "lengthM": 4.4,
+    "gate": {
+     "type": "double",
+     "color": "#2b4d44",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "small log house mostly behind a tree; roof shape not clearly visible"
+  },
+  {
+   "id": "tolstikhina-s-2230",
+   "refs": [
+    "east/018"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7546535,
+   "lon": 107.1173185,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2b241c",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#ac9f9a",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#372d25"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#d0c6b6",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#7fb2c8"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#d0c6b6"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#324848",
+    "heightM": 1.2,
+    "lengthM": 4.4,
+    "gate": {
+     "type": "double",
+     "color": "#084e51",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "ornamented teal profiled gate"
+  },
+  {
+   "id": "tolstikhina-n-2227",
+   "refs": [
+    "east/017",
+    "east/019"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7549255,
+   "lon": 107.1174866,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 261,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#1a5d5c",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 30,
+     "material": "metal-tile",
+     "color": "#4d848d",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#4e858f"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bab7b0",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#bdb9b2"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bab7b0"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#175858",
+    "heightM": 1.8,
+    "lengthM": 5.2,
+    "gate": {
+     "type": "double",
+     "color": "#155655",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "bright turquoise metal-tile roof; walls partly dark log, partly teal painted"
+  },
+  {
+   "id": "tolstikhina-s-2203",
+   "refs": [
+    "east/020"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7547695,
+   "lon": 107.116979,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#443b2d",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "corrugated",
+     "color": "#87745c",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#3e3427"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#cdc8bd",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#4d7f76"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#4d7f76"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#3f5033",
+    "heightM": 1.8,
+    "lengthM": 4.1,
+    "gate": {
+     "type": "double",
+     "color": "#3d4b33",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#433b2e",
+     "approxOffsetM": [
+      5,
+      1
+     ]
+    }
+   ],
+   "notes": "log and plank lean-to on the west side"
+  },
+  {
+   "id": "tolstikhina-n-2193",
+   "refs": [
+    "east/019"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7550767,
+   "lon": 107.1170581,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#2c7863",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#d3d4d0",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#2d7964"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c9c5b4",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#cacac3"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#2c7863"
+     }
+    },
+    "chimney": false,
+    "porch": {
+     "side": "right",
+     "roofed": true
+    },
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#652329",
+    "heightM": 1.9,
+    "lengthM": 5.7,
+    "gate": {
+     "type": "double",
+     "color": "#6a2429",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "horizontal-board walls, sunburst gable with white carved frieze; decorative concrete panel garden fence with orange posts in front; maroon profiled fence with beige brick pillars"
+  },
+  {
+   "id": "tolstikhina-s-2163",
+   "refs": [
+    "east/022"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7549314,
+   "lon": 107.1164517,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.0,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#2f6fa0",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#cdc8be",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 1,
+     "side": 2,
+     "frameColor": "#c4bdae",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#c6beaf"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c4bdae"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 4.2,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "blue painted plank walls with a blue eave (index said blue roof: the roof itself is pale grey); large garage door"
+  },
+  {
+   "id": "tolstikhina-n-2162",
+   "refs": [
+    "east/021"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7551326,
+   "lon": 107.1166048,
+   "side": "N",
+   "setbackM": 8.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#4f3e29",
+    "heightM": 1.8,
+    "lengthM": 7.0,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#57442f",
+     "approxOffsetM": [
+      -5,
+      6
+     ]
+    }
+   ],
+   "notes": "plank fence, plank shed in the yard"
+  },
+  {
+   "id": "tolstikhina-n-2151",
+   "refs": [
+    "east/021"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7552557,
+   "lon": 107.1165291,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 305,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 10.4,
+    "depthM": 7.8,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#54331b",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#c0c2bf",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#605237"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#babab4",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#293e46"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#babab4"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "mesh",
+    "color": "#2f3f30",
+    "heightM": 1.2,
+    "lengthM": 4.3,
+    "gate": {
+     "type": "double",
+     "color": "#27587e",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "partly behind a tree; bright blue profiled gate"
+  },
+  {
+   "id": "tolstikhina-s-2144",
+   "refs": [
+    "east/022",
+    "east/024"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7549416,
+   "lon": 107.1161529,
+   "side": "S",
+   "setbackM": 20.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 16,
+    "depthM": 10,
+    "floors": 1,
+    "wall": {
+     "material": "siding",
+     "color": "#666464",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 20,
+     "material": "profiled",
+     "color": "#6a6866",
+     "overhangM": 0.4,
+     "gableFinish": "siding",
+     "gableColor": "#6c6a69"
+    },
+    "windows": {
+     "street": 2,
+     "side": 4,
+     "frameColor": "#bfb5a6",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bfb5a6"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "metal-rail",
+    "color": "#5b4a2e",
+    "heightM": 1.2,
+    "lengthM": 4.5,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "non-residential: shop with yellow entrance canopies on the east side; grey-blue upper and green lower siding; east roof end hipped, west end gabled"
+  },
+  {
+   "id": "tolstikhina-n-2123",
+   "refs": [
+    "east/023"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7553601,
+   "lon": 107.1161577,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 303,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.0,
+    "depthM": 7.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#46341d",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "corrugated",
+     "color": "#49371c",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#48361c"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b9bab3",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#b9bbb6"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#b9bab3"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#544128",
+    "heightM": 1.6,
+    "lengthM": 2.1,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "behind a tree and a crossing sign"
+  },
+  {
+   "id": "tolstikhina-n-2108",
+   "refs": [
+    "east/023"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7554216,
+   "lon": 107.1159605,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 302,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#362e1f",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#ccc6bc",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#332c24"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bdb8ae",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#beb9af"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bdb8ae"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#4b563c",
+    "heightM": 1.7,
+    "lengthM": 3.6,
+    "gate": {
+     "type": "swing",
+     "color": "#4e583d",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-s-2104",
+   "refs": [
+    "east/024"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7551363,
+   "lon": 107.1156659,
+   "side": "S",
+   "setbackM": 18.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#453a2f",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#9e9c8d",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#453a2f"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c1b6a7",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#2f4131"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c1b6a7"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#2c3d25",
+    "heightM": 1.9,
+    "lengthM": 8.2,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-2082",
+   "refs": [
+    "east/025"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7555457,
+   "lon": 107.115639,
+   "side": "N",
+   "setbackM": 16.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 307,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8.3,
+    "depthM": 6.2,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#453424",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#998068",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#4d4136"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c6beb8",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#c5beb6"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c6beb8"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#513f2b",
+    "heightM": 1.8,
+    "lengthM": 4.7,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "lower slate-roofed annex"
+  },
+  {
+   "id": "tolstikhina-s-2081",
+   "refs": [
+    "east/026"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7552605,
+   "lon": 107.1153964,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3a281d",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#876a51",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#221a17"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bfbaaf",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#2f6a31"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bfbaaf"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#304417",
+    "heightM": 1.9,
+    "lengthM": 3.5,
+    "gate": {
+     "type": "double",
+     "color": "#345023",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "barn",
+     "roof": "shed",
+     "color": "#7d5f45",
+     "approxOffsetM": [
+      8,
+      1
+     ]
+    }
+   ],
+   "notes": "plank barn with green double doors next to the gate"
+  },
+  {
+   "id": "tolstikhina-n-2070",
+   "refs": [
+    "east/025"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7555149,
+   "lon": 107.1154113,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 308,
+   "mergedFootprint": true,
+   "house": null,
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 4.1,
+    "gate": {
+     "type": "swing",
+     "color": "#bcbdbb",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "house hidden by a large tree; white and teal picket, white profiled gate"
+  },
+  {
+   "id": "tolstikhina-s-2064",
+   "refs": [
+    "east/026"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7553253,
+   "lon": 107.1151647,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": 313,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1.5,
+    "wall": {
+     "material": "planks",
+     "color": "#5b4533",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "mansard",
+     "ridge": "perpendicular",
+     "pitchDeg": 55,
+     "material": "profiled",
+     "color": "#898980",
+     "overhangM": 0.45,
+     "gableFinish": "planks",
+     "gableColor": "#745a40"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#ded2c4",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#ded3c5"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#ded2c4"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#514032",
+    "heightM": 1.9,
+    "lengthM": 5.5,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "newer timber house, broken-pitch (gambrel) roof with a gable window"
+  },
+  {
+   "id": "tolstikhina-n-2038",
+   "refs": [
+    "east/027"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7557039,
+   "lon": 107.1150552,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#493620",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#bbbdbe",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#30281d"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b8bab9",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#3d5f31"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#32562c"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "mesh",
+    "color": "#3d592f",
+    "heightM": 1.2,
+    "lengthM": 3.6,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "behind a tall spruce"
+  },
+  {
+   "id": "tolstikhina-s-2036",
+   "refs": [
+    "east/028"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7554371,
+   "lon": 107.1148062,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#453a2a",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#cfcbc2",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#5f4937"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#cac1b2",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#32546f"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#32546f"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#554631",
+    "heightM": 1.8,
+    "lengthM": 9.2,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "left part of the shot privacy-blurred"
+  },
+  {
+   "id": "tolstikhina-n-2025",
+   "refs": [
+    "east/027"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7557397,
+   "lon": 107.1148669,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 310,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 9.2,
+    "depthM": 6.9,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2f2117",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "slate",
+     "color": "#cbc8c2",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 4,
+     "side": 2,
+     "frameColor": "#bfc0ba",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#255e5c"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#28625d"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.4,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#62472a",
+    "heightM": 1.8,
+    "lengthM": 3.4,
+    "gate": {
+     "type": "double",
+     "color": "#10565a",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "hipped roof; teal painted plinth"
+  },
+  {
+   "id": "tolstikhina-s-2021",
+   "refs": [
+    "east/028"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7554351,
+   "lon": 107.1145546,
+   "side": "S",
+   "setbackM": 22.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": 315,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#51422e",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#999689",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#6f553a"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#e1d4c4",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#e1d4c4"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "behind trees, set back"
+  },
+  {
+   "id": "tolstikhina-s-2003",
+   "refs": [
+    "east/030"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7555621,
+   "lon": 107.1143717,
+   "side": "S",
+   "setbackM": 15.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.7,
+    "depthM": 7.1,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#312b20",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#c7c3b9",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#856841"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bbb7ab",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bbb7ab"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-s-1994",
+   "refs": [
+    "east/030"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7556154,
+   "lon": 107.1142667,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3d291b",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "profiled",
+     "color": "#342017",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#332016"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d5c9ba",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#698e99"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#698e99"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.5,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#644c31",
+    "heightM": 1.8,
+    "lengthM": 5.0,
+    "gate": {
+     "type": "double",
+     "color": "#856640",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "carved bargeboards; concrete plinth"
+  },
+  {
+   "id": "tolstikhina-n-1990",
+   "refs": [
+    "east/029"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7558808,
+   "lon": 107.1144156,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 310,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#533218",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#56331a",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#56331a"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bdbebc",
+     "nalichnik": null,
+     "shutters": {
+      "type": "wooden",
+      "color": "#aa9a83"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "metal-rail",
+    "color": "#b9bab5",
+    "heightM": 1.0,
+    "lengthM": 3.9,
+    "gate": {
+     "type": "double",
+     "color": "#b8bab5",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "garage",
+     "roof": "shed",
+     "color": "#b5b8b6",
+     "approxOffsetM": [
+      -6,
+      1
+     ]
+    }
+   ],
+   "notes": "horizontal brown board walls; white profiled gate with a red frame; grey profiled garage with white doors"
+  },
+  {
+   "id": "tolstikhina-n-1981",
+   "refs": [
+    "east/029"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7559251,
+   "lon": 107.1143139,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3b291e",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#d0cabf",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#36271e"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c8c4b9",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#3e6e66"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c8c4b9"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "seen at the frame edge"
+  },
+  {
+   "id": "tolstikhina-s-1979",
+   "refs": [
+    "east/030",
+    "east/032"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7556447,
+   "lon": 107.1140538,
+   "side": "S",
+   "setbackM": 17.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8.5,
+    "depthM": 6.4,
+    "floors": 1,
+    "wall": {
+     "material": "siding",
+     "color": "#9a947e",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "profiled",
+     "color": "#939288",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#333c52"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c3baa8",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#c3baa8"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c3baa8"
+     }
+    },
+    "chimney": false,
+    "porch": {
+     "side": "front",
+     "roofed": true
+    },
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 4.9,
+    "gate": {
+     "type": "double",
+     "color": "#233657",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "white fan-shaped pickets with blue posts; blue profiled fence; blue east gable seen from the next shot"
+  },
+  {
+   "id": "tolstikhina-n-1957",
+   "refs": [
+    "east/031"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7559689,
+   "lon": 107.1139556,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#59432a",
+    "heightM": 1.6,
+    "lengthM": 7.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "horizontal log-slab and plank fence, field behind"
+  },
+  {
+   "id": "tolstikhina-s-1954",
+   "refs": [
+    "east/032"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7558394,
+   "lon": 107.1137903,
+   "side": "S",
+   "setbackM": 9.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#725a39",
+    "heightM": 1.8,
+    "lengthM": 6.9,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#594732",
+     "approxOffsetM": [
+      0,
+      6
+     ]
+    }
+   ],
+   "notes": "plank fences and gates, plank shed in the yard"
+  },
+  {
+   "id": "tolstikhina-s-1946",
+   "refs": [
+    "east/032",
+    "east/034"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7558082,
+   "lon": 107.1136484,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#443827",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#b8b2a3",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#40342a"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bcb6a7",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#38645a"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#38645a"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#907a5c",
+    "heightM": 1.8,
+    "lengthM": 2.1,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#584734",
+     "approxOffsetM": [
+      -5,
+      1
+     ]
+    }
+   ],
+   "notes": "plank annex on the east side"
+  },
+  {
+   "id": "tolstikhina-n-1944",
+   "refs": [
+    "east/031",
+    "east/033"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7560721,
+   "lon": 107.1138287,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 320,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.9,
+    "depthM": 8.6,
+    "floors": 1.5,
+    "wall": {
+     "material": "log",
+     "color": "#3e758c",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "profiled",
+     "color": "#8c5e5b",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#3d748b"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bab8b2",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#bab9b3"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#3b532d"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 2,
+    "gate": {
+     "type": "double",
+     "color": "#7fb2c8",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "attic window in the gable; part of the roof re-covered in grey sheet"
+  },
+  {
+   "id": "tolstikhina-n-1914",
+   "refs": [
+    "east/033"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7562135,
+   "lon": 107.1134456,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#4e756c",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#cac9cb",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#416e65"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c5c3c4",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#c6c4c5"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c5c3c4"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#6e858c",
+    "heightM": 1.1,
+    "lengthM": 3.9,
+    "gate": {
+     "type": "double",
+     "color": "#487067",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "behind a spruce"
+  },
+  {
+   "id": "tolstikhina-s-1913",
+   "refs": [
+    "east/034"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7559438,
+   "lon": 107.1132137,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2e241a",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#241a14",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#241a15"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#ccc1b5",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#3f768c"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#33637d"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#806644",
+    "heightM": 1.8,
+    "lengthM": 6.9,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "barn",
+     "roof": "shed",
+     "color": "#383025",
+     "approxOffsetM": [
+      6,
+      2
+     ]
+    }
+   ],
+   "notes": "glazed veranda on the east side; attached log barn on the west side"
+  },
+  {
+   "id": "tolstikhina-n-1904",
+   "refs": [
+    "east/033"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7562483,
+   "lon": 107.1133124,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 331,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 7.6,
+    "depthM": 5.7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#251e17",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#ccc8c3",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#41372d"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bbb9b2",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#11385d"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#11385d"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#60462e",
+    "heightM": 1.8,
+    "lengthM": 2,
+    "gate": {
+     "type": "double",
+     "color": "#7fb2c8",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "light blue gate boarded in a diagonal pattern"
+  },
+  {
+   "id": "tolstikhina-n-1885",
+   "refs": [
+    "east/035"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7563155,
+   "lon": 107.113062,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#45311f",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#a18c72",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#382b1f"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b9b9b6",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#b9b9b6"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#46311e",
+    "heightM": 1.6,
+    "lengthM": 4.5,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "red brick chimney"
+  },
+  {
+   "id": "tolstikhina-s-1873",
+   "refs": [
+    "east/036"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.756114,
+   "lon": 107.1127003,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#134022",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#c3bbb1",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#143c24"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d4c9bb",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#d3c9b9"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#0b64a2"
+     }
+    },
+    "chimney": false,
+    "porch": {
+     "side": "left",
+     "roofed": true
+    },
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "lattice",
+    "color": "#39566a",
+    "heightM": 0.8,
+    "lengthM": 3.8,
+    "gate": {
+     "type": "double",
+     "color": "#104628",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#514736",
+     "approxOffsetM": [
+      9,
+      3
+     ]
+    }
+   ],
+   "notes": "glazed veranda with blue frames on the east side"
+  },
+  {
+   "id": "tolstikhina-n-1870",
+   "refs": [
+    "east/035"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.75632,
+   "lon": 107.1128299,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 336,
+   "mergedFootprint": true,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#433720",
+    "heightM": 1.6,
+    "lengthM": 7.5,
+    "gate": {
+     "type": "swing",
+     "color": "#534328",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#45331f",
+     "approxOffsetM": [
+      10,
+      4
+     ]
+    }
+   ],
+   "notes": "overgrown plot; small log shed near the street"
+  },
+  {
+   "id": "tolstikhina-n-1836",
+   "refs": [
+    "east/037"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7565182,
+   "lon": 107.1124364,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 329,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#2f4632",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#776043",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#33402b"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#b9b8b2",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#2e4967"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#5796a3"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#346860",
+    "heightM": 1.2,
+    "lengthM": 9.6,
+    "gate": {
+     "type": "double",
+     "color": "#33655c",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "sunburst gable; teal picket with white diamonds"
+  },
+  {
+   "id": "tolstikhina-s-1836",
+   "refs": [
+    "east/038"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7561466,
+   "lon": 107.1121281,
+   "side": "S",
+   "setbackM": 25.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": 337,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 18,
+    "depthM": 10,
+    "floors": 1,
+    "wall": {
+     "material": "siding",
+     "color": "#61665f",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 22,
+     "material": "profiled",
+     "color": "#b2ada3",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 5,
+     "side": 2,
+     "frameColor": "#beb8aa",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#beb8aa"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.1,
+    "lengthM": 6.0,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "non-residential single-storey building with a plaque by the door; young spruces in front"
+  },
+  {
+   "id": "tolstikhina-s-1823",
+   "refs": [
+    "east/038",
+    "east/040"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7562698,
+   "lon": 107.1120242,
+   "side": "S",
+   "setbackM": 18.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.9,
+    "depthM": 5.9,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#425e66",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "profiled",
+     "color": "#626a66",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#beb7a8",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#beb7a8"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#3e5968",
+    "heightM": 1.9,
+    "lengthM": 4.5,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "blue profiled fence painted with flowers; roof end hipped (uncertain)"
+  },
+  {
+   "id": "tolstikhina-n-1799",
+   "refs": [
+    "east/039"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7566545,
+   "lon": 107.111943,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#344834",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "corrugated",
+     "color": "#a18064",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#b8bab7",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#3f7063"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#2f6fa0"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "roof end only partly visible; hip judged from the west end"
+  },
+  {
+   "id": "tolstikhina-s-1795",
+   "refs": [
+    "east/040"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7564178,
+   "lon": 107.1116857,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.0,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3f2f23",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "slate",
+     "color": "#cdc8c0",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 4,
+     "side": 2,
+     "frameColor": "#beb9ad",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#27564d"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#beb9ad"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#23564b",
+    "heightM": 1.6,
+    "lengthM": 2.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "glazed porch on the east side; short red-and-white striped picket; blue profiled fence further east"
+  },
+  {
+   "id": "tolstikhina-n-1789",
+   "refs": [
+    "east/039"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7566486,
+   "lon": 107.1117763,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": 341,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "picket",
+    "color": "#72786c",
+    "heightM": 1.1,
+    "lengthM": 6.0,
+    "gate": {
+     "type": "double",
+     "color": "#3e2f20",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "house hidden by trees; broken picket"
+  },
+  {
+   "id": "tolstikhina-s-1757",
+   "refs": [
+    "east/042"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7566096,
+   "lon": 107.111224,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#606058",
+    "heightM": 1.5,
+    "lengthM": 11.2,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#403627",
+     "approxOffsetM": [
+      0,
+      3
+     ]
+    }
+   ],
+   "notes": "derelict: small log hut with empty windows, broken plank fences"
+  },
+  {
+   "id": "tolstikhina-n-1754",
+   "refs": [
+    "east/041"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7567894,
+   "lon": 107.111325,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#3f3325",
+    "heightM": 2.0,
+    "lengthM": 11.6,
+    "gate": {
+     "type": "swing",
+     "color": "#523f28",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "empty plot, field behind"
+  },
+  {
+   "id": "tolstikhina-s-1723",
+   "refs": [
+    "east/044",
+    "east/042"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7567113,
+   "lon": 107.110762,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.4,
+    "depthM": 8.0,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3e3525",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 33,
+     "material": "corrugated",
+     "color": "#7a5f46",
+     "overhangM": 0.4,
+     "gableFinish": "log",
+     "gableColor": "#2d2319"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bdb9ac",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#7fb2c8"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bdb9ac"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#65563c",
+    "heightM": 1.8,
+    "lengthM": 3.1,
+    "gate": {
+     "type": "swing",
+     "color": "#374a16",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#61503a",
+     "approxOffsetM": [
+      8,
+      2
+     ]
+    },
+    {
+     "kind": "barn",
+     "roof": "gable",
+     "color": "#3e3323",
+     "approxOffsetM": [
+      11,
+      5
+     ]
+    }
+   ],
+   "notes": "red brick chimney"
+  },
+  {
+   "id": "tolstikhina-n-1706",
+   "refs": [
+    "east/043",
+    "east/045"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7570449,
+   "lon": 107.1107382,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.7,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2c2219",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#cfc9c1",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#261d17"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bfbcb3",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#336c64"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bfbcb3"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#053a74",
+    "heightM": 1.9,
+    "lengthM": 3.6,
+    "gate": {
+     "type": "swing",
+     "color": "#053b78",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "yard with timber stacks to the east"
+  },
+  {
+   "id": "tolstikhina-s-1679",
+   "refs": [
+    "east/046"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7569412,
+   "lon": 107.1102249,
+   "side": "S",
+   "setbackM": 9.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#979a8f",
+    "heightM": 1.8,
+    "lengthM": 10.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "long slab plank fence, field behind"
+  },
+  {
+   "id": "tolstikhina-s-1669",
+   "refs": [
+    "east/046"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7569264,
+   "lon": 107.110049,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#473a2c",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#a8a49b",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#3f563f"
+    },
+    "windows": {
+     "street": 0,
+     "side": 1,
+     "frameColor": "#dcd9d0",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#dcd9d0"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#27472d",
+    "heightM": 1.9,
+    "lengthM": 2.6,
+    "gate": {
+     "type": "swing",
+     "color": "#2a472e",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "small log building, no street window visible"
+  },
+  {
+   "id": "tolstikhina-n-1668",
+   "refs": [
+    "east/045"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7571818,
+   "lon": 107.1102397,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.7,
+    "depthM": 7.1,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#a18f6f",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#cdc9c2",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#504332"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#b8b8b0",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#25324f"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#25324f"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#7f623f",
+    "heightM": 2.0,
+    "lengthM": 13.1,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "log walls painted pale cream; carved blue frames with orange inserts; roof window"
+  },
+  {
+   "id": "tolstikhina-s-1531",
+   "refs": [
+    "west/002"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.757457,
+   "lon": 107.1082454,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#261c14",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "corrugated",
+     "color": "#241c13",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#241c13"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d4cbc0",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#d5ccc2"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#23595a"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#2a6363",
+    "heightM": 1.1,
+    "lengthM": 7.7,
+    "gate": {
+     "type": "double",
+     "color": "#22372a",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "behind a spruce"
+  },
+  {
+   "id": "tolstikhina-n-1529",
+   "refs": [
+    "west/001"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7576794,
+   "lon": 107.1083857,
+   "side": "N",
+   "setbackM": 10.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#5c432c",
+    "heightM": 1.4,
+    "lengthM": 13.1,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "horizontal log-slab fence, empty plot"
+  },
+  {
+   "id": "tolstikhina-n-1512",
+   "refs": [
+    "west/001"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7578754,
+   "lon": 107.1082677,
+   "side": "N",
+   "setbackM": 22.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 11.0,
+    "depthM": 8.2,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#2a7a74",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#c5c1b9",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bbb8b1",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#b8b5ae"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bbb8b1"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "seen at distance: pale green walls and a glazed veranda"
+  },
+  {
+   "id": "tolstikhina-s-1492",
+   "refs": [
+    "west/004"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7576072,
+   "lon": 107.1077336,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "brick",
+     "color": "#8b3a3a",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#c1bcb4",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bab5aa",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bab5aa"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "red brick walls, only the corner visible"
+  },
+  {
+   "id": "tolstikhina-n-1488",
+   "refs": [
+    "west/003"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7578777,
+   "lon": 107.107884,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": 346,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 7.7,
+    "depthM": 5.8,
+    "floors": 1,
+    "wall": {
+     "material": "siding",
+     "color": "#bba687",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#bdbfc0",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#995631"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b9bbb6",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#b9bbb8"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#b9bbb6"
+     }
+    },
+    "chimney": false,
+    "porch": {
+     "side": "right",
+     "roofed": true
+    },
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#512e18",
+    "heightM": 2.0,
+    "lengthM": 7.8,
+    "gate": {
+     "type": "double",
+     "color": "#552e1e",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "red canopy with orange frame over an entrance with red steps"
+  },
+  {
+   "id": "tolstikhina-s-1480",
+   "refs": [
+    "west/004"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7577082,
+   "lon": 107.1076206,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "profiled",
+    "color": "#0d4721",
+    "heightM": 1.9,
+    "lengthM": 5.0,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "house hidden by trees; teal rail garden fence"
+  },
+  {
+   "id": "tolstikhina-n-1469",
+   "refs": [
+    "west/003",
+    "west/005"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7579602,
+   "lon": 107.1076367,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": 441,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#51241b",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "profiled",
+     "color": "#48231a",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#48241a"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c1bcb4",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#c1bcb4"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#314b45",
+    "heightM": 1.8,
+    "lengthM": 5.1,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "dark red painted plank walls"
+  },
+  {
+   "id": "tolstikhina-s-1440",
+   "refs": [
+    "west/006"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7578648,
+   "lon": 107.1070958,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#3b645e",
+    "heightM": 1.8,
+    "lengthM": 12.4,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "long teal plank fence; houses well behind"
+  },
+  {
+   "id": "tolstikhina-n-1438",
+   "refs": [
+    "west/005"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7580894,
+   "lon": 107.1072371,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": 441,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2d2017",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#bebfbe",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#2d2016"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bab9b5",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#385c72"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bab9b5"
+     }
+    },
+    "chimney": false,
+    "porch": {
+     "side": "front",
+     "roofed": false
+    },
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#3b605d",
+    "heightM": 1.8,
+    "lengthM": 3.0,
+    "gate": {
+     "type": "double",
+     "color": "#3f271b",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "behind a tree; blue porch door; brown profiled gate"
+  },
+  {
+   "id": "tolstikhina-s-1409",
+   "refs": [
+    "west/008"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7579343,
+   "lon": 107.1066457,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#392d21",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#d4cfc8",
+     "overhangM": 0.4,
+     "gableFinish": "log",
+     "gableColor": "#33291e"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c0beb6",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#206f6a"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#206f69"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.4,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#3e501f",
+    "heightM": 1.8,
+    "lengthM": 5.7,
+    "gate": {
+     "type": "double",
+     "color": "#364a1a",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "white plinth"
+  },
+  {
+   "id": "tolstikhina-n-1407",
+   "refs": [
+    "west/007"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7581993,
+   "lon": 107.106827,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": 441,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#4e3727",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "slate",
+     "color": "#c9cbcc",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#6b4a2e"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c6c5bd",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#305e50"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c6c5bd"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "mesh",
+    "color": "#7d6042",
+    "heightM": 1.1,
+    "lengthM": 4.5,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "herringbone planked gable; lower wall partly painted teal; behind a tree"
+  },
+  {
+   "id": "tolstikhina-s-1396",
+   "refs": [
+    "west/008"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7579749,
+   "lon": 107.1064742,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.3,
+    "depthM": 9.1,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#352c24",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "metal-tile",
+     "color": "#3c5468",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#40352e"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#ccc8bb",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#3c5668"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#ccc8bb"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.2,
+    "lengthM": 4.9,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "white and teal carved picket"
+  },
+  {
+   "id": "tolstikhina-n-1391",
+   "refs": [
+    "west/007"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7582708,
+   "lon": 107.1066289,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#37271f",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#d5d2cc",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#35271f"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bfb7a7",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#275572"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bfb7a7"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#223f2f",
+    "heightM": 1.9,
+    "lengthM": 4.5,
+    "gate": {
+     "type": "double",
+     "color": "#214131",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#c8c7c2",
+     "approxOffsetM": [
+      9,
+      10
+     ]
+    }
+   ],
+   "notes": "white siding annex on the east side"
+  },
+  {
+   "id": "tolstikhina-s-1363",
+   "refs": [
+    "west/010"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7581091,
+   "lon": 107.1060512,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#423426",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#82674b",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#82684c"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bfb9ae",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bfb9ae"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#778378",
+    "heightM": 1.8,
+    "lengthM": 7.8,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "red brick chimney"
+  },
+  {
+   "id": "tolstikhina-n-1361",
+   "refs": [
+    "west/009"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7583789,
+   "lon": 107.1062249,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "plaster",
+     "color": "#c0c0bc",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#bdbebf",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 1,
+     "side": 1,
+     "frameColor": "#c0c0bc",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#2c3c14"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#c0c0bc"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#946a3f",
+    "heightM": 1.2,
+    "lengthM": 2.5,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "small building with a telecom sign on the wall; part of the wall maroon planks; carved wooden picket"
+  },
+  {
+   "id": "tolstikhina-n-1351",
+   "refs": [
+    "west/009"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7583732,
+   "lon": 107.1060603,
+   "side": "N",
+   "setbackM": 10.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "profiled",
+    "color": "#35888b",
+    "heightM": 2.0,
+    "lengthM": 10.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "long teal profiled fence"
+  },
+  {
+   "id": "tolstikhina-s-1349",
+   "refs": [
+    "west/010"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7581744,
+   "lon": 107.1058742,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#3c3226",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#ccc2b6",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#352b24"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#c0bcad",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#407969"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#8b8e84"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#286359",
+    "heightM": 1.2,
+    "lengthM": 5.7,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "teal picket with white diagonal braces"
+  },
+  {
+   "id": "tolstikhina-s-1325",
+   "refs": [
+    "west/012"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7582508,
+   "lon": 107.1055454,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.9,
+    "depthM": 7.3,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#392c20",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#c6c0b7",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#3f3327"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bcb7ab",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#4d6d83"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bcb7ab"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-1322",
+   "refs": [
+    "west/011"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7585265,
+   "lon": 107.1057085,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": 439,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.2,
+    "depthM": 7.7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#502d1a",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "metal-tile",
+     "color": "#539299",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#9f693d"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#babbb7",
+     "nalichnik": {
+      "style": "carved",
+      "color": "#babbb8"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#babbb7"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#cabeb0",
+    "heightM": 1.2,
+    "lengthM": 2.3,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "bright turquoise metal-tile roof; grey garage door in the west wall"
+  },
+  {
+   "id": "tolstikhina-s-1309",
+   "refs": [
+    "west/012"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7583369,
+   "lon": 107.1053607,
+   "side": "S",
+   "setbackM": 11.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.7,
+    "depthM": 7.1,
+    "floors": 1,
+    "wall": {
+     "material": "plaster",
+     "color": "#918468",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#7f847e",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#4a3c32"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d9cbbe",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#2b586f"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#29546d"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.5,
+    "notes": ""
+   },
+   "fence": {
+    "type": "profiled",
+    "color": "#053163",
+    "heightM": 1.9,
+    "lengthM": 9.6,
+    "gate": {
+     "type": "double",
+     "color": "#093365",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "smooth cream walls, blue cornice band, white plinth"
+  },
+  {
+   "id": "tolstikhina-n-1306",
+   "refs": [
+    "west/011"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.758597,
+   "lon": 107.1055147,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8.3,
+    "depthM": 6.2,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#37291c",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#7d664e",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#3f261a"
+    },
+    "windows": {
+     "street": 4,
+     "side": 2,
+     "frameColor": "#bfc0bb",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#305b51"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#305b51"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#395a52",
+    "heightM": 1.2,
+    "lengthM": 3.3,
+    "gate": {
+     "type": "swing",
+     "color": "#463322",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "glazed veranda on the east side"
+  },
+  {
+   "id": "tolstikhina-s-1278",
+   "refs": [
+    "west/014"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.75844,
+   "lon": 107.104942,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#274a40",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "profiled",
+     "color": "#784f46",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#beb8ad",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#beb8ad"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#40291b",
+    "heightM": 1.8,
+    "lengthM": 3.4,
+    "gate": {
+     "type": "double",
+     "color": "#4a2119",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "garage",
+     "roof": "shed",
+     "color": "#bfb9ae",
+     "approxOffsetM": [
+      6,
+      0
+     ]
+    }
+   ],
+   "notes": "maroon roof, end looks hipped; garage with grey double doors"
+  },
+  {
+   "id": "tolstikhina-n-1277",
+   "refs": [
+    "west/013"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7587166,
+   "lon": 107.1051348,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.3,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#443423",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#936039",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#664827"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b7b8b5",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#b7b8b5"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#523d27",
+    "heightM": 1.8,
+    "lengthM": 7.2,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "roof patched with grey sheets"
+  },
+  {
+   "id": "tolstikhina-s-1264",
+   "refs": [
+    "west/014"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7584913,
+   "lon": 107.1047451,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": 426,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#55422d",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 30,
+     "material": "metal-tile",
+     "color": "#517fb0",
+     "overhangM": 0.4,
+     "gableFinish": "log",
+     "gableColor": "#382215"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#cec4b6",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#d8cabe"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#cec4b6"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#63513a",
+    "heightM": 1.9,
+    "lengthM": 7.7,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "small newer log house, bright blue roof"
+  },
+  {
+   "id": "tolstikhina-n-1258",
+   "refs": [
+    "west/013"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7587878,
+   "lon": 107.1048914,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -25.7,
+   "footprintIndex": 428,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9.6,
+    "depthM": 7.2,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#492f1e",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#c5c3bc",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#301d12"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bab9b3",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#277271"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#267272"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#604129",
+    "heightM": 1.8,
+    "lengthM": 3.3,
+    "gate": {
+     "type": "double",
+     "color": "#237070",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "orange-red plank annex with a window on the east side"
+  },
+  {
+   "id": "tolstikhina-s-1237",
+   "refs": [
+    "west/016"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7586079,
+   "lon": 107.1044062,
+   "side": "S",
+   "setbackM": 11.9,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.4,
+    "depthM": 8.0,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#342b1d",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "corrugated",
+     "color": "#805334",
+     "overhangM": 0.4,
+     "gableFinish": "log",
+     "gableColor": "#2e261b"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c5bcad",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#5b798b"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#385870"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#dcd9d0",
+    "heightM": 1.1,
+    "lengthM": 4.2,
+    "gate": {
+     "type": "double",
+     "color": "#414e32",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "red brick chimney; green plank fence"
+  },
+  {
+   "id": "tolstikhina-n-1227",
+   "refs": [
+    "west/015"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7588409,
+   "lon": 107.1044092,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -16.0,
+   "footprintIndex": 429,
+   "mergedFootprint": true,
+   "house": null,
+   "fence": {
+    "type": "picket",
+    "color": "#517e72",
+    "heightM": 1.6,
+    "lengthM": 8.1,
+    "gate": {
+     "type": "double",
+     "color": "#392b1a",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "house hidden by a tree; teal lattice garden fence; plank shed behind"
+  },
+  {
+   "id": "tolstikhina-s-1220",
+   "refs": [
+    "west/016"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7586377,
+   "lon": 107.1041986,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 164.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.0,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#354961",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#837f7b",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#334960"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d7cab9",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#d7caba"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#d7cab9"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#2e3926",
+    "heightM": 1.2,
+    "lengthM": 2.6,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "glazed porch on the east side"
+  },
+  {
+   "id": "tolstikhina-s-1192",
+   "refs": [
+    "west/018"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7587155,
+   "lon": 107.1038135,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 164.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.3,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#46738e",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "slate",
+     "color": "#cfcdc8",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bfbcb6",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#46738e"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bfbcb6"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#155a22",
+    "heightM": 1.9,
+    "lengthM": 6.1,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#cecac1",
+     "approxOffsetM": [
+      9,
+      0
+     ]
+    }
+   ],
+   "notes": "west roof end hipped; white plastered shed with green double doors to the west"
+  },
+  {
+   "id": "tolstikhina-n-1182",
+   "refs": [
+    "west/017"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7589524,
+   "lon": 107.1037822,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -16.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "picket",
+    "color": "#327063",
+    "heightM": 1.2,
+    "lengthM": 9.0,
+    "gate": {
+     "type": "double",
+     "color": "#246d6c",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "house hidden by a tree; teal profiled fence continues east"
+  },
+  {
+   "id": "tolstikhina-s-1173",
+   "refs": [
+    "west/018"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.758746,
+   "lon": 107.1035468,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 164.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9.5,
+    "depthM": 7.1,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#316261",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "hip",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "slate",
+     "color": "#ada79a",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c5c1b7",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#46637c"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#46637c"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#245a2e",
+    "heightM": 1.9,
+    "lengthM": 4.6,
+    "gate": {
+     "type": "double",
+     "color": "#245f30",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "east roof end hipped; large white-framed windows"
+  },
+  {
+   "id": "tolstikhina-s-1130",
+   "refs": [
+    "west/019"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7588259,
+   "lon": 107.1030765,
+   "side": "S",
+   "setbackM": 9.0,
+   "facadeYawDeg": -161.6,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#2c1f16",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "slate",
+     "color": "#291e17",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#281d17"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#babeb8",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#255835"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#255835"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "junction shot looking along the street; green frames with yellow crowns; position uncertain"
+  },
+  {
+   "id": "tolstikhina-n-1121",
+   "refs": [
+    "west/019"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.759007,
+   "lon": 107.1028414,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": 18.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#7a673b",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#bbbebe",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#7a673d"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b8bab7",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#b9bab8"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#2f6fa0"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "metal-rail",
+    "color": "#524331",
+    "heightM": 1.2,
+    "lengthM": 7.7,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "junction shot looking along the street; white bargeboards; position uncertain"
+  },
+  {
+   "id": "tolstikhina-n-1100",
+   "refs": [
+    "west/020"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7589239,
+   "lon": 107.1025532,
+   "side": "N",
+   "setbackM": 10.0,
+   "facadeYawDeg": 18.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#422f1e",
+    "heightM": 1.8,
+    "lengthM": 15.0,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "long plank fence of an empty field; shot not perpendicular to the street"
+  },
+  {
+   "id": "tolstikhina-s-1001",
+   "refs": [
+    "west/023"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7585711,
+   "lon": 107.1011779,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#5b4834",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#c4c1ba",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#644f39"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bdb4a3",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bdb4a3"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#7c6143",
+    "heightM": 1.9,
+    "lengthM": 5.1,
+    "gate": {
+     "type": "double",
+     "color": "#311f17",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "brown profiled gate"
+  },
+  {
+   "id": "tolstikhina-n-0995",
+   "refs": [
+    "west/022"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7588638,
+   "lon": 107.1011849,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#5b3d26",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 40,
+     "material": "profiled",
+     "color": "#522e1a",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#754c2d"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b9bab6",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#b9bab6"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#6f4e30",
+    "heightM": 2.0,
+    "lengthM": 9.9,
+    "gate": {
+     "type": "double",
+     "color": "#3c261c",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "barn",
+     "roof": "shed",
+     "color": "#725135",
+     "approxOffsetM": [
+      -6,
+      2
+     ]
+    }
+   ],
+   "notes": "large horizontal-plank gable above a tall fence"
+  },
+  {
+   "id": "tolstikhina-s-0985",
+   "refs": [
+    "west/023"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7585898,
+   "lon": 107.1009529,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.4,
+    "depthM": 9.2,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#30271d",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#d1c8bb",
+     "overhangM": 0.4,
+     "gableFinish": "log",
+     "gableColor": "#392e26"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#c8beae",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#264c68"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#254c68"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#625a57",
+    "heightM": 1.3,
+    "lengthM": 4.4,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-0969",
+   "refs": [
+    "west/024"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7588964,
+   "lon": 107.1008137,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": 406,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 6.2,
+    "depthM": 7.7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#6a7c56",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "corrugated",
+     "color": "#9c6d46",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#53663e"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bcbcb6",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#a98933"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#aa8831"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "stripe",
+    "color": "#b88f29",
+    "color2": "#b56729",
+    "heightM": 1.2,
+    "lengthM": 4.5,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "light green painted log walls; sale sign on the fence (not recorded)"
+  },
+  {
+   "id": "tolstikhina-s-0962",
+   "refs": [
+    "west/025"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7586899,
+   "lon": 107.1006466,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "profiled",
+    "color": "#165387",
+    "heightM": 1.9,
+    "lengthM": 15.0,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "barn",
+     "roof": "shed",
+     "color": "#736249",
+     "approxOffsetM": [
+      -8,
+      14
+     ]
+    }
+   ],
+   "notes": "long blue profiled fence; low log barn behind"
+  },
+  {
+   "id": "tolstikhina-n-0956",
+   "refs": [
+    "west/024"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7589332,
+   "lon": 107.1006319,
+   "side": "N",
+   "setbackM": 13.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8.8,
+    "depthM": 6.6,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#a1a7a3",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#c2c1bf",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bbbcb7",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#174665"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#184665"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#487b8d",
+    "heightM": 1.2,
+    "lengthM": 4.3,
+    "gate": {
+     "type": "double",
+     "color": "#893335",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": "part of the wall painted blue"
+  },
+  {
+   "id": "tolstikhina-s-0949",
+   "refs": [
+    "west/025"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7586369,
+   "lon": 107.1004344,
+   "side": "S",
+   "setbackM": 16.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#3f6584",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 27,
+     "material": "slate",
+     "color": "#b4afa2",
+     "overhangM": 0.4,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bcb4a6",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#bbb4a4"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bcb4a6"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": true,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "glazed veranda with white lattice frames"
+  },
+  {
+   "id": "tolstikhina-n-0907",
+   "refs": [
+    "west/026"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7590083,
+   "lon": 107.0999354,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": 391,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 7.2,
+    "depthM": 5.5,
+    "floors": 1,
+    "wall": {
+     "material": "siding",
+     "color": "#bdb4a4",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable-cross",
+     "ridge": "parallel",
+     "pitchDeg": 30,
+     "material": "metal-tile",
+     "color": "#594a45",
+     "overhangM": 0.4,
+     "gableFinish": "siding",
+     "gableColor": "#ada08d"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bdb4a4",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bdb4a4"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#c0b7a6",
+    "heightM": 1.0,
+    "lengthM": 4.1,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "newer house; west roof end hipped, beige siding gable on the east part (cross plan judged from one view)"
+  },
+  {
+   "id": "tolstikhina-s-0894",
+   "refs": [
+    "west/027"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7587662,
+   "lon": 107.099655,
+   "side": "S",
+   "setbackM": 12.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.7,
+    "depthM": 7.1,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#413726",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "profiled",
+     "color": "#d3c9bc",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#35432b"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#d5cabb",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#22526b"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#22526b"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#315e67",
+    "heightM": 1.1,
+    "lengthM": 4.8,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "gable",
+     "color": "#3e362a",
+     "approxOffsetM": [
+      8,
+      3
+     ]
+    }
+   ],
+   "notes": "green gable with a scalloped curved eave"
+  },
+  {
+   "id": "tolstikhina-n-0893",
+   "refs": [
+    "west/026"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7590286,
+   "lon": 107.0997328,
+   "side": "N",
+   "setbackM": 9.8,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": 392,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.9,
+    "depthM": 8.6,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#38291c",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "corrugated",
+     "color": "#302219",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#302218"
+    },
+    "windows": {
+     "street": 3,
+     "side": 2,
+     "frameColor": "#bbb5a4",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#2e4b60"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#bbb5a4"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#6e7d87",
+    "heightM": 1.2,
+    "lengthM": 5.4,
+    "gate": {
+     "type": "double",
+     "color": "#513a24",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-s-0868",
+   "refs": [
+    "west/029"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7588,
+   "lon": 107.0992832,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.6,
+    "depthM": 8.2,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#5b4e3e",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "slate",
+     "color": "#bebbb3",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#675744"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bfbaaf",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#bfbaaf"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": ""
+  },
+  {
+   "id": "tolstikhina-n-0867",
+   "refs": [
+    "west/028"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7590949,
+   "lon": 107.0993655,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.7,
+    "depthM": 8.4,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#473725",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "slate",
+     "color": "#bdbec0",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#69503b"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#b7b9b7",
+     "nalichnik": null,
+     "shutters": {
+      "type": "none",
+      "color": "#b7b9b7"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#6d5439",
+    "heightM": 1.4,
+    "lengthM": 8.4,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "barn",
+     "roof": "shed",
+     "color": "#42301e",
+     "approxOffsetM": [
+      -6,
+      2
+     ]
+    }
+   ],
+   "notes": "large sunburst gable; light blue plank fence further west"
+  },
+  {
+   "id": "tolstikhina-s-0856",
+   "refs": [
+    "west/029"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7588259,
+   "lon": 107.0991242,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#382b1b",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "profiled",
+     "color": "#422f23",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#604834"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#cbc4b4",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#3b6478"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#cbc4b4"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "lattice",
+    "color": "#3a6a71",
+    "heightM": 0.9,
+    "lengthM": 7.1,
+    "gate": {
+     "type": "double",
+     "color": "#0a2165",
+     "roofed": false,
+     "wicket": true
+    }
+   },
+   "outbuildings": [],
+   "notes": "walls mostly hidden by bushes; blue profiled fence and gate"
+  },
+  {
+   "id": "tolstikhina-s-0828",
+   "refs": [
+    "west/031"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7588955,
+   "lon": 107.0987252,
+   "side": "S",
+   "setbackM": 11.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#283c51",
+     "logDiameterCm": 24,
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "seam",
+     "color": "#9db77b",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#c1bfb8"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bab2ac",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#263b51"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#283c51"
+     }
+    },
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [
+    {
+     "kind": "garage",
+     "roof": "shed",
+     "color": "#3d6642",
+     "approxOffsetM": [
+      5,
+      0
+     ]
+    }
+   ],
+   "notes": "blue painted log walls, bright green roof; plank garage with green doors attached on the west"
+  },
+  {
+   "id": "tolstikhina-n-0824",
+   "refs": [
+    "west/030"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7591672,
+   "lon": 107.0987533,
+   "side": "N",
+   "setbackM": 12.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": 396,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "siding",
+     "color": "#949588",
+     "cornerJoint": null
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "profiled",
+     "color": "#412415",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#5c331c"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bfc1bb",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#bfc1bb"
+     },
+     "shutters": {
+      "type": "none",
+      "color": "#bfc1bb"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "mesh",
+    "color": "#2c7f68",
+    "heightM": 1.0,
+    "lengthM": 6.8,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "garage",
+     "roof": "gable",
+     "color": "#6b4022",
+     "approxOffsetM": [
+      -6,
+      0
+     ]
+    }
+   ],
+   "notes": "walls clad in galvanised corrugated sheet; sunflower decorations on the garden fence; green profiled fence to the east"
+  },
+  {
+   "id": "tolstikhina-s-0817",
+   "refs": [
+    "west/031"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.758955,
+   "lon": 107.098584,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 168.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#644d35",
+    "heightM": 1.9,
+    "lengthM": 9.8,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "barn",
+     "roof": "gable",
+     "color": "#634a33",
+     "approxOffsetM": [
+      6,
+      6
+     ]
+    }
+   ],
+   "notes": "plank fence, plank shed and a large plank barn"
+  },
+  {
+   "id": "tolstikhina-n-0781",
+   "refs": [
+    "west/032"
+   ],
+   "source": "street",
+   "confidence": "high",
+   "lat": 51.7592366,
+   "lon": 107.0981417,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 5.5,
+    "depthM": 7,
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#663e23",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 38,
+     "material": "profiled",
+     "color": "#4b2615",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#62381e"
+    },
+    "windows": {
+     "street": 2,
+     "side": 2,
+     "frameColor": "#bdbdba",
+     "nalichnik": {
+      "style": "carved-crown",
+      "color": "#60a299"
+     },
+     "shutters": {
+      "type": "wooden",
+      "color": "#5aa098"
+     }
+    },
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": ""
+   },
+   "fence": {
+    "type": "lattice",
+    "color": "#55a09a",
+    "heightM": 0.9,
+    "lengthM": 8.8,
+    "gate": null
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#5f3b22",
+     "approxOffsetM": [
+      6,
+      1
+     ]
+    }
+   ],
+   "notes": "plank annex on the east side, one window privacy-blurred"
+  },
+  {
+   "id": "tolstikhina-n-0743",
+   "refs": [
+    "west/033"
+   ],
+   "source": "street",
+   "confidence": "medium",
+   "lat": 51.7592741,
+   "lon": 107.0976002,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": null,
+   "fence": {
+    "type": "plank",
+    "color": "#5f7852",
+    "heightM": 1.8,
+    "lengthM": 4.9,
+    "gate": {
+     "type": "double",
+     "color": "#677d55",
+     "roofed": false,
+     "wicket": false
+    }
+   },
+   "outbuildings": [
+    {
+     "kind": "shed",
+     "roof": "shed",
+     "color": "#413224",
+     "approxOffsetM": [
+      0,
+      1
+     ]
+    }
+   ],
+   "notes": "log shed by the street; house behind mostly hidden"
+  },
+  {
+   "id": "tolstikhina-n-0621",
+   "refs": [
+    "sat/001"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7595421,
+   "lon": 107.0958815,
+   "side": "N",
+   "setbackM": 10.1,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": 360,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 10,
+    "depthM": 12,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#2e4973",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "dark blue roof; striped greenhouse next to it"
+  },
+  {
+   "id": "tolstikhina-n-0608",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7596362,
+   "lon": 107.095711,
+   "side": "N",
+   "setbackM": 19.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#9d403f",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "red roof"
+  },
+  {
+   "id": "tolstikhina-n-0589",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7596286,
+   "lon": 107.0954238,
+   "side": "N",
+   "setbackM": 13.7,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": 362,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 10,
+    "depthM": 11,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#c9c4bc",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light beige roof"
+  },
+  {
+   "id": "tolstikhina-n-0557",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7596228,
+   "lon": 107.0949584,
+   "side": "N",
+   "setbackM": 8.0,
+   "facadeYawDeg": -11.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8,
+    "depthM": 8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#e1e6e0",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light roofs"
+  },
+  {
+   "id": "tolstikhina-s-0523",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7594834,
+   "lon": 107.0943395,
+   "side": "S",
+   "setbackM": 9.5,
+   "facadeYawDeg": 151.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 9,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#b2aba4",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light beige roof"
+  },
+  {
+   "id": "tolstikhina-n-0517",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.759719,
+   "lon": 107.0944612,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -29.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7,
+    "depthM": 8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#c3b3a8",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "small brownish roof"
+  },
+  {
+   "id": "tolstikhina-n-0503",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7598007,
+   "lon": 107.0942967,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -29.0,
+   "footprintIndex": 374,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 9,
+    "depthM": 13,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#a5aca3",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "long light roof perpendicular to the street"
+  },
+  {
+   "id": "tolstikhina-s-0493",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7595795,
+   "lon": 107.0939397,
+   "side": "S",
+   "setbackM": 14.0,
+   "facadeYawDeg": 151.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8,
+    "depthM": 8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#96acb0",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "grey roofs and a white greenhouse; house not certain"
+  },
+  {
+   "id": "tolstikhina-n-0490",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7598539,
+   "lon": 107.0941276,
+   "side": "N",
+   "setbackM": 10.0,
+   "facadeYawDeg": -29.0,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#d1d1c7",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light beige roof"
+  },
+  {
+   "id": "tolstikhina-n-0466",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7599523,
+   "lon": 107.0938894,
+   "side": "N",
+   "setbackM": 11.0,
+   "facadeYawDeg": -45.1,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#a7a09f",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light brown roof"
+  },
+  {
+   "id": "tolstikhina-s-0458",
+   "refs": [
+    "sat/002"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7597853,
+   "lon": 107.0934617,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 134.9,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#c1c3c6",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light roof"
+  },
+  {
+   "id": "tolstikhina-n-0391",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7604214,
+   "lon": 107.0931133,
+   "side": "N",
+   "setbackM": 10.5,
+   "facadeYawDeg": -45.1,
+   "footprintIndex": 450,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 10,
+    "depthM": 9,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#f9fcfc",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "white roof next to a large tree"
+  },
+  {
+   "id": "tolstikhina-n-0377",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7605195,
+   "lon": 107.0929962,
+   "side": "N",
+   "setbackM": 12.5,
+   "facadeYawDeg": -45.1,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8,
+    "depthM": 9,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#d7d8d7",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "grey roof"
+  },
+  {
+   "id": "tolstikhina-s-0371",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7603404,
+   "lon": 107.0925675,
+   "side": "S",
+   "setbackM": 12.5,
+   "facadeYawDeg": 134.9,
+   "footprintIndex": 454,
+   "mergedFootprint": true,
+   "house": {
+    "widthM": 10,
+    "depthM": 11,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#d1d0c7",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light roof"
+  },
+  {
+   "id": "tolstikhina-s-0353",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7604734,
+   "lon": 107.0924146,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 134.9,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#9fa1a1",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light grey roof"
+  },
+  {
+   "id": "tolstikhina-n-0348",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7607241,
+   "lon": 107.092728,
+   "side": "N",
+   "setbackM": 14.0,
+   "facadeYawDeg": -45.1,
+   "footprintIndex": 452,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 11,
+    "depthM": 12,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#8f808d",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "large dark brown roof"
+  },
+  {
+   "id": "tolstikhina-s-0332",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7605973,
+   "lon": 107.0921945,
+   "side": "S",
+   "setbackM": 10.5,
+   "facadeYawDeg": 134.9,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8,
+    "depthM": 11,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable-cross",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#56253a",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "red-maroon roof with an L plan"
+  },
+  {
+   "id": "tolstikhina-n-0314",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7609513,
+   "lon": 107.092294,
+   "side": "N",
+   "setbackM": 15.0,
+   "facadeYawDeg": -30.6,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#244b77",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "dark blue roof"
+  },
+  {
+   "id": "tolstikhina-s-0310",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7606833,
+   "lon": 107.0919713,
+   "side": "S",
+   "setbackM": 13.0,
+   "facadeYawDeg": 149.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#c0b9af",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "two light roofs"
+  },
+  {
+   "id": "tolstikhina-s-0296",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7607718,
+   "lon": 107.0918154,
+   "side": "S",
+   "setbackM": 10.0,
+   "facadeYawDeg": 149.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#eef5f6",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "white roof"
+  },
+  {
+   "id": "tolstikhina-s-0267",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.760881,
+   "lon": 107.0914323,
+   "side": "S",
+   "setbackM": 12.5,
+   "facadeYawDeg": 149.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8,
+    "depthM": 9,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#bab7b6",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light roof"
+  },
+  {
+   "id": "tolstikhina-s-0256",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7609007,
+   "lon": 107.0912648,
+   "side": "S",
+   "setbackM": 16.0,
+   "facadeYawDeg": 149.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#a19892",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light roof"
+  },
+  {
+   "id": "tolstikhina-n-0251",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.761193,
+   "lon": 107.0914642,
+   "side": "N",
+   "setbackM": 9.0,
+   "facadeYawDeg": -30.6,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 10,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#b8c1c6",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light grey roof (seen in two crops)"
+  },
+  {
+   "id": "tolstikhina-s-0231",
+   "refs": [
+    "sat/004"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7610685,
+   "lon": 107.0910066,
+   "side": "S",
+   "setbackM": 9.5,
+   "facadeYawDeg": 149.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 9,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#b7aea5",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light roofs, several small buildings"
+  },
+  {
+   "id": "tolstikhina-s-0218",
+   "refs": [
+    "sat/003"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7611196,
+   "lon": 107.0908386,
+   "side": "S",
+   "setbackM": 10.5,
+   "facadeYawDeg": 149.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 9,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#d1c0af",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light beige roof (seen in two crops)"
+  },
+  {
+   "id": "tolstikhina-s-0191",
+   "refs": [
+    "sat/004"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7612588,
+   "lon": 107.090516,
+   "side": "S",
+   "setbackM": 9.0,
+   "facadeYawDeg": 149.4,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 9,
+    "depthM": 8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": null,
+     "ridge": null,
+     "pitchDeg": null,
+     "material": null,
+     "color": "#948b91",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "cluster of small roofs; main building not clear"
+  },
+  {
+   "id": "tolstikhina-n-0096",
+   "refs": [
+    "sat/004"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7617866,
+   "lon": 107.0893291,
+   "side": "N",
+   "setbackM": 17.0,
+   "facadeYawDeg": 1.2,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 8,
+    "depthM": 10,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#b9b6b0",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "light roof"
+  },
+  {
+   "id": "tolstikhina-n-0052",
+   "refs": [
+    "sat/004"
+   ],
+   "source": "satellite",
+   "confidence": "low",
+   "lat": 51.7617317,
+   "lon": 107.0886994,
+   "side": "N",
+   "setbackM": 12.8,
+   "facadeYawDeg": 1.2,
+   "footprintIndex": 442,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 13,
+    "depthM": 8,
+    "floors": null,
+    "wall": null,
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": null,
+     "material": null,
+     "color": "#c2c5c3",
+     "overhangM": null,
+     "gableFinish": null,
+     "gableColor": null
+    },
+    "windows": null,
+    "chimney": null,
+    "porch": null,
+    "veranda": null,
+    "basementM": null,
+    "notes": ""
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "grey roof, long side to the street"
+  }
+ ]
+}
