@@ -45,7 +45,8 @@ function beds(B, ground, r, random) {
   const n = Math.max(2, Math.floor(W / pitch));
   // Soil, crops and garden foliage share the procedural 'concrete' material (tint x noise):
   // no extra material, so no extra draw calls per tile and shadow cascade.
-  const soil = ctx.b('concrete'), crop = soil;
+  // Detail level only: beyond ~220 m the tilled-soil ground mask carries the beds.
+  const soil = ctx.b('concrete', null, 'detail'), crop = soil;
   soil.setColor(lin('#3a2a1e').map(v => v / .58));
   const kinds = [[.55, .3], [.35, .22], [.5, .45]]; // potato, onion/greens, cabbage-like
   for (let i = 0; i < n; i++) {
