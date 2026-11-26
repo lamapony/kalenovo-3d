@@ -578,6 +578,14 @@ function porch(ctx, ground, spec, frameM, wallName, doorX, surf, deco, random) {
   b.setColor(lin('#6a5844'));
   b.box(1.5, .1, 1.2, 0, -.06, .6, { uo: random() });
   for (let i = 1; i <= 3; i++) b.box(1.3, .08, .3, 0, -.06 - i * .17, 1.2 + i * .28 - .14);
+  // Railing on both sides of the steps and platform (painted like the trim).
+  const rl = ctx.b('painted', at(doorX, 0, surf));
+  rl.setColor(deco.trim);
+  for (const sx of [-1, 1]) {
+    rl.box(.06, .06, 1.25, sx * .72, .88, .62);
+    for (let k = 0; k < 6; k++) rl.box(.04, .88, .04, sx * .72, .44, .05 + k * .23);
+  }
+  rl.box(1.5, .06, .06, 0, .88, 1.23);
   if (spec.porch.roofed) {
     const t = ctx.b('painted', at(doorX, 0, surf));
     t.setColor(deco.trim);

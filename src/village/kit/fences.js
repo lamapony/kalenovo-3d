@@ -81,6 +81,8 @@ function fenceSpan(B, ground, f, o) {
     const pitch = f.type === 'picket' ? .15 : f.type === 'stripe' ? .125 : .165;
     const bw = f.type === 'picket' ? .085 : f.type === 'stripe' ? .1 : .15;
     rails(B, f, { s0, s1, P, M, plotSide, key, tint: color.map(v => v * .85), heights: [.3, h - .3] });
+    // Painted stripe palisades carry a flat cap board along the top.
+    if (f.type === 'stripe') rails(B, f, { s0, s1, P, M, plotSide: 0, key, tint: color, heights: [h + .07], size: [.04, .14] });
     count += posts(B, f, { s0, s1, P, M, key, tint: color.map(v => v * .8), h, size: f.type === 'plank' ? .14 : .1 });
     if (f.type === 'plank' && f.pattern === 'horizontal') {
       // Horizontal slabs (горбыль) between the posts, uneven widths, ends overlapping the posts.

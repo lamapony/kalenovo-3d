@@ -80,9 +80,29 @@ Footprints from OSM and GlobalBuildingAtlas are split into plots along the
 street (`src/village/plan.js`). Each plot gets a generic log or plank house,
 outbuildings, fences, trees and power poles from a fixed random seed. House
 styles, fences, sheds and trees are illustrative only: they do not record how
-any real house or yard in Kalenovo looks. The "Family house (placeholder)"
-marker stands beside an arbitrary generated dwelling, not a real address.
+any real house or yard in Kalenovo looks. Generic houses are not built inside
+the main-street passport plots (below).
+
+## Main street passports: улица Толстихина
+
+`data/main-street-houses.json`: one passport per house or plot along улица
+Толстихина (house size, wall material and colour, roof shape/material/colour,
+windows, наличники, shutters, fence and gate, outbuildings). Source: own
+observation of public street imagery (August 2021), satellite imagery where
+there is no street imagery, and the owner for the family house
+(`tolstikhina-45`, «Толстихина, 45»). Only derived parameters are stored; no
+image, crop or derivative of the imagery is redistributed in this repository.
+Positions are approximate: phase B re-anchored them on the imagery camera
+positions and, for the houses checked against the photos, measured the facade
+distance from the ground line against the horizon (camera about 2.5 m up), so
+expect errors of a metre or two (several metres for satellite passports).
+Colours are medians of photo pixels under overcast light, not paint codes.
+The houses are rebuilt with a procedural kit (`src/village/kit/`); details the
+photos do not show (backs of houses, yards, interiors) are generic.
 
 CC0 needs no attribution; the footer credits Poly Haven and ambientCG anyway.
+The main-street kit adds no texture files: roofing (wave slate, profiled sheet,
+metal tile, standing seam, soft tile), chain-link, concrete panels and roller
+shutters are procedural TSL on top of the existing CC0 sets.
 The sky, clouds, fog and colour grade are procedural (`src/atmosphere.js`,
 `src/post.js`).

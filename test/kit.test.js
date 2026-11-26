@@ -182,3 +182,18 @@ test('passport positions convert to finite local coordinates', () => {
     assert.ok(Number.isFinite(x) && Number.isFinite(z));
   }
 });
+
+test('the kit can express the school style: ochre plank siding, turquoise carved frames, tall windows, porch', () => {
+  const school = resolveHouse(house({
+    widthM: 14, depthM: 9,
+    wall: { material: 'planks', color: '#b98a4e', cornerJoint: 'boxed' },
+    roof: { ...house().house.roof, ridge: 'parallel', material: 'slate', color: '#9c9e9a' },
+    windows: { street: 5, side: 2, frameColor: '#f2f2ee', heightM: 1.8, widthM: 1.1, nalichnik: { style: 'carved', color: '#2fb3a6' }, shutters: null },
+    porch: { side: 'front', roofed: true },
+  }));
+  assert.equal(school.wall.material, 'planks');
+  assert.equal(school.windows.height, 1.8);
+  assert.equal(school.windows.nalichnik.color, '#2fb3a6');
+  assert.equal(windowSlots(14, 5, 1.1).length, 5);
+  assert.ok(school.windows.sill + 1.8 < school.wallH);
+});

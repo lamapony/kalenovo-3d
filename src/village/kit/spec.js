@@ -79,7 +79,7 @@ export function resolveHouse(p) {
       street: win.street, side: win.side, frame: win.frameColor,
       nalichnik: nal.style === 'none' ? null : { style: nal.style, color: nal.color, crown: nal.crownColor ?? nal.color, shape: nal.crownShape ?? null },
       shutters: sh ? { type: sh.type, color: sh.color, closed: !!sh.closed } : null,
-      width: material === 'log' ? .92 : 1.0, height: material === 'log' ? 1.22 : 1.3, sill: material === 'log' ? .74 : .9,
+      width: win.widthM ?? (material === 'log' ? .92 : 1.0), height: win.heightM ?? (material === 'log' ? 1.22 : 1.3), sill: material === 'log' ? .74 : .9,
     },
     chimney: h.chimney ?? random() < .6,
     porch: h.porch ?? null,

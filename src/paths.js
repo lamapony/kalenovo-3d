@@ -139,8 +139,15 @@ function iceMaterial() {
   const snowy = smoothstep(-.1, .35, n).max(smoothstep(hw.sub(1.5), hw.add(.5), a));
   const ice = vec3(.42, .55, .6).add(mx_noise_float(positionWorld.xz.mul(.9)).mul(.05));
   const uvS = vec2(o, d).mul(1 / 3);
-  m.colorNode = mix(ice, texture(snow.color, uvS).rgb, snowy);
-  m.roughnessNode = mix(float(.12), float(.85), snowy);
+  if (season.summer) {
+    // Summer: open water, dark and glassy, with a muddy, grassy bank.
+    const bankMix = smoothstep(hw.sub(1.2), hw.add(.6), a.add(n.mul(.6)));
+    m.colorNode = mix(vec3(.035, .06, .06), vec3(.12, .14, .06), bankMix);
+    m.roughnessNode = mix(float(.06), float(.9), bankMix);
+  } else {
+    m.colorNode = mix(ice, texture(snow.color, uvS).rgb, snowy);
+    m.roughnessNode = mix(float(.12), float(.85), snowy);
+  }
   m.metalnessNode = float(0);
   m.opacityNode = float(1).sub(smoothstep(hw.add(bank.mul(.4)), hw.add(bank), a)).mul(attribute('fade', 'float'));
   m.name = 'river ice';

@@ -20,3 +20,8 @@ the folder small (brick downscaled to 512 px). No other changes.
 Licence texts: https://polyhaven.com/license and https://docs.ambientcg.com/license/
 (both CC0 1.0 Universal, https://creativecommons.org/publicdomain/zero/1.0/).
 Attribution is not required; it is recorded here for provenance.
+
+Main-street house kit (`src/village/kit/`): no new files. It reuses the sets
+above (`logs`, `painted`, `slate` for slate grime, `planks`, `brick`) and draws
+the profiled sheet, metal tile, standing seam, soft tile, corrugated sheet,
+chain-link, concrete panel and roller-shutter patterns procedurally in TSL.

@@ -33,9 +33,9 @@ export const LOOKS = {
   // diffuse light with soft shadows.
   summer: {
     light: '#fff1dc', intensity: 4.2,
-    zenith: [.82, .93, 1.12], mid: [1.06, 1.13, 1.25], horizonCool: [1.28, 1.34, 1.42], horizonWarm: [1.4, 1.38, 1.33],
-    glow: [.3, .27, .22], cloudLit: [1.42, 1.44, 1.48], cloudShade: [.92, .98, 1.1], coverage: .28,
-    aerial: [.62, .7, .86], fogDensity: 1 / 4200, valleyMist: .06, envIntensity: .9, hemi: ['#dfe8f5', '#9a9a80', .7],
+    zenith: [.74, .88, 1.14], mid: [1.0, 1.1, 1.26], horizonCool: [1.28, 1.34, 1.42], horizonWarm: [1.4, 1.38, 1.33],
+    glow: [.3, .27, .22], cloudLit: [1.38, 1.42, 1.48], cloudShade: [1.08, 1.14, 1.26], coverage: .3,
+    aerial: [.44, .55, .8], fogDensity: 1 / 3400, valleyMist: .06, envIntensity: .9, hemi: ['#dfe8f5', '#9a9a80', .7],
     exposure: .64, flakes: [1, 1, 1], sunDisc: 4, smoke: [.5, .5, .5],
   },
   night: {

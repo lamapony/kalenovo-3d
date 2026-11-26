@@ -119,6 +119,8 @@ export function validatePassport(p) {
         num(w?.street, 'windows.street', 0, 12);
         num(w?.side, 'windows.side', 0, 12);
         hex(w?.frameColor, 'windows.frameColor');
+        opt(w?.heightM, v => num(v, 'windows.heightM', .5, 2.6));
+        opt(w?.widthM, v => num(v, 'windows.widthM', .4, 2));
         opt(w?.nalichnik, n => { oneOf(n.style, ENUMS.nalichnik, 'nalichnik.style'); hex(n.color, 'nalichnik.color'); opt(n.crownColor, v => hex(v, 'nalichnik.crownColor')); opt(n.crownShape, v => oneOf(v, ENUMS.crownShape, 'nalichnik.crownShape')); });
         opt(w?.shutters, s => {
           oneOf(s.type, ENUMS.shutters, 'shutters.type'); hex(s.color, 'shutters.color');
