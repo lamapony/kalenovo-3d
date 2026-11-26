@@ -43,7 +43,9 @@ function beds(B, ground, r, random) {
   const it = r.local, pitch = it.pitch ?? .7, alongZ = it.rows !== 'x';
   const L = alongZ ? r.d : r.w, W = alongZ ? r.w : r.d;
   const n = Math.max(2, Math.floor(W / pitch));
-  const soil = ctx.b('concrete'), crop = ctx.b('foliage');
+  // Soil, crops and garden foliage share the procedural 'concrete' material (tint x noise):
+  // no extra material, so no extra draw calls per tile and shadow cascade.
+  const soil = ctx.b('concrete'), crop = soil;
   soil.setColor(lin('#3a2a1e').map(v => v / .58));
   const kinds = [[.55, .3], [.35, .22], [.5, .45]]; // potato, onion/greens, cabbage-like
   for (let i = 0; i < n; i++) {
@@ -55,9 +57,10 @@ function beds(B, ground, r, random) {
       const seg = .7 + random() * .3, m = Math.max(1, Math.floor((L - .4) / seg));
       for (let k = 0; k < m; k++) {
         if (random() < .08) continue;
-        crop.setColor(jitter(lin(['#40702c', '#4f7a30', '#355f2a'][Math.floor(i / 3) % 3]), random, .15));
+        crop.setColor(jitter(lin(['#40702c', '#4f7a30', '#355f2a'][Math.floor(i / 3) % 3]).map(v => v / .57), random, .15));
         const c = -L / 2 + .2 + (k + .5) * (L - .4) / m, hh = ch * (.7 + random() * .6);
         box(crop, cw * (.8 + random() * .4), hh, seg * .92, c, .16 + hh / 2);
+        soil.setColor(lin('#3a2a1e').map(v => v / .58));
       }
     }
   }
@@ -67,8 +70,9 @@ function greenhouse(B, ground, r) {
   const { ctx } = placeCtx(B, ground, r, 0);
   const film = !!r.local.film, len = r.d, half = r.w / 2, h = film ? 1.9 : 2.2;
   const M = new THREE.Matrix4().makeRotationY(Math.PI / 2); // tunnel axis along local z
-  const cover = ctx.b('cover', M);
-  cover.setColor(film ? [1.08, 1.08, 1.06] : [.96, 1, .98]);
+  // Milky polycarbonate / film on the shared noise material (opaque: no transparent pass).
+  const cover = ctx.b('concrete', M);
+  cover.setColor((film ? lin('#e4e6e2') : lin('#cfd9d6')).map(v => v / .57));
   cover.log(-len / 2, len / 2, 0, 0, h, half, { segments: 12, arc: [0, Math.PI], caps: [false, false] });
   // End walls: half-discs as triangle fans.
   for (const x of [-len / 2, len / 2]) {
@@ -91,8 +95,9 @@ function greenhouse(B, ground, r) {
 function woodpile(B, ground, r, random) {
   const { ctx } = placeCtx(B, ground, r, 0);
   const h = r.local.h ?? 1.5;
-  const b = ctx.b('woodpile');
-  b.setColor(jitter([1, 1, 1], random, .08));
+  // Firewood stack on the rough-wood material (pale cut ends), no extra material.
+  const b = ctx.b('logs');
+  b.setColor(jitter(lin('#a07a52'), random, .08));
   b.box(r.w, h, r.d, 0, h / 2, 0, { faces: ['px', 'nx', 'pz', 'nz'], uo: random(), vo: random() });
   // Board roof on top, slightly sloped.
   const roof = ctx.b('logs', mul(T(0, h + .06, 0), new THREE.Matrix4().makeRotationX(.08)));
@@ -118,14 +123,14 @@ function tree(B, ground, r, random, shrub) {
     bark.cylinder(.045 * s, .015 * s, 0, len, 0, 0, 4, { cap: false });
   }
   if (!season.summer) return;
-  const f = B.get('foliage', r.x, r.z, 'near');
+  const f = B.get('concrete', r.x, r.z, 'near');
   const green = shrub ? lin('#3d5a2a') : lin(random() < .5 ? '#4a6a2c' : '#3f6230');
   const n = shrub ? 4 : 6, B0 = crownBlobs();
   for (let i = 0; i < n; i++) {
     const a = random() * Math.PI * 2, rr = (shrub ? .45 : .7) * s * random();
     const size = (shrub ? .6 : .85) * s * (.75 + random() * .5);
     const y = shrub ? .55 * s + random() * .4 * s : trunkH + .8 * s + random() * .9 * s;
-    f.setMatrix(M); f.setColor(jitter(green, random, .12));
+    f.setMatrix(M); f.setColor(jitter(green.map(v => v / .57), random, .12));
     f.geometry(B0[i % 3], new THREE.Matrix4().compose(new THREE.Vector3(Math.cos(a) * rr + lean, y, Math.sin(a) * rr), new THREE.Quaternion(), new THREE.Vector3(size, size * .85, size)));
   }
 }
@@ -142,7 +147,7 @@ export function buildYards(B, ground, plots) {
       case 'woodpile': woodpile(B, ground, r, random); break;
       case 'appleTree': tree(B, ground, r, random, false); break;
       case 'shrub': tree(B, ground, r, random, true); break;
-      case 'birch': birches.push({ x: r.x, z: r.z, scale: .55 + (r.local.scale ?? 1) * .3 }); break;
+      case 'birch': tree(B, ground, r, random, false); break; // small garden tree (no extra forest draws)
       case 'outhouse': buildKitOutbuilding(B, ground, { ...r, kind: 'outhouse', roof: 'shed', color: random() < .3 ? '#5d7a8a' : '#6e6252', w: 1.2, d: 1.3 }); break;
       case 'banya': case 'shed': {
         const res = buildOutbuilding(B, ground, { x: r.x, z: r.z, w: r.w, d: r.d, angle: r.angle, kind: r.kind, seed: r.local.seed || 11 });

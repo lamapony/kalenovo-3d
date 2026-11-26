@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu';
 import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import {
   texture, uv, vec2, vec3, float, mix, smoothstep, positionGeometry, positionWorld, normalWorld, mx_noise_float,
-  attribute, color, hash, instanceIndex, normalMap, normalView, abs, step, max,
+  attribute, color, hash, instanceIndex, normalMap, normalView, abs, step, max, cameraViewMatrix, vec4,
 } from 'three/tsl';
 import { polygons, toLocal, segmentDistanceSq, randomGenerator } from './geo.js';
 import { inBuilding } from './buildings.js';
@@ -184,12 +184,16 @@ function impostorMaterials() {
     // Summer crown: a leafy mass instead of the purple-brown winter twig haze.
     const leaves = step(hazeE, float(1).add(n.mul(.45))).mul(step(float(-.25), mx_noise_float(vec2(u.mul(16), v.mul(13)).add(seed))));
     birch.opacityNode = max(bt, leaves);
-    birch.colorNode = mix(mix(vec3(.05, .09, .03), vec3(.13, .19, .06), n2.mul(.5).add(.5)), vec3(.85, .84, .8), bt);
+    birch.colorNode = mix(mix(vec3(.1, .16, .05), vec3(.2, .28, .09), n2.mul(.5).add(.5)), vec3(.85, .84, .8), bt);
   } else {
     birch.opacityNode = max(bt, twigs);
     birch.colorNode = mix(vec3(.26, .19, .18), vec3(.85, .84, .8), bt);
   }
   birch.name = 'birch impostor';
+  // Crossed cards light like the canopy above them on both faces (DoubleSide would flip the
+  // normal of back faces downward and leave one card of every tree black).
+  const up = cameraViewMatrix.mul(vec4(0, 1, 0, 0)).xyz.normalize();
+  pine.normalNode = up; birch.normalNode = up;
   return { pine, birch };
 }
 
