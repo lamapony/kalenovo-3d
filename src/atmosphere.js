@@ -15,11 +15,11 @@ import { season } from './season.js';
 // the south-east, so the village is lit from the side opposite the sunset.
 export const LOOKS = {
   afternoon: {
-    light: '#ffe2b6', intensity: 10,
+    light: '#ffe2b6', intensity: 8,
     zenith: [.05, .14, .42], mid: [.3, .46, .86], horizonCool: [.5, .58, .86], horizonWarm: [1.8, 1.32, .72],
     glow: [2.4, 1.72, .9], cloudLit: [1.95, 1.5, 1.15], cloudShade: [.34, .37, .56], coverage: .5,
     aerial: [.15, .2, .5], fogDensity: 1 / 6500, valleyMist: .1, envIntensity: .5, hemi: ['#a4c6ff', '#e6dccd', .16],
-    exposure: .78, flakes: [1, .97, .95], sunDisc: 60, smoke: [.34, .35, .39],
+    exposure: .7, flakes: [1, .97, .95], sunDisc: 60, smoke: [.34, .35, .39],
   },
   sunset: {
     light: '#ffb27c', intensity: 6.5,
@@ -32,10 +32,10 @@ export const LOOKS = {
   // owner's 2013 photo: pale grey-blue sky, strong blue-grey aerial haze over the hills,
   // diffuse light with soft shadows.
   summer: {
-    light: '#fff1dc', intensity: 4.2,
-    zenith: [.74, .88, 1.14], mid: [1.0, 1.1, 1.26], horizonCool: [1.28, 1.34, 1.42], horizonWarm: [1.4, 1.38, 1.33],
-    glow: [.3, .27, .22], cloudLit: [1.38, 1.42, 1.48], cloudShade: [1.08, 1.14, 1.26], coverage: .3,
-    aerial: [.44, .55, .8], fogDensity: 1 / 3400, valleyMist: .06, envIntensity: .9, hemi: ['#dfe8f5', '#9a9a80', .7],
+    light: '#fff0d8', intensity: 4.3,
+    zenith: [.84, .99, 1.26], mid: [1.12, 1.22, 1.38], horizonCool: [1.42, 1.48, 1.56], horizonWarm: [1.55, 1.52, 1.46],
+    glow: [.3, .27, .22], cloudLit: [1.4, 1.44, 1.5], cloudShade: [1.2, 1.26, 1.36], coverage: .42,
+    aerial: [.36, .46, .72], fogDensity: 1 / 3000, valleyMist: .06, envIntensity: .8, hemi: ['#dfe8f5', '#8f9278', .6],
     exposure: .64, flakes: [1, 1, 1], sunDisc: 4, smoke: [.5, .5, .5],
   },
   night: {
@@ -99,7 +99,7 @@ export function createAtmosphere(scene, camera, { quality = 'high', tod = 'after
   // Sky radiance by view direction: deep zenith blue, a horizon band that is
   // lilac away from the sun and golden towards it, a two-lobe sun glow.
   const horizonColor = Fn(([dir]) => {
-    const toward = dot(dir.xz.normalize(), lightDirNode.xz.normalize()).mul(.5).add(.5);
+    const toward = clamp(dot(dir.xz.normalize(), lightDirNode.xz.normalize()).mul(.5).add(.5), 0, 1); // clamped: pow() of a tiny negative is NaN (black pixels opposite the sun)
     return mix(v3(look.horizonCool), v3(look.horizonWarm), pow(toward, 2.6));
   });
   const glow = Fn(([dir]) => {
@@ -114,7 +114,7 @@ export function createAtmosphere(scene, camera, { quality = 'high', tod = 'after
   // horizon band), so orange never mixes straight into blue as a dull pink.
   const skyGradient = Fn(([dir]) => {
     const h = max(dir.y, 0);
-    const toward = dot(dir.xz.normalize(), lightDirNode.xz.normalize()).mul(.5).add(.5);
+    const toward = clamp(dot(dir.xz.normalize(), lightDirNode.xz.normalize()).mul(.5).add(.5), 0, 1); // clamped: pow() of a tiny negative is NaN (black pixels opposite the sun)
     const mid = mix(v3(look.mid), v3(look.horizonWarm).mul(.55), pow(toward, 5).mul(.55));
     const upper = mix(v3(look.zenith), mid, pow(float(1).sub(h), 2.6));
     return mix(upper, horizonColor(dir), pow(float(1).sub(h), 9)).add(glow(dir));
@@ -211,7 +211,7 @@ export function createAtmosphere(scene, camera, { quality = 'high', tod = 'after
   light.shadow.normalBias = .08;
   light.shadow.camera.near = 1;
   light.shadow.camera.far = 1200;
-  light.shadow.filterNode = smoothPCF(1.25 / light.shadow.mapSize.x);
+  light.shadow.filterNode = smoothPCF((summerDay ? 2.6 : 1.25) / light.shadow.mapSize.x);
   // CSM clones this shadow per cascade and LightShadow.copy drops filterNode.
   const cloneShadow = light.shadow.clone;
   light.shadow.clone = function clone() { const copy = cloneShadow.call(this); copy.filterNode = this.filterNode; return copy; };

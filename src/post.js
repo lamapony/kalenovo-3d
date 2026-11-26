@@ -63,7 +63,8 @@ export function createPost(renderer, scene, camera, { quality = 'high', tod = 'a
       const hdr = scenePass.getTextureNode('output');
       // Threshold on HDR luminance: only sunlit snow highlights and the sun pass,
       // emissive windows always do.
-      const glow = bloom(hdr.add(scenePass.getTextureNode('emissive').mul(1.5)), .22, .55, .95);
+      // Summer: the bright overcast sky must not bloom into a veil over the street.
+      const glow = season.summer ? bloom(hdr.add(scenePass.getTextureNode('emissive').mul(1.5)), .12, .4, 2.4) : bloom(hdr.add(scenePass.getTextureNode('emissive').mul(1.5)), .22, .55, 1.4);
       color = hdr.add(glow);
       enabled.push('bloom');
     } catch (error) {
