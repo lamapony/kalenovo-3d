@@ -9,7 +9,7 @@ import { trimTemplates } from '../templates.js';
 import { lin, jitter } from '../materials.js';
 import { context, groundStats, wallFrames, T, RY, S, mul, basis } from '../house.js';
 import { season } from '../../season.js';
-import { resolveHouse, roofGeometry, ridgeToHouse, windowSlots, boardPolygons, hashString } from './spec.js';
+import { resolveHouse, roofGeometry, ridgeToHouse, windowSlots, boardPolygons, hashString, annexFootprint } from './spec.js';
 
 const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
@@ -273,8 +273,9 @@ function buildRoof(ctx, spec, rg, deco, random) {
     const so = ctx.b('logs');
     so.setColor(soffitC);
     fan(so, pts, pts.map(uvOf), scl(n, -1));
-    if (!season.summer && n[1] > .55) {
-      const st = .13 + random() * .06;
+    if (!season.summer && n[1] > .28) {
+      // Steep slopes (mansard) hold only a thin crust of first snow.
+      const st = n[1] > .55 ? .13 + random() * .06 : .045;
       const sn = pts.map(q => add(add(q, scl(sub(centre, q), .025)), scl(n, t + st)));
       const base = pts.map(q => add(add(q, scl(sub(centre, q), .02)), scl(n, t)));
       const sb = ctx.b('snow');
@@ -398,6 +399,33 @@ function buildGables(ctx, spec, rg, deco, surfOff, random) {
       }
     }
   }
+}
+
+// Small dormer on a side slope (house 45: on the west slope near the street): a vertical
+// window face standing on the slope, siding cheeks, a little gable cap.
+function dormer(ctx, spec, rg, dm, deco, random) {
+  const side = dm.side === 'right' ? 1 : -1, ridgeAlongZ = spec.roof.ridge === 'perpendicular';
+  if (!ridgeAlongZ) return;
+  const { w, d } = spec, y0 = spec.wallH + .08;
+  const zc = ((dm.at ?? .8) - .5) * d, half = (dm.widthM ?? .9) / 2, hgt = dm.heightM ?? 1.25;
+  const pitch = spec.roof.pitchDeg * Math.PI / 180, inset = 1 / Math.tan(pitch);
+  const xFace = side * (w / 2 - .02), yb = y0 + .3, yt = yb + hgt;
+  const xIn = side * (w / 2 - (yt - y0) * inset - .25);
+  const wall = ctx.b(spec.roof.gableFinish === 'siding' ? 'siding' : 'painted');
+  wall.setColor(lin(spec.roof.gableColor));
+  const out = [side, 0, 0];
+  fan(wall, [[xFace, yb, zc - half], [xFace, yb, zc + half], [xFace, yt, zc + half], [xFace, yt, zc - half]], [[0, yb], [1, yb], [1, yt], [0, yt]], out);
+  for (const sz of [-1, 1]) fan(wall, [[xFace, yb, zc + sz * half], [xFace, yt, zc + sz * half], [xIn, yt, zc + sz * half]], [[0, yb], [0, yt], [1, yt]], [0, 0, sz]);
+  const cap = ctx.b(`roof-${spec.roof.material}`);
+  cap.setColor(lin(spec.roof.color));
+  const ya = yt + .32;
+  for (const sz of [-1, 1]) {
+    const a = [xFace + side * .12, yt - .05, zc + sz * (half + .12)], b = [xIn, yt - .05, zc + sz * (half + .12)], c = [xIn, ya, zc], e = [xFace + side * .12, ya, zc];
+    fan(cap, [a, b, c, e], [[0, 0], [1, 0], [1, .6], [0, .6]], [0, 1, sz]);
+  }
+  const frameM = mul(T(xFace, 0, zc), RY(side > 0 ? Math.PI / 2 : -Math.PI / 2));
+  kitWindow(ctx, frameM, 0, yb + .22, half * 1.2, hgt - .42, { ...spec, windows: { ...spec.windows, shutters: null, nalichnik: null } }, { surf: .01, log: false, lit: 0, random, cut: false });
+  void deco;
 }
 
 function chimney(ctx, spec, rg, random) {
@@ -550,19 +578,16 @@ export function buildKitHouse(B, ground, plot) {
     kitWindow(ctx, mul(frames.front.m, T(0, 0, 0)), 0, y0, uw, uh, { ...spec, windows: { ...W, shutters: null } }, { surf, log: false, lit: random() < .3 ? .6 : 0, random, crown, cut: false });
   }
   const chimneyTop = spec.chimney ? chimney(ctx, spec, rg, random) : null;
+  for (const dm of spec.roof.dormers || []) dormer(ctx, spec, rg, dm, deco, random);
 
   // Veranda / annex on the yard side.
   const extraRects = [];
-  if (veranda) {
-    const glazed = spec.annex ? !!spec.annex.glazed : true;
-    const side = spec.annex?.side === 'right' ? 1 : spec.annex?.side === 'left' ? -1 : yardSide;
-    const aw = spec.annex?.widthM ?? (spec.roof.ridge === 'parallel' ? Math.min(3.6, w * .42) : 2.4);
-    const ad = spec.annex?.depthM ?? (spec.roof.ridge === 'parallel' ? d * .78 : Math.min(d * .6, 4.2));
-    const x0 = side > 0 ? w / 2 : -w / 2 - aw, x1 = x0 + aw;
-    const z1 = spec.roof.ridge === 'parallel' ? d / 2 - .25 : -d / 2 + ad + .2, z0 = z1 - ad;
+  const af = annexFootprint(spec, yardSide);
+  if (af) {
+    const { x0, x1, z0, z1, glazed, side } = af;
     annex(ctx, spec, { x0, x1, z0, z1, glazed, outward: [side, 0], color: spec.annex?.color }, deco, random, gsMin);
     const [ax, az] = frame.world((x0 + x1) / 2, (z0 + z1) / 2);
-    extraRects.push({ x: ax, z: az, w: aw, d: ad, angle, kind: 'annex', id: `${p.id}-annex` });
+    extraRects.push({ x: ax, z: az, w: af.w, d: af.d, angle, kind: 'annex', id: `${p.id}-annex` });
   }
   if (spec.porch) porch(ctx, ground, spec, frames[doorWall].m, doorWall, doorX, surf, deco, random);
   const top = new THREE.Vector3(0, rg.ridgeY + .9, 0).applyMatrix4(ctx.M);

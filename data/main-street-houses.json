@@ -1676,10 +1676,16 @@
      "ridge": "perpendicular",
      "pitchDeg": 72,
      "material": "metal-tile",
-     "color": "#7c4847",
+     "color": "#a3292d",
      "overhangM": 0.45,
      "gableFinish": "siding",
-     "gableColor": "#a88a61"
+     "gableColor": "#a88a61",
+     "dormers": [
+      {
+       "side": "left",
+       "at": 0.84
+      }
+     ]
     },
     "windows": {
      "street": 4,
@@ -2196,10 +2202,10 @@
    ],
    "source": "street",
    "confidence": "high",
-   "lat": 51.7550527,
-   "lon": 107.1172757,
+   "lat": 51.7550928,
+   "lon": 107.1173084,
    "side": "N",
-   "setbackM": 15.5,
+   "setbackM": 20.5,
    "facadeYawDeg": -26.7,
    "footprintIndex": 261,
    "mergedFootprint": true,
@@ -2241,18 +2247,7 @@
     "basementM": 0.3,
     "notes": ""
    },
-   "fence": {
-    "type": "plank",
-    "color": "#175858",
-    "heightM": 1.8,
-    "lengthM": 5.2,
-    "gate": {
-     "type": "double",
-     "color": "#155655",
-     "roofed": false,
-     "wicket": false
-    }
-   },
+   "fence": null,
    "outbuildings": [],
    "notes": "bright turquoise metal-tile roof; walls partly dark log, partly teal painted"
   },
@@ -2407,7 +2402,8 @@
     "yardType": "profiled",
     "yardColor": "#652329",
     "gateSide": "right",
-    "gardenM": 5.8
+    "gardenM": 5.8,
+    "yardLengthM": 11
    },
    "outbuildings": [],
    "notes": "horizontal-board walls, sunburst gable with white carved frieze; decorative concrete panel garden fence with orange posts in front; maroon profiled fence with beige brick pillars"
@@ -7939,7 +7935,7 @@
    },
    "fence": {
     "type": "lattice",
-    "color": "#55a09a",
+    "color": "#9ad3c4",
     "heightM": 1.05,
     "lengthM": 8.8,
     "gate": null,

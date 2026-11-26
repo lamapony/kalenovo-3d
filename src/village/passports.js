@@ -112,6 +112,10 @@ export function validatePassport(p) {
         opt(r.gableColor, v => hex(v, 'roof.gableColor'));
         opt(r.gableBoards, v => oneOf(v, ENUMS.gableBoards, 'roof.gableBoards'));
         opt(r.trimColor, v => hex(v, 'roof.trimColor'));
+        opt(r.dormers, v => {
+          if (!Array.isArray(v)) return err('roof.dormers must be an array');
+          for (const dm of v) { oneOf(dm.side, ['left', 'right'], 'dormer.side'); opt(dm.at, a => num(a, 'dormer.at', 0, 1)); }
+        });
         for (const k of ['gableArch', 'frieze']) opt(r[k], v => { if (typeof v !== 'boolean') err(`roof.${k} must be boolean`); });
       }
       if (h.windows === null) { if (!sat) err('house.windows required'); } else {
@@ -153,6 +157,7 @@ export function validatePassport(p) {
     opt(f.pattern, v => oneOf(v, ENUMS.fencePattern, 'fence.pattern'));
     opt(f.gateSide, v => oneOf(v, ENUMS.gateSide, 'fence.gateSide'));
     opt(f.gardenM, v => num(v, 'fence.gardenM', 0, 12));
+    opt(f.yardLengthM, v => num(v, 'fence.yardLengthM', 1, 30));
     opt(f.gate, g => {
       oneOf(g.type, ENUMS.gate, 'gate.type');
       hex(g.color, 'gate.color');
