@@ -36,6 +36,7 @@ export function buildPoles(B, lines, plan, ground, { spacing = 42 } = {}) {
   const wood = lin('#6f5f4f'), arm = new THREE.Matrix4(), tmp = new THREE.Matrix4();
   const H = 7.6;
   let count = 0;
+  const wires = [];
   for (const run of poles) {
     const tops = [];
     for (const p of run) {
@@ -56,21 +57,17 @@ export function buildPoles(B, lines, plan, ground, { spacing = 42 } = {}) {
       tops.push(top);
       count++;
     }
-    // Wires: sagging polylines between consecutive poles.
-    const w = B.get('darkMetal', run[0].x, run[0].z);
-    w.setColor([.6, .6, .6]);
+    // Wires: sagging catenary-like polylines between consecutive poles, as line segments
+    // (always one pixel wide and continuous, unlike thin tubes that break up into dashes).
     for (let i = 1; i < tops.length; i++) for (let k = 0; k < 3; k++) {
-      const a = tops[i - 1][k], c = tops[i][k], segs = 8, sag = .55 + random() * .25;
+      const a = tops[i - 1][k], c = tops[i][k], segs = 14, sag = .45 + random() * .25 + a.distanceTo(c) * .006;
       let prev = a;
       for (let s = 1; s <= segs; s++) {
         const t = s / segs, p = a.clone().lerp(c, t); p.y -= sag * 4 * t * (1 - t);
-        const dir = new THREE.Vector3().subVectors(p, prev), len = dir.length();
-        const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(1, 0, 0), dir.normalize());
-        w.setMatrix(new THREE.Matrix4().compose(prev, q, new THREE.Vector3(1, 1, 1)));
-        w.log(0, len, 0, 0, .012, .012, { segments: 3, caps: [false, false] });
+        wires.push(prev.x, prev.y, prev.z, p.x, p.y, p.z);
         prev = p;
       }
     }
   }
-  return count;
+  return { count, wires };
 }

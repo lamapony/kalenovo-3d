@@ -12,7 +12,7 @@ import { snowCap, SNOW_COLOR } from './village/materials.js';
 import { createGrass } from './grass.js';
 import { season } from './season.js';
 
-const CHUNK = 200, NEAR_DISTANCE = 270;
+const CHUNK = 200, NEAR_DISTANCE = 240;
 
 // ------------------------------------------------------------ geometry ----
 
@@ -55,24 +55,34 @@ function pineVariant(seed) {
   for (let i = 0; i < tp.count; i++) { const y = tp.getY(i) / H; tp.setX(i, tp.getX(i) + Math.sin(y * 2.4) * bend); }
   trunk.computeVertexNormals();
   const limbs = [], clumps = [];
-  const crownBase = H * (.5 + random() * .1);
+  const crownBase = H * (.52 + random() * .1);
   const axis = y => Math.sin(y / H * 2.4) * bend;
-  // Branch whorls: each a short limb ending in a lumpy needle cloud; top clouds hug the trunk.
-  const n = 13 + Math.floor(random() * 5);
-  for (let i = 0; i < n; i++) {
-    const t = i / (n - 1), y = crownBase + t * (H - crownBase) + (random() - .5) * .5;
-    const a = i * 2.4 + random() * .8, reach = (1 - t * .7) * (.7 + random() * 1.5);
-    const cx = Math.cos(a) * reach + axis(y), cz = Math.sin(a) * reach;
-    const r = (1 - t * .4) * (1.05 + random() * .65);
-    let c = new THREE.IcosahedronGeometry(r, 1);
-    c.scale(1.2, .68 + random() * .18, 1.2);
-    c = jitterGeometry(c, random, r * .42);
-    c.translate(cx, y + r * .15, cz);
-    clumps.push(stripTo(c, ['position', 'normal']));
-    if (reach > .5) limbs.push(stripTo(limb(new THREE.Vector3(axis(y), y - .45, 0), new THREE.Vector3(cx * .9, y, cz * .9), .07, .03), ['position', 'normal', 'uv']));
+  // Branch whorls (Scots pine): every ~0.8 m a whorl of 3-5 branches, each ending in a flat,
+  // drooping needle pad (a squashed, elongated low-poly blob), so the crown reads as layered
+  // tiers with sky between them from the side and as a star of pads from above.
+  const whorls = 6 + Math.floor(random() * 3);
+  for (let i = 0; i < whorls; i++) {
+    const t = i / (whorls - 1), y = crownBase + t * (H - crownBase - .6) + (random() - .5) * .3;
+    const nb = t > .8 ? 3 : 3 + Math.floor(random() * 3), spin = random() * Math.PI * 2;
+    for (let k = 0; k < nb; k++) {
+      if (random() < .15 && t < .8) continue;
+      const a = spin + k / nb * Math.PI * 2 + (random() - .5) * .6;
+      const reach = (1 - t * .65) * (1.1 + random() * 1.3);
+      const ca = Math.cos(a), sa = Math.sin(a);
+      const len = .9 + reach * .55, wid = .55 + random() * .3 + (1 - t) * .3;
+      let c = new THREE.IcosahedronGeometry(1, 0);
+      c.scale(len, .26 + random() * .16, wid);
+      c = jitterGeometry(c, random, .14);
+      c.rotateZ(-.1 - random() * .22); // tips droop
+      c.rotateX((random() - .5) * .35);
+      c.rotateY(-a);
+      c.translate(axis(y) + ca * (reach * .6 + .2), y - reach * .12, sa * (reach * .6 + .2));
+      clumps.push(stripTo(c, ['position', 'normal']));
+      if (reach > .6) limbs.push(stripTo(limb(new THREE.Vector3(axis(y), y - .25, 0), new THREE.Vector3(axis(y) + ca * reach * .7, y - reach * .1, sa * reach * .7), .06, .025, 4), ['position', 'normal', 'uv']));
+    }
   }
-  let top = new THREE.IcosahedronGeometry(.8, 1); top.scale(1, .9, 1); top = jitterGeometry(top, random, .3);
-  top.translate(axis(H), H + .2, 0); clumps.push(stripTo(top, ['position', 'normal']));
+  let top = new THREE.ConeGeometry(.55, 1.6, 6); top = jitterGeometry(top, random, .15);
+  top.translate(axis(H), H - .1, 0); clumps.push(stripTo(top, ['position', 'normal']));
   const bark = mergeGeometries([stripTo(trunk, ['position', 'normal', 'uv']), ...limbs]);
   const crown = mergeGeometries(clumps);
   // Far version: trunk + two cones, vertex-coloured, one draw.
@@ -81,8 +91,8 @@ function pineVariant(seed) {
   const c2 = new THREE.ConeGeometry(1.4, (H - crownBase) * .6, 7); c2.translate(0, crownBase + (H - crownBase) * .85, 0);
   const far = mergeGeometries([
     withColor(stripTo(ft, ['position', 'normal']), [.42, .3, .22]),
-    withColor(stripTo(c1, ['position', 'normal']), [.1, .17, .11]),
-    withColor(stripTo(c2, ['position', 'normal']), [.11, .18, .12]),
+    withColor(stripTo(c1, ['position', 'normal']), [.14, .22, .12]),
+    withColor(stripTo(c2, ['position', 'normal']), [.16, .25, .13]),
   ]);
   return { bark, crown, far, H };
 }
@@ -162,7 +172,7 @@ function impostorMaterials() {
   const crown = float(1).sub(step(float(1).add(n.mul(.75)).add(n2.mul(.25)), crownE));
   const trunk = step(abs(u), float(.024)).mul(step(v, float(.8)));
   pine.opacityNode = max(crown, trunk);
-  const needle = mix(color('#1f3326'), color('#3a5638'), n2.mul(.5).add(.5));
+  const needle = mix(color('#263d24'), color('#466338'), n2.mul(.5).add(.5));
   const snowy = smoothstep(.05, .45, n.mul(.6).add(n2.mul(.4)).add(v.sub(.72).mul(2.5)));
   pine.colorNode = mix(vec3(.42, .24, .14), season.summer ? needle : mix(needle, color(SNOW_COLOR), snowy.mul(.6)), crown);
   pine.name = 'pine impostor';
@@ -197,7 +207,7 @@ function materials() {
 
   const needles = new THREE.MeshStandardNodeMaterial({ roughness: .95 });
   const nn = mx_noise_float(positionGeometry.mul(1.7)).mul(.5).add(.5);
-  const needleCol = mix(color('#22382a'), color('#3d5a3a'), nn).mul(variation);
+  const needleCol = mix(color('#22391f'), color('#4b6a39'), nn.mul(.75).add(smoothstep(4, 14, positionGeometry.y).mul(.25))).mul(variation);
   const snowK = smoothstep(.35, .7, normalWorld.y.add(mx_noise_float(positionWorld.mul(.9)).mul(.35)));
   needles.colorNode = season.summer ? needleCol : mix(needleCol, color(SNOW_COLOR), snowK.mul(.92));
   needles.roughnessNode = mix(float(.95), float(.8), snowK);
@@ -279,6 +289,25 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
     const gx = Math.floor((x + meta.halfSizeM) / mcell), gz = Math.floor((z + meta.halfSizeM) / mcell);
     return gx >= 0 && gz >= 0 && gx < mn && gz < mn && mask[gz * mn + gx] === 1;
   };
+  // Thin the forest near улица Толстихина: the street imagery shows open ground and only the
+  // odd pine near the houses, the woods start further out.
+  const streetPts = new Map(), scell = 100;
+  for (const line of wayLines(features, meta)) {
+    if (line.name !== 'улица Толстихина') continue;
+    for (let i = 1; i < line.points.length; i++) {
+      const [ax, az] = line.points[i - 1], [bx, bz] = line.points[i], len = Math.hypot(bx - ax, bz - az);
+      for (let d = 0; d <= len; d += 15) {
+        const x = ax + (bx - ax) * d / len, z = az + (bz - az) * d / len, k = `${Math.floor(x / scell)},${Math.floor(z / scell)}`;
+        if (!streetPts.has(k)) streetPts.set(k, []); streetPts.get(k).push([x, z]);
+      }
+    }
+  }
+  const streetDist = (x, z) => {
+    let best = Infinity; const gx = Math.floor(x / scell), gz = Math.floor(z / scell);
+    for (let i = -4; i <= 4; i++) for (let j = -4; j <= 4; j++) for (const [px, pz] of streetPts.get(`${gx + i},${gz + j}`) || []) best = Math.min(best, Math.hypot(px - x, pz - z));
+    return best;
+  };
+  const keepNearStreet = (x, z) => { const d = streetDist(x, z); return d > 350 || random() < (d < 150 ? .25 : .55); };
   const clearingAt = (x, z) => Math.sin(x * .011 + Math.sin(z * .007) * 2) + Math.cos(z * .013 - x * .004);
   const spacing = 10.5;
   for (let z = -half; z < half; z += spacing) for (let x = -half; x < half; x += spacing) {
@@ -288,7 +317,7 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
     if (random() > .88 + clearing * .12 || (clearing < -1.2 && random() < .8)) continue;
     if (nearPath(px, pz, 2.2) || Math.hypot(px - meta.defaultSpawn.x, pz - meta.defaultSpawn.z) < 40) continue;
     const v = villageAt(px, pz);
-    if (v.blocked || v.inPlot) continue;
+    if (v.blocked || v.inPlot || !keepNearStreet(px, pz)) continue;
     trees.push({ x: px, y: ground(px, pz), z: pz, scale: .7 + random() * .55, angle: random() * Math.PI * 2, birch: random() < .1 });
   }
   // Sparser trees on the slopes above the village.
@@ -299,7 +328,7 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
     if (!(y > 25 && slope > .06 && slope < .55 && random() < .3 + clearingAt(x, z) * .1)) continue;
     if (Math.hypot(x - meta.defaultSpawn.x, z - meta.defaultSpawn.z) < 40 || nearPath(x, z, 2.2)) continue;
     const v = villageAt(x, z);
-    if (v.blocked || v.inPlot) continue;
+    if (v.blocked || v.inPlot || !keepNearStreet(x, z)) continue;
     trees.push({ x, y, z, scale: .65 + random() * .6, angle: random() * Math.PI * 2, birch: random() < .38 });
   }
   // Village trees: birches (some pines) in gardens and front yards and along streets,
@@ -361,6 +390,8 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
     trees.push({ x, y: ground(x, z), z, scale: .5 + random() * .45, angle: random() * 6.28, birch: true });
   }
 
+  // Garden birches chosen by the main-street yard layout.
+  for (const t of options.trees || []) trees.push({ x: t.x, y: ground(t.x, t.z), z: t.z, scale: t.scale, angle: random() * 6.28, birch: true });
   const pines = [0, 1, 2, 3, 4].map(i => pineVariant(1000 + i * 77));
   const birches = [0, 1, 2].map(i => birchVariant(2000 + i * 31));
   const mats = materials(), imp = impostorMaterials();
