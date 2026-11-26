@@ -18,21 +18,21 @@ export const LOOKS = {
     zenith: [.05, .14, .42], mid: [.3, .46, .86], horizonCool: [.5, .58, .86], horizonWarm: [1.8, 1.32, .72],
     glow: [2.4, 1.72, .9], cloudLit: [1.95, 1.5, 1.15], cloudShade: [.34, .37, .56], coverage: .5,
     aerial: [.15, .2, .5], fogDensity: 1 / 6500, valleyMist: .1, envIntensity: .5, hemi: ['#a4c6ff', '#e6dccd', .16],
-    exposure: .78, flakes: [1, .97, .95], sunDisc: 60,
+    exposure: .78, flakes: [1, .97, .95], sunDisc: 60, smoke: [.34, .35, .39],
   },
   sunset: {
     light: '#ffb27c', intensity: 6.5,
     zenith: [.045, .08, .25], mid: [.3, .3, .56], horizonCool: [.52, .42, .62], horizonWarm: [2.6, 1.25, .48],
     glow: [3.4, 1.4, .5], cloudLit: [2.6, 1.15, .62], cloudShade: [.27, .23, .4], coverage: .48,
     aerial: [.2, .16, .4], fogDensity: 1 / 6000, valleyMist: .16, envIntensity: .38, hemi: ['#8e9cff', '#e7c9b6', .12],
-    exposure: .95, flakes: [1, .86, .78], sunDisc: 45,
+    exposure: .95, flakes: [1, .86, .78], sunDisc: 45, smoke: [.26, .23, .27],
   },
   night: {
     light: '#c2d0ff', intensity: .7, moon: { azimuth: 130, elevation: 32 },
     zenith: [.0035, .007, .02], mid: [.008, .014, .034], horizonCool: [.016, .024, .052], horizonWarm: [.03, .036, .06],
     glow: [.03, .036, .05], cloudLit: [.05, .058, .085], cloudShade: [.008, .011, .02], coverage: .58,
     aerial: [.008, .012, .03], fogDensity: 1 / 5000, valleyMist: .14, envIntensity: .03, hemi: ['#4a64a8', '#2a3048', .35],
-    exposure: 1.9, flakes: [.18, .2, .26], sunDisc: 6,
+    exposure: 1.9, flakes: [.18, .2, .26], sunDisc: 6, smoke: [.016, .019, .03],
   },
 };
 

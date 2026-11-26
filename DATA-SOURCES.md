@@ -68,6 +68,21 @@ solar position algorithm (elevation about 15°, azimuth about 200°).
   **Snow 02** (Rob Tuytel, https://polyhaven.com/a/snow_02),
   **Withered Grass** (Charlotte Baglioni, https://polyhaven.com/a/withered_grass),
   **Rock Ground 02** (Rob Tuytel, https://polyhaven.com/a/rock_ground_02).
+- Village textures (houses, roofs, fences, roads, bark), CC0 1.0, in
+  `public/textures/<set>/`, per-folder sources in `public/textures/CREDITS.md`:
+  Poly Haven **Rough Wood**, **Wood Planks Grey**, **Corrugated Iron**,
+  **Asbestos Sheet 02**, **Pine Bark**; ambientCG **PaintedWood009C**,
+  **Snow010A**, **Snow013**, **Snow011**, **Bricks097**.
 
-CC0 needs no attribution; the footer credits Poly Haven anyway. The sky,
-clouds, fog and colour grade are procedural (`src/atmosphere.js`, `src/post.js`).
+## Procedural village (not data about the village)
+
+Footprints from OSM and GlobalBuildingAtlas are split into plots along the
+street (`src/village/plan.js`). Each plot gets a generic log or plank house,
+outbuildings, fences, trees and power poles from a fixed random seed. House
+styles, fences, sheds and trees are illustrative only: they do not record how
+any real house or yard in Kalenovo looks. The "Family house (placeholder)"
+marker stands beside an arbitrary generated dwelling, not a real address.
+
+CC0 needs no attribution; the footer credits Poly Haven and ambientCG anyway.
+The sky, clouds, fog and colour grade are procedural (`src/atmosphere.js`,
+`src/post.js`).

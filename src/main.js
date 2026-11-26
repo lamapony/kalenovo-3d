@@ -13,6 +13,7 @@ import { birdView, streetView } from './views.js';
 import { loadTerrainTextures } from './terrainMaterial.js';
 import { keyLightDirection, prepareEnvironment } from './atmosphere.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
+import { fenceColliders } from './village/plan.js';
 
 const canvas = document.querySelector('#scene');
 const status = document.querySelector('#status');
@@ -28,8 +29,10 @@ async function fetchData(file, type = 'json') {
   return type === 'binary' ? response.arrayBuffer() : response.json();
 }
 
-function createFamilyMarker(meta, ground, houses) {
+function createFamilyMarker(meta, ground, rects) {
   const spawn = meta.defaultSpawn;
+  // Placeholder beside a dwelling (never a shed, banya or barn); not the real family house.
+  const houses = rects.filter(r => r.kind === 'house');
   const facing = houses.filter(h => {
     const dx = h.x - spawn.x, dz = h.z - spawn.z;
     return (-Math.sin(2.15) * dx - Math.cos(2.15) * dz) / (Math.hypot(dx, dz) || 1) > .85;
@@ -86,16 +89,23 @@ async function start() {
   const ground = terrain.getGroundHeight;
   const paths = createPaths(osm.features, meta, ground); scene.add(paths.group);
   const houses = createBuildings(osm.features, gba.features, meta, ground); scene.add(houses.group);
-  scene.add(createForest(osm.features, meta, ground, paths.exclusions, houses.rects));
+  scene.add(createForest(osm.features, meta, ground, paths.exclusions, houses.rects, { plots: houses.plots }));
   const family = createFamilyMarker(meta, ground, houses.rects); scene.add(family.group);
   const atmosphere = createAtmosphere(scene, camera, { quality: params.quality, tod: params.tod, environment });
   renderer.toneMappingExposure = atmosphere.exposure;
   // ?cam= wins over ?view=; both are inspection cameras for screenshots.
   const preset = params.view === 'street' ? streetView(osm.features, meta)
     : params.view === 'bird' && terrain.farElevations ? birdView(terrain.farElevations, dem.far) : null;
-  const controls = createWalkControls(camera, canvas, meta, ground, houses.rects, { inspect: params.camera ?? preset });
+  const controls = createWalkControls(camera, canvas, meta, ground, houses.rects, { inspect: params.camera ?? preset, fences: fenceColliders(houses.plots) });
   const post = createPost(renderer, scene, camera, { quality: params.quality, tod: params.tod });
   const stats = createStats(renderer, { backend, quality: params.quality, effects: post.enabled, debug: params.debug && !params.nohud, tod: params.tod });
+
+  // three's renderer also updates LODs from each shadow camera, so cascades would
+  // pick levels by their own distance (missing or extra shadow casters). Update
+  // every LOD once per frame from the view camera instead.
+  const lods = [];
+  scene.traverse(o => { if (o.isLOD) { o.autoUpdate = false; lods.push(o); } });
+  scene.updateMatrixWorld();  houses.smoke.tint.value.setRGB(...atmosphere.look.smoke);
 
   let lightsOn = true;
   function toggleLights() {
@@ -120,6 +130,8 @@ async function start() {
   function frame(now) {
     const dt = Math.min((now - previous) / 1000, .05); previous = now;
     controls.update(dt); atmosphere.update(dt);
+    camera.updateMatrixWorld();
+    for (const lod of lods) lod.update(camera);
     post.render();
     stats.frame(now);
     projected.copy(family.anchor).project(camera);

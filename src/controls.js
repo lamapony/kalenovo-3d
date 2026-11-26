@@ -1,7 +1,8 @@
 import * as THREE from 'three/webgpu';
 import { inBuilding } from './buildings.js';
+import { segmentDistanceSq } from './geo.js';
 
-export function createWalkControls(camera, canvas, meta, ground, buildings, { onReset, inspect } = {}) {
+export function createWalkControls(camera, canvas, meta, ground, buildings, { onReset, inspect, fences = [] } = {}) {
   const keys=new Set(), euler=new THREE.Euler(0,0,0,'YXZ');
   const spawn=meta.defaultSpawn, limit=meta.halfSizeM-12;
   let dragging=false, pointerId=null, yaw=0, pitch=0, eye=1.7;
@@ -48,7 +49,23 @@ export function createWalkControls(camera, canvas, meta, ground, buildings, { on
   document.addEventListener('keyup',event=>keys.delete(event.code));
   window.addEventListener('blur',()=>{keys.clear();dragging=false;});
   document.addEventListener('visibilitychange',()=>keys.clear());
-  function blocked(x,z){return buildings.some(r=>inBuilding(x,z,r,.45));}
+  // Fence segments in a 6 m grid; a step is blocked when it gets closer than
+  // FENCE_R to a fence, so the player can never get stuck inside one.
+  const FENCE_R=.35, cell=6, fenceGrid=new Map();
+  for(const f of fences){
+    for(let gx=Math.floor((Math.min(f.a[0],f.b[0])-1)/cell);gx<=Math.floor((Math.max(f.a[0],f.b[0])+1)/cell);gx++)
+      for(let gz=Math.floor((Math.min(f.a[1],f.b[1])-1)/cell);gz<=Math.floor((Math.max(f.a[1],f.b[1])+1)/cell);gz++){
+        const k=`${gx},${gz}`; if(!fenceGrid.has(k)) fenceGrid.set(k,[]); fenceGrid.get(k).push(f);
+      }
+  }
+  function fenceBlocked(x,z,ox,oz){
+    for(const f of fenceGrid.get(`${Math.floor(x/cell)},${Math.floor(z/cell)}`)||[]){
+      const d=segmentDistanceSq(x,z,f.a,f.b);
+      if(d<FENCE_R*FENCE_R && d<segmentDistanceSq(ox,oz,f.a,f.b)) return true;
+    }
+    return false;
+  }
+  function blocked(x,z){return buildings.some(r=>inBuilding(x,z,r,.45)) || fenceBlocked(x,z,camera.position.x,camera.position.z);}
   reset();
   return {
     reset,
