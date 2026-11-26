@@ -163,6 +163,35 @@ export function createKitMaterials() {
   glass.emissiveNode = warm.mul(vertexColor().r).mul(lights).mul(mix(float(.6), float(1.6), tulle.add(curtain.mul(.3)))).mul(2.2);
   glass.name = 'kit window glass';
   mats.kitGlass = glass;
+  Object.assign(mats, yardMaterials());
   return { mats, lights };
+}
+
+// Yard content: tilled soil, crop rows, foliage, stacked firewood ends, greenhouse cover.
+function yardMaterials() {
+  const out = {};
+  const pw = positionWorld;
+  const foliage = new THREE.MeshStandardNodeMaterial({ roughness: .85 });
+  const fn = mx_noise_float(pw.mul(2.2)).mul(.5).add(.5), fine = mx_noise_float(pw.mul(11)).mul(.5).add(.5);
+  foliage.colorNode = snowCap(vertexColor().mul(fn.mul(.45).add(.75)).mul(fine.mul(.3).add(.8)), { threshold: .55 });
+  foliage.normalNode = slopeNormal(mx_noise_float(pw.mul(6)).mul(2), mx_noise_float(pw.mul(6).add(7.7)).mul(2));
+  foliage.name = 'garden foliage';
+  out.foliage = foliage;
+  // Firewood stack: staggered circular log ends (pale end grain, dark gaps) on metre UVs.
+  const wood = new THREE.MeshStandardNodeMaterial({ roughness: .95 });
+  const u = uv().x, v = uv().y, row = floor(v.div(.13)), uu = u.add(row.mul(.065));
+  const cell = vec2(fract(uu.div(.13)).sub(.5), fract(v.div(.13)).sub(.5)), dist = cell.length();
+  const jit = mx_cell_noise_float(vec3(floor(uu.div(.13)), row, 2.1));
+  const end = smoothstep(.47, .4, dist), ring = smoothstep(.36, .4, dist).mul(end);
+  const grain = mix(vec3(.42, .3, .18), vec3(.6, .46, .3), jit).mul(float(1).sub(ring.mul(.35)));
+  wood.colorNode = snowCap(mix(vec3(.05, .04, .03), grain, end).mul(vertexColor()), { threshold: .6 });
+  wood.name = 'firewood stack';
+  out.woodpile = wood;
+  const cover = new THREE.MeshStandardNodeMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide, roughness: .25, metalness: 0 });
+  cover.colorNode = vertexColor().mul(vec3(.82, .86, .84));
+  cover.opacityNode = float(.55).add(mx_noise_float(pw.mul(1.3)).mul(.08));
+  cover.name = 'greenhouse cover';
+  out.cover = cover;
+  return out;
 }
 

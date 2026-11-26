@@ -62,6 +62,7 @@ export function resolveHouse(p) {
     gableArch: r.gableArch ?? false,
     frieze: r.frieze ?? false,
     trimColor: r.trimColor ?? null,
+    dormers: r.dormers ?? [],
   };
   const win = h.windows ?? {
     street: roof.ridge === 'parallel' ? clamp(Math.round(w / 2.4), 2, 4) : (w >= 6.5 ? 3 : 2),
@@ -275,4 +276,18 @@ export function boardPolygons(poly, { pattern = 'vertical', board = .14, cx = 0 
     }
   }
   return boards;
+}
+
+// Footprint of the veranda / annex in the house frame (null when the house has none).
+// side: +1 = +x (right), -1 = -x; defaults to the yard side.
+export function annexFootprint(spec, yardSide = 1) {
+  if (!(spec.veranda || spec.annex)) return null;
+  const { w, d } = spec;
+  const glazed = spec.annex ? !!spec.annex.glazed : true;
+  const side = spec.annex?.side === 'right' ? 1 : spec.annex?.side === 'left' ? -1 : yardSide;
+  const aw = spec.annex?.widthM ?? (spec.roof.ridge === 'parallel' ? Math.min(3.6, w * .42) : 2.4);
+  const ad = spec.annex?.depthM ?? (spec.roof.ridge === 'parallel' ? d * .78 : Math.min(d * .6, 4.2));
+  const x0 = side > 0 ? w / 2 : -w / 2 - aw, x1 = x0 + aw;
+  const z1 = spec.roof.ridge === 'parallel' ? d / 2 - .25 : -d / 2 + ad + .2, z0 = z1 - ad;
+  return { x0, x1, z0, z1, w: aw, d: ad, side, glazed };
 }

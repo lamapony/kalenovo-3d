@@ -11,13 +11,14 @@ import { layoutMainStreet } from './village/kit/layout.js';
 import { buildKitHouse, buildKitOutbuilding } from './village/kit/house.js';
 import { buildKitFences } from './village/kit/fences.js';
 import { createKitMaterials } from './village/kit/materials.js';
+import { buildYards } from './village/kit/yardBuild.js';
 import passportDoc from '../data/main-street-houses.json';
 
 export { fitRectangle };
 // Kept for controls.js / forest.js: point-in-rotated-rectangle test with margin.
 export function inBuilding(x, z, rect, margin = 0) { return inRect(x, z, rect, margin); }
 
-const TILE = 220, DETAIL_DISTANCE = 260;
+const TILE = 220, DETAIL_DISTANCE = 220;
 export const FAMILY_HOUSE_ID = 'tolstikhina-45';
 
 // Village: улица Толстихина from house passports (data/main-street-houses.json, built with the
@@ -26,11 +27,18 @@ export const FAMILY_HOUSE_ID = 'tolstikhina-45';
 // and a fence with gates. Generic content never enters a passport plot.
 // Returns rects (houses, annexes, outbuildings) for collisions, plots for vegetation, fence
 // colliders, and the family house (label anchor).
+// Main-street layout from the passports (pure): computed before the terrain so the ground
+// mask (yards, drives, beds) can follow it.
+export function mainStreetLayout(osm, meta) {
+  const passports = loadPassports(passportDoc);
+  const lines = streetLines(osm, meta, passportDoc.street);
+  return { passports, lines, main: layoutMainStreet(passports, meta, lines) };
+}
+
 export function createBuildings(osm, gba, meta, ground, options = {}) {
   const t0 = performance.now();
   const lines = wayLines(osm, meta);
-  const passports = loadPassports(passportDoc);
-  const main = layoutMainStreet(passports, meta, streetLines(osm, meta, passportDoc.street));
+  const { passports, main } = options.street ?? mainStreetLayout(osm, meta);
   const skipGba = new Set(passports.map(p => p.footprintIndex).filter(i => i !== null));
   const plan = planVillage({
     footprints: collectFootprints(osm, gba, meta), lines, halfSize: meta.halfSizeM, seed: options.seed ?? 83,
@@ -49,7 +57,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
   }
   for (const ob of plan.standalone) place(ob, buildOutbuilding(B, ground, ob));
   const fences = createFences(plan.plots, ground, B, { tileSize: TILE });
-  const poles = options.poles === false ? 0 : buildPoles(B, lines, plan, ground);
+  const poleBuild = options.poles === false ? { count: 0, wires: [] } : buildPoles(B, lines, plan, ground), poles = poleBuild.count;
 
   // Main street from passports.
   const mainRects = [...main.rects];
@@ -62,6 +70,8 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
     if (plot.id === FAMILY_HOUSE_ID) family = { rect: plot.house, top: r.top, label: 'Толстихина, 45' };
   }
   for (const ob of main.outbuildings) place(ob, buildKitOutbuilding(B, ground, ob));
+  const yards = buildYards(B, ground, main.plots);
+  if (!options.noYardSmoke) chimneys.push(...yards.chimneys);
   const kitFences = buildKitFences(B, ground, main.plots);
 
   const group = new THREE.Group();
@@ -72,7 +82,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
     const material = mats[builder.materialKey];
     if (!material) throw new Error(`Unknown village material ${builder.materialKey}`);
     const mesh = new THREE.Mesh(builder.build(), material);
-    mesh.castShadow = builder.materialKey !== 'glass' && builder.materialKey !== 'kitGlass';
+    mesh.castShadow = !['glass', 'kitGlass', 'soil', 'crop', 'cover'].includes(builder.materialKey);
     mesh.receiveShadow = true;
     mesh.name = `${builder.materialKey} ${builder.tile} ${builder.lod}`;
     triangles += mesh.geometry.index.count / 3; drawCalls++;
@@ -90,6 +100,14 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
     (builder.lod === 'detail' ? tile.detail : builder.lod === 'far' ? tile.far : tile.root).add(mesh);
   }
   group.add(fences.group);
+  if (poleBuild.wires.length) {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(poleBuild.wires, 3));
+    const wireMat = new THREE.LineBasicNodeMaterial({ color: '#2a2b2d' });
+    const wires = new THREE.LineSegments(g, wireMat);
+    wires.name = 'power line wires';
+    group.add(wires);
+  }
   const smoke = createSmoke(chimneys);
   group.add(smoke.object);
   const mainHouses = main.plots.filter(p => p.house).length;
@@ -105,6 +123,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
     plots: [...plan.plots, ...main.plots],
     fenceColliders: [...fenceColliders(plan.plots), ...main.colliders],
     family,
+    gardenBirches: yards.birches,
     stats,
     smoke,
     setLights(on) { lights.value = on ? 1 : 0; kit.lights.value = on ? 1 : 0; },

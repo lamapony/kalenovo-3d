@@ -71,8 +71,35 @@ function rails(B, f, { s0, s1, P, M, plotSide, key, tint, heights, size = [.07, 
   }
 }
 
+// Fences between and behind plots are long and mostly seen from afar: beyond the first few
+// metres from the street they are board panels (one skewed slab per post interval, plank
+// texture) instead of individual boards.
+export const BOARD_DETAIL_M = 6;
+function slabSpan(B, ground, f, { s0, s1, P, color, h, random }) {
+  const L = s1 - s0, n = Math.max(1, Math.ceil(L / 2.6));
+  const b = B.get('planks', ...P(s0));
+  b.setMatrix(new THREE.Matrix4());
+  const dx = f.b[0] - f.a[0], dz = f.b[1] - f.a[1], len = Math.hypot(dx, dz) || 1, nx = -dz / len * .012, nz = dx / len * .012;
+  for (let i = 0; i < n; i++) {
+    const t0 = s0 + L * i / n, t1 = s0 + L * (i + 1) / n, [x0, z0] = P(t0), [x1, z1] = P(t1);
+    const y0 = ground(x0, z0) + .04, y1 = ground(x1, z1) + .04, hh = h * (.96 + random() * .08);
+    b.setColor(jitter(color.map(v => v * 1.4), random, .1));
+    const front = [[x0 + nx, y0, z0 + nz], [x1 + nx, y1, z1 + nz], [x1 + nx, y1 + hh, z1 + nz], [x0 + nx, y0 + hh, z0 + nz]];
+    const back = [[x1 - nx, y1, z1 - nz], [x0 - nx, y0, z0 - nz], [x0 - nx, y0 + hh, z0 - nz], [x1 - nx, y1 + hh, z1 - nz]];
+    b.quad(front, [[t0, y0], [t1, y1], [t1, y1 + hh], [t0, y0 + hh]]);
+    b.quad(back, [[t1, y1], [t0, y0], [t0, y0 + hh], [t1, y1 + hh]]);
+  }
+  return n;
+}
+
 function fenceSpan(B, ground, f, o) {
   const { s0, s1, P, M, plotSide, color, h, random } = o;
+  if ((f.role === 'side' || f.role === 'back') && f.type === 'plank') {
+    if (f.role === 'back' || s0 >= BOARD_DETAIL_M) return slabSpan(B, ground, f, o) + posts(B, f, { s0, s1, P, M, key: 'logs', tint: color.map(v => v * .8), h, size: .12, step: 2.6 });
+    if (s1 > BOARD_DETAIL_M + .5) {
+      return fenceSpan(B, ground, { ...f, role: 'side-near' }, { ...o, s1: BOARD_DETAIL_M }) + fenceSpan(B, ground, f, { ...o, s0: BOARD_DETAIL_M });
+    }
+  }
   const L = s1 - s0;
   let count = 0;
   if (f.type === 'picket' || f.type === 'stripe' || f.type === 'plank') {
@@ -130,9 +157,11 @@ function fenceSpan(B, ground, f, o) {
     count += posts(B, f, { s0, s1, P, M, h, size: .06, steel: true });
     rails(B, f, { s0, s1, P, M, plotSide, key: 'darkMetal', tint: [1.3, 1.3, 1.3], heights: [.35, h - .3], size: [.04, .02] });
   } else if (f.type === 'lattice') {
-    const key = 'painted', step = .26, y0 = .1, y1 = h - .06;
-    count += posts(B, f, { s0, s1, P, M, key, tint: color, h, size: .08 });
-    rails(B, f, { s0, s1, P, M, plotSide, key, tint: color, heights: [y0, y1], size: [.06, .04] });
+    const key = 'painted', step = .2, y0 = .1, y1 = h - .06;
+    // Light garden lattice: posts only every ~6 m, a flat cap board, thin slats.
+    count += posts(B, f, { s0, s1, P, M, key, tint: color, h, size: .07, step: 6 });
+    rails(B, f, { s0, s1, P, M, plotSide, key, tint: color.map(v => v * 1.08), heights: [y1 + .02], size: [.03, .11] });
+    rails(B, f, { s0, s1, P, M, plotSide, key, tint: color, heights: [y0], size: [.05, .03] });
     const n = Math.max(1, Math.ceil(L / 2.4));
     for (let i = 0; i < n; i++) {
       const a = s0 + L * i / n, c = s0 + L * (i + 1) / n, base = M(a);
@@ -150,7 +179,7 @@ function fenceSpan(B, ground, f, o) {
           const sl = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]);
           const m = base.clone().multiply(new THREE.Matrix4().makeTranslation((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2, fam * .012)).multiply(new THREE.Matrix4().makeRotationZ(Math.atan2(p1[1] - p0[1], p1[0] - p0[0])));
           b.setMatrix(m);
-          b.box(sl, .045, .018);
+          b.box(sl, .04, .016);
         }
       }
     }

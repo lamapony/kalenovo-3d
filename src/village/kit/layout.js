@@ -4,7 +4,9 @@
 // procedural village must not build. World frame: x east, z south (geo.toLocal).
 import { passportLocal, nearestOnLines } from '../passports.js';
 import { rectsOverlap } from '../plan.js';
-import { hashString } from './spec.js';
+import { hashString, resolveHouse, annexFootprint } from './spec.js';
+import { yardLayout, SOLID_YARD } from './yard.js';
+import { randomGenerator } from '../../geo.js';
 
 // Fence types that form a low front garden in front of the house.
 export const PALISADE_TYPES = new Set(['picket', 'lattice', 'mesh', 'metal-rail', 'concrete']);
@@ -12,7 +14,9 @@ export const SOLID_TYPES = new Set(['plank', 'profiled', 'stripe']);
 export const OUTBUILDING_SIZE = { shed: [3, 3.4], garage: [3.6, 6], barn: [6, 7], banya: [3.4, 3.8], greenhouse: [3, 6] };
 export const GATE_WIDTH = { double: 3.2, swing: 2.8, sliding: 4 };
 export const WICKET_WIDTH = 1;
-const MAX_YARD = 14, SIDE_DEPTH = 7, BACK_DEPTH = 14, ROAD_CLEAR = 6.2;
+const MAX_YARD = 14, BACK_DEPTH = 20, ROAD_CLEAR = 6.2;
+// Weathered board colours for fences between and behind plots (grey timber, a few faded paints).
+export const BOARD_PALETTE = ['#6c6153', '#5f574d', '#776a5a', '#655c50', '#585f63', '#5f6b58', '#6e6658', '#4f6670'];
 
 // Chainage (distance along the polyline) of the nearest point on a set of polylines.
 export function chainage(x, z, lines) {
@@ -137,7 +141,8 @@ export function layoutMainStreet(passports, meta, lines) {
           run(-yardSide * w / 2, zFacade + .05, yardSide > 0 ? s0 : s1, zFacade + .05, yardType, yardColor, fence.color2, yardHeight, 'front');
         }
         // Yard line on the facade line, from the house corner to the plot edge, with the gate.
-        run(yardEdge, zFacade + .05, yardEnd, zFacade + .05, yardType, yardColor, fence.color2, yardHeight, 'yard');
+        const yEnd = fence.yardLengthM ? yardEdge + yardSide * fence.yardLengthM : yardEnd;
+        run(yardEdge, zFacade + .05, yEnd, zFacade + .05, yardType, yardColor, fence.color2, yardHeight, 'yard');
       } else if (plan.kind === 'front') {
         // House set far back: one fence across the plot; gates start next to the house.
         const x0 = yardSide > 0 ? s0 : s1, x1 = yardSide > 0 ? s1 : s0;
@@ -160,18 +165,52 @@ export function layoutMainStreet(passports, meta, lines) {
         let t = yard.gateStart ?? .35;
         for (const g of wants) {
           if (t + g.width + .2 > L) { g.width = Math.max(0, L - t - .25); if (g.width < .9) break; }
-          yard.gates.push({ ...g, t: t + g.width / 2 });
+          const u = (t + g.width / 2) / L;
+          yard.gates.push({ ...g, t: t + g.width / 2, lx: yard.x0 + (yard.x1 - yard.x0) * u, lz: yard.z0 + (yard.z1 - yard.z0) * u });
           t += g.width + .35;
         }
       }
     }
-    // Side fences between plots (one per boundary) and at the ends of a row: weathered boards.
+    // Outbuildings from the passport offsets [along, back], pushed clear of the house.
+    for (const [k, o] of (p.outbuildings || []).entries()) {
+      const [ow, od] = OUTBUILDING_SIZE[o.kind] ?? [3, 3.4];
+      let ox = o.approxOffsetM[0], oz = -o.approxOffsetM[1];
+      const make = () => localRect(frame, ox - ow / 2, ox + ow / 2, oz - od / 2, oz + od / 2, { kind: o.kind, id: `${p.id}-ob${k}`, roof: o.roof, color: o.color, seed: it.seed + k * 17 });
+      let r = make();
+      for (let tries = 0; tries < 12 && [...rects, ...outbuildings].some(q => rectsOverlap(q, r, .05)); tries++) {
+        if (Math.abs(ox) >= Math.abs(oz)) ox += Math.sign(ox || 1) * .6; else oz -= .6;
+        r = make();
+      }
+      r.local = { x: ox, z: oz, w: ow, d: od, kind: o.kind };
+      outbuildings.push(r); plot.outbuildings.push(r);
+    }
+    // Lived-in yard: seeded generic content behind and beside the house (see yard.js).
+    plot.yard = [];
+    if (h) {
+      const spec = resolveHouse(p), af = annexFootprint(spec, yardSide);
+      const blockers = [{ kind: 'house', x: 0, z: 0, w: w + 2, d: d + 2 }];
+      if (af) blockers.push({ kind: 'annex', x: (af.x0 + af.x1) / 2, z: (af.z0 + af.z1) / 2, w: af.w + 1, d: af.d + 1 });
+      for (const o of plot.outbuildings) blockers.push({ ...o.local, w: o.local.w + 1, d: o.local.d + 1 });
+      for (const r of runs) for (const g of r.gates) if (g.lx !== undefined && g.type !== 'wicket') blockers.push({ kind: 'drive', x: g.lx, z: zFacade - 3.5, w: g.width + 1.2, d: 7 });
+      const items = yardLayout({ s0, s1, zBack, zFacade, garden, yardSide, seed: it.seed }, blockers, { kinds: (p.outbuildings || []).map(o => o.kind) });
+      for (const item of items) {
+        const { x: ix, z: iz, w: iw, d: id, ...props } = item;
+        const r = localRect(frame, ix - iw / 2, ix + iw / 2, iz - id / 2, iz + id / 2, { ...props, id: `${p.id}-${item.kind}-${plot.yard.length}`, local: item });
+        plot.yard.push(r);
+        if (SOLID_YARD.has(item.kind)) rects.push(r);
+      }
+    }
+    // Fences between plots (one per boundary), at the ends of a row and along the back:
+    // weathered boards, a few faded paints, vertical or horizontal, seeded per plot.
     if (h || fence) {
-      const sideBack = h ? -d / 2 - SIDE_DEPTH : -SIDE_DEPTH;
+      const fr = randomGenerator(it.seed ^ 0x3c6ef372);
+      const board = () => ({ color: BOARD_PALETTE[Math.floor(fr() * BOARD_PALETTE.length)], height: 1.5 + fr() * .5, pattern: fr() < .2 ? 'horizontal' : 'vertical' });
       const zStart = h ? zFacade - .3 : 0;
       const prevOnNeg = it.sign > 0 ? it.prev : it.next;
-      run(s1, zStart, s1, sideBack, 'plank', '#6c6153', null, 1.7, 'side');
-      if (!prevOnNeg) run(s0, zStart, s0, sideBack, 'plank', '#6c6153', null, 1.7, 'side');
+      const sideRun = (x, b) => { run(x, zStart, x, zBack, 'plank', b.color, null, b.height, 'side'); const r2 = runs[runs.length - 1]; if (r2) r2.pattern = b.pattern; };
+      sideRun(s1, board());
+      if (!prevOnNeg) sideRun(s0, board());
+      if (h) { const b = board(); run(s0, zBack, s1, zBack, 'plank', b.color, null, Math.min(1.6, b.height), 'back'); const r2 = runs[runs.length - 1]; if (r2) r2.pattern = fr() < .5 ? 'horizontal' : 'vertical'; }
     }
     // World segments.
     for (const r of runs) {
@@ -184,18 +223,6 @@ export function layoutMainStreet(passports, meta, lines) {
         spans = spans.flatMap(([u, v]) => (g1 <= u || g0 >= v) ? [[u, v]] : [[u, g0], [g1, v]].filter(([q, w2]) => w2 - q > .05));
       }
       for (const [u, v] of spans) colliders.push({ a: [a[0] + (b[0] - a[0]) * u / len, a[1] + (b[1] - a[1]) * u / len], b: [a[0] + (b[0] - a[0]) * v / len, a[1] + (b[1] - a[1]) * v / len] });
-    }
-    // Outbuildings from the passport offsets [along, back], pushed clear of the house.
-    for (const [k, o] of (p.outbuildings || []).entries()) {
-      const [ow, od] = OUTBUILDING_SIZE[o.kind] ?? [3, 3.4];
-      let ox = o.approxOffsetM[0], oz = -o.approxOffsetM[1];
-      const make = () => localRect(frame, ox - ow / 2, ox + ow / 2, oz - od / 2, oz + od / 2, { kind: o.kind, id: `${p.id}-ob${k}`, roof: o.roof, color: o.color, seed: it.seed + k * 17 });
-      let r = make();
-      for (let tries = 0; tries < 12 && [...rects, ...outbuildings].some(q => rectsOverlap(q, r, .05)); tries++) {
-        if (Math.abs(ox) >= Math.abs(oz)) ox += Math.sign(ox || 1) * .6; else oz -= .6;
-        r = make();
-      }
-      outbuildings.push(r); plot.outbuildings.push(r);
     }
     // Reserved: the whole plot from the street-side fence line to the back of the yard.
     plot.rect = localRect(frame, s0, s1, zBack, Math.max(zFront, zFacade) + .8);
