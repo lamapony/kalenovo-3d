@@ -54,3 +54,20 @@ overlap.
 Not data, but derived: `src/sun.js` computes the sun direction for
 25 November 2025, 14:00 local time (UTC+8) at the scene centre with the NOAA
 solar position algorithm (elevation about 15°, azimuth about 200°).
+`?tod=sunset` uses 16:20 the same day (about 3° high, azimuth about 230°).
+`?tod=night` uses 21:00; its moonlight direction is artistic (azimuth 130°,
+32° high), not a lunar ephemeris.
+
+## Lighting and textures (art assets, not data about the village)
+
+- Image-based lighting: **Stierberg Sunrise** HDRI by Grzegorz Wronkowski,
+  Poly Haven, CC0 1.0. https://polyhaven.com/a/stierberg_sunrise
+  File `public/env/stierberg_sunrise_1k.hdr`; details in `public/env/CREDITS.md`.
+- Ground textures (Poly Haven, CC0 1.0), in `public/textures/terrain/`,
+  details in `public/textures/terrain/CREDITS.md`:
+  **Snow 02** (Rob Tuytel, https://polyhaven.com/a/snow_02),
+  **Withered Grass** (Charlotte Baglioni, https://polyhaven.com/a/withered_grass),
+  **Rock Ground 02** (Rob Tuytel, https://polyhaven.com/a/rock_ground_02).
+
+CC0 needs no attribution; the footer credits Poly Haven anyway. The sky,
+clouds, fog and colour grade are procedural (`src/atmosphere.js`, `src/post.js`).

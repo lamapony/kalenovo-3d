@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { SCENE_LOCATION, SCENE_TIME, sceneSun, solarPosition, sunDirection } from '../src/sun.js';
+import { SCENE_LOCATION, SCENE_TIME, TIMES_OF_DAY, sceneSun, solarPosition, sunDirection } from '../src/sun.js';
 
 const near = (actual, expected, tolerance, label) => assert.ok(Math.abs(actual - expected) <= tolerance, `${label}: ${actual} vs ${expected}`);
 
@@ -48,4 +48,12 @@ test('sunDirection maps azimuth/elevation to scene axes (+x east, +y up, +z sout
   const d = sceneSun().direction;
   near(Math.hypot(d.x, d.y, d.z), 1, 1e-12, 'unit length');
   assert.ok(d.x < 0 && d.z > 0 && d.y > 0, 'south-west and above the horizon');
+});
+
+test('times of day: afternoon ~15 deg, sunset a few degrees up, night well below', () => {
+  assert.equal(TIMES_OF_DAY.afternoon, SCENE_TIME);
+  const sunset = sceneSun(TIMES_OF_DAY.sunset), night = sceneSun(TIMES_OF_DAY.night);
+  assert.ok(sunset.elevation > 1 && sunset.elevation < 5, `sunset elevation ${sunset.elevation}`);
+  assert.ok(sunset.azimuth > 220 && sunset.azimuth < 240, `sunset azimuth ${sunset.azimuth}`);
+  assert.ok(night.elevation < -18, `night elevation ${night.elevation}`);
 });

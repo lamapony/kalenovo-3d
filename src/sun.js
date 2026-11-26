@@ -12,6 +12,16 @@ export const SCENE_LOCATION = { lat: 51.757214, lon: 107.114639 };
 // south-south-west (azimuth about 200 degrees).
 export const SCENE_TIME = new Date(Date.UTC(2025, 10, 25, 6, 0, 0));
 
+// Times of day for ?tod= (same date, local time UTC+8). The afternoon is the
+// default scene time; "sunset" is 16:20, about 3 degrees before the sun sets;
+// "night" is 21:00, when the sun is far below the horizon and only artistic
+// moonlight lights the scene (no lunar ephemeris is computed).
+export const TIMES_OF_DAY = Object.freeze({
+  afternoon: SCENE_TIME,
+  sunset: new Date(Date.UTC(2025, 10, 25, 8, 20, 0)),
+  night: new Date(Date.UTC(2025, 10, 25, 13, 0, 0)),
+});
+
 /**
  * @param {Date} date UTC instant
  * @param {number} lat latitude in degrees, north positive

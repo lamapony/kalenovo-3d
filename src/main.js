@@ -9,6 +9,10 @@ import { createWalkControls } from './controls.js';
 import { createPost } from './post.js';
 import { createStats } from './debug.js';
 import { parseParams } from './params.js';
+import { birdView, streetView } from './views.js';
+import { loadTerrainTextures } from './terrainMaterial.js';
+import { keyLightDirection, prepareEnvironment } from './atmosphere.js';
+import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 
 const canvas = document.querySelector('#scene');
 const status = document.querySelector('#status');
@@ -16,6 +20,7 @@ const enter = document.querySelector('#enter');
 const lightsButton = document.querySelector('#lights');
 const params = parseParams(window.location.search);
 let renderer;
+if (params.nohud) document.body.classList.add('nohud');
 
 async function fetchData(file, type = 'json') {
   const response = await fetch(`${import.meta.env.BASE_URL}data/${file}`);
@@ -59,31 +64,38 @@ async function createRenderer() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, params.quality === 'high' ? 1.75 : 1.25));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = .95;
+  renderer.toneMapping = params.toneMapping === 'agx' ? THREE.AgXToneMapping : THREE.ACESFilmicToneMapping;
   const backend = renderer.backend.isWebGPUBackend ? 'WebGPU' : 'WebGL2';
   return backend;
 }
 
 async function start() {
-  const [backend, meta, dem, nearHeights, farHeights, osm, gba] = await Promise.all([
+  const base = import.meta.env.BASE_URL;
+  const [backend, meta, dem, nearHeights, farHeights, osm, gba, textures, environment] = await Promise.all([
     createRenderer(),
     fetchData('meta.json'), fetchData('dem-info.json'),
     fetchData('heightmap-513.f32', 'binary'), fetchData('heightmap-far-7500m-257.f32', 'binary'),
     fetchData('osm.geojson'), fetchData('buildings-gba.geojson'),
+    loadTerrainTextures(base),
+    // CC0 HDRI (public/env/CREDITS.md), float data so the sun can be clamped out.
+    new HDRLoader().setDataType(THREE.FloatType).loadAsync(`${base}env/stierberg_sunrise_1k.hdr`).then(prepareEnvironment),
   ]);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(64, 1, .2, 16000);
-  const terrain = createTerrain(meta, dem, nearHeights, farHeights); scene.add(terrain.mesh);
+  const terrain = createTerrain(meta, dem, nearHeights, farHeights, { textures, lightDirection: keyLightDirection(params.tod) }); scene.add(terrain.mesh);
   const ground = terrain.getGroundHeight;
   const paths = createPaths(osm.features, meta, ground); scene.add(paths.group);
   const houses = createBuildings(osm.features, gba.features, meta, ground); scene.add(houses.group);
   scene.add(createForest(osm.features, meta, ground, paths.exclusions, houses.rects));
   const family = createFamilyMarker(meta, ground, houses.rects); scene.add(family.group);
-  const atmosphere = createAtmosphere(scene, camera, { quality: params.quality });
-  const controls = createWalkControls(camera, canvas, meta, ground, houses.rects, { inspect: params.camera });
-  const post = createPost(renderer, scene, camera, { quality: params.quality });
-  const stats = createStats(renderer, { backend, quality: params.quality, effects: post.enabled, debug: params.debug });
+  const atmosphere = createAtmosphere(scene, camera, { quality: params.quality, tod: params.tod, environment });
+  renderer.toneMappingExposure = atmosphere.exposure;
+  // ?cam= wins over ?view=; both are inspection cameras for screenshots.
+  const preset = params.view === 'street' ? streetView(osm.features, meta)
+    : params.view === 'bird' && terrain.farElevations ? birdView(terrain.farElevations, dem.far) : null;
+  const controls = createWalkControls(camera, canvas, meta, ground, houses.rects, { inspect: params.camera ?? preset });
+  const post = createPost(renderer, scene, camera, { quality: params.quality, tod: params.tod });
+  const stats = createStats(renderer, { backend, quality: params.quality, effects: post.enabled, debug: params.debug && !params.nohud, tod: params.tod });
 
   let lightsOn = true;
   function toggleLights() {
@@ -120,7 +132,7 @@ async function start() {
   await renderer.compileAsync(scene, camera).catch(() => {});
   renderer.setAnimationLoop(frame);
   status.hidden = true; enter.disabled = false; enter.textContent = 'Начать прогулку';
-  console.info(`Kalenovo: ${backend}, ${params.quality} quality (${post.enabled.join(', ')}); sun ${atmosphere.sun.elevation.toFixed(1)}° high, azimuth ${atmosphere.sun.azimuth.toFixed(0)}°; ${houses.rects.length} deduplicated houses, ${paths.exclusions.length} path segments.`);
+  console.info(`Kalenovo: ${backend}, ${params.quality} quality (${post.enabled.join(', ')}), ${params.tod}; sun ${atmosphere.sun.elevation.toFixed(1)}° high, azimuth ${atmosphere.sun.azimuth.toFixed(0)}°; ${houses.rects.length} deduplicated houses, ${paths.exclusions.length} path segments.`);
 }
 
 start().catch(error => {

@@ -1,7 +1,7 @@
 // Frame-time meter (always on, cheap) plus an optional ?debug=1 overlay with
 // FPS, draw calls, triangles and the active backend. window.__kalenovo is a
 // frozen, read-only handle for automated measurement.
-export function createStats(renderer, { backend, quality, effects, debug }) {
+export function createStats(renderer, { backend, quality, effects, debug, tod = 'afternoon' }) {
   const times = [];
   let overlay = null, lastText = 0, drawCalls = 0, triangles = 0;
   if (debug) {
@@ -19,6 +19,7 @@ export function createStats(renderer, { backend, quality, effects, debug }) {
   const api = Object.freeze({
     backend,
     quality,
+    tod,
     effects: Object.freeze([...effects]),
     fps,
     stats: () => Object.freeze({ fps: fps(), drawCalls, triangles }),
@@ -33,7 +34,7 @@ export function createStats(renderer, { backend, quality, effects, debug }) {
       renderer.info.reset();
       if (overlay && now - lastText > 250) {
         lastText = now;
-        overlay.textContent = `${fps().toFixed(0)} fps · ${backend}\n${drawCalls} draws · ${(triangles / 1e6).toFixed(2)} M tris\n${quality}: ${effects.join(', ')}`;
+        overlay.textContent = `${fps().toFixed(0)} fps · ${backend}\n${drawCalls} draws · ${(triangles / 1e6).toFixed(2)} M tris\n${quality} · ${tod}: ${effects.join(', ')}`;
       }
     },
   };

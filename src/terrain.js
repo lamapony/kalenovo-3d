@@ -51,12 +51,12 @@ function gridGeometry(n, positionAt, { keepQuad, skirtDepth }) {
 }
 
 // Copernicus GLO-30 near tile (walkable) plus a far ring that fills the horizon.
-export function createTerrain(meta, dem, nearBuffer, farBuffer) {
+export function createTerrain(meta, dem, nearBuffer, farBuffer, { textures, lightDirection } = {}) {
   const centerElev = meta.centerElev, ve = VERTICAL_EXAGGERATION;
   const nearN = dem.near.gridSize, nearHalf = dem.near.halfSizeM;
   const near = parseHeightmap(nearBuffer, nearN);
   activeGroundHeight = createGroundSampler({ gridSize: nearN, halfSizeM: nearHalf, centerElev }, near);
-  const material = createTerrainMaterial();
+  const material = createTerrainMaterial(textures, { lightDirection });
   const group = new THREE.Group();
   group.name = 'Copernicus DEM GLO-30 terrain';
 
@@ -74,9 +74,10 @@ export function createTerrain(meta, dem, nearBuffer, farBuffer) {
   // Quads that straddle the near edge get their inner vertices moved onto the
   // edge with the near tile's height (minus 0.6 m), so the meshes meet
   // without overlapping (no z-fighting) and without a visible step.
+  let far = null;
   if (farBuffer) {
     const n = dem.far.gridSize, half = dem.far.halfSizeM, step = half * 2 / (n - 1);
-    const far = parseHeightmap(farBuffer, n);
+    far = parseHeightmap(farBuffer, n);
     const inner = new Uint8Array(n * n);
     const geometry = gridGeometry(n, (i, j, p) => {
       let x = -half + i * step, z = -half + j * step, y = (far[j * n + i] - centerElev) * ve;
@@ -91,11 +92,11 @@ export function createTerrain(meta, dem, nearBuffer, farBuffer) {
       skirtDepth: 400,
       keepQuad: (i, j) => { const a = j * n + i; return !(inner[a] && inner[a + 1] && inner[a + n] && inner[a + n + 1]); },
     });
-    const farMesh = new THREE.Mesh(geometry, material);
+    const farMesh = new THREE.Mesh(geometry, createTerrainMaterial(textures, { lightDirection, far: true }));
     farMesh.name = `Far terrain ring ${half / 1000} km (Copernicus GLO-30)`;
     farMesh.receiveShadow = true;
     group.add(farMesh);
   }
 
-  return { mesh: group, getGroundHeight, elevations: near };
+  return { mesh: group, getGroundHeight, elevations: near, farElevations: far };
 }
