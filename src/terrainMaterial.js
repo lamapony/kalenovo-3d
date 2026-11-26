@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu';
 import {
   cameraPosition, cameraViewMatrix, clamp, float, floor, uniform, mix, mx_cell_noise_float, mx_fractal_noise_float,
   mx_noise_float, normalWorldGeometry, positionWorld, smoothstep, texture, vec2, vec3, vec4,
-  dot,
+  step,
 } from 'three/tsl';
 import { season } from './season.js';
 
@@ -14,6 +14,9 @@ const SETS = {
   snow: { file: 'snow_02', tile: 2, mean: [.379, .379, .389] },
   grass: { file: 'withered_grass', tile: 2, mean: [.426, .304, .202] },
   rock: { file: 'rock_ground_02', tile: 3, mean: [.19, .165, .12] },
+  // Village ground: trodden dirt and gravel (both seasons), patchy summer grass.
+  trail: { file: 'rocky_trail', tile: 2, mean: [.298, .222, .147] },
+  sgrass: { file: 'sparse_grass', tile: 2, mean: [.077, .044, .004], summerOnly: true },
 };
 
 export async function loadTerrainTextures(baseUrl, { anisotropy = 8 } = {}) {
@@ -25,7 +28,7 @@ export async function loadTerrainTextures(baseUrl, { anisotropy = 8 } = {}) {
     tex.anisotropy = anisotropy;
     return tex;
   };
-  const entries = await Promise.all(Object.entries(SETS).map(async ([key, set]) => {
+  const entries = await Promise.all(Object.entries(SETS).filter(([, set]) => !set.summerOnly || season.summer).map(async ([key, set]) => {
     const [map, normal] = await Promise.all([load(`${set.file}_diff_1k.jpg`, true), load(`${set.file}_nor_gl_1k.jpg`, false)]);
     return [key, { map, normal, tile: set.tile, mean: set.mean }];
   }));
@@ -40,7 +43,7 @@ export async function loadTerrainTextures(baseUrl, { anisotropy = 8 } = {}) {
 // visibly. Snow carries wind-drift relief and tiny glints (see below).
 // `far: true` builds the cheap variant for the horizon ring (beyond 1.8 km):
 // maps replaced by their mean albedo, no drift relief, no glints.
-export function createTerrainMaterial(textures, { lightDirection = new THREE.Vector3(0, 1, 0), far = false } = {}) {
+export function createTerrainMaterial(textures, { lightDirection = new THREE.Vector3(0, 1, 0), far = false, groundMask = null } = {}) {
   const glintLight = uniform(lightDirection.clone().normalize());
   const material = new THREE.MeshStandardNodeMaterial({ roughness: .95, metalness: 0 });
   const p = positionWorld.xz;
@@ -95,26 +98,52 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
   const ground = mix(earth, rock, rockMix);
   // Snow takes a faint blue in hollows and on the far, large-scale dips.
   const snow = snowAlbedo.mul(2.15).mul(large.mul(.07).add(1)).mul(mix(vec3(.93, .96, 1.0), vec3(1), smoothstep(-.3, .3, mid)));
-  // ?season=summer: no snow. Steppe grass (the withered-grass texture's luminance carried
-  // into olive and yellow-green, as in the street imagery and the owner's 2013 photo), bare
-  // sandy earth in patches, on steeper ground and near the village, rock on the steepest.
-  const summer = season.summer;
-  let summerGround = null;
-  if (summer) {
-    const lum = dot(grassAlbedo, vec3(.3, .59, .11)).div(.33);
-    const lush = vec3(.115, .165, .055), dry = vec3(.23, .22, .1);
-    const green = mix(lush, dry, smoothstep(-.35, .55, mid.mul(.7).add(large.mul(.6)).add(slope.mul(3)))).mul(lum.mul(.55).add(.45));
-    const dirt = grassAlbedo.mul(vec3(.66, .64, .6)).mul(fine.mul(.15).add(1));
-    const dirtMask = clamp(smoothstep(.62, .86, patch).mul(.8).add(smoothstep(.1, .22, slope)), 0, 1);
-    summerGround = mix(mix(green, dirt, dirtMask), rock, rockMix);
+  // Village ground mask (src/village/kit/groundMask.js): R trodden dirt, G gravel/paving,
+  // B tilled soil, sampled with a little positional wobble so edges are never straight.
+  let maskR = float(0), maskG = float(0), maskB = float(0);
+  if (groundMask && !far) {
+    const mt = new THREE.DataTexture(groundMask.data, groundMask.width, groundMask.height, THREE.RGBAFormat);
+    mt.magFilter = mt.minFilter = THREE.LinearFilter; mt.generateMipmaps = false; mt.needsUpdate = true;
+    const wob = vec2(breakup, mid).mul(1.2); // reuse the ground noises: no extra noise cost
+    const muv = p.add(wob).sub(vec2(groundMask.x0, groundMask.z0)).div(vec2(groundMask.sizeX, groundMask.sizeZ));
+    const inside = step(0, muv.x).mul(step(muv.x, 1)).mul(step(0, muv.y)).mul(step(muv.y, 1));
+    const m = texture(mt, muv).mul(inside);
+    const edge = fine.mul(.35).add(breakup.mul(.15));
+    maskR = smoothstep(.25, .75, m.r.add(edge)); maskG = smoothstep(.3, .7, m.g.add(edge.mul(.5))); maskB = smoothstep(.4, .6, m.b);
   }
-  material.colorNode = summer ? summerGround : mix(ground, snow, snowCover);
+  const trailMap = far ? vec3(...SETS.trail.mean) : mix(texture(tex.trail.map, p.div(tex.trail.tile)).rgb, vec3(...SETS.trail.mean), flatten);
+  const trailN = far ? vec3(0, 0, 1) : decode(texture(tex.trail.normal, p.div(tex.trail.tile)));
+  // ?season=summer: no snow. Patchy steppe grass (the sparse-grass photo texture white-balanced
+  // to the green of the street imagery), dry yellow patches, darker weedy clumps, bare spots;
+  // sandy trodden dirt in yards and along fences, gravel at the gates, tilled soil in the beds.
+  const summer = season.summer;
+  let summerGround = null, summerN = null;
+  if (summer) {
+    const sg = far ? vec3(.11, .16, .04) : sample(tex.sgrass, 'map').rgb.mul(vec3(1.7, 3.5, 11));
+    const sgN = far ? vec3(0, 0, 1) : decode(sample(tex.sgrass, 'normal'));
+    const tone = mid.mul(.8).add(breakup.mul(.45)).add(large.mul(.6)).add(slope.mul(3));
+    const dryK = smoothstep(-.1, .6, tone), lushK = smoothstep(.05, -.55, tone);
+    let field = sg.mul(mix(vec3(1), vec3(1.4, 1.2, .85), dryK.mul(.8))).mul(mix(vec3(1), vec3(.78, .98, .8), lushK));
+    const weeds = smoothstep(.3, .7, breakup.mul(.6).add(fine.mul(.6)));
+    field = field.mul(mix(float(1), float(.72), weeds.mul(.6)));
+    const dirt = trailMap.mul(fine.mul(.12).add(1));
+    const bare = clamp(smoothstep(.72, .9, patch.add(breakup.mul(.12))).mul(.6).add(smoothstep(.12, .24, slope)), 0, 1);
+    const trod = clamp(maskR.mul(fine.mul(.25).add(.85)).max(bare), 0, 1);
+    const gravel = mix(trailMap, vec3(.32, .26, .19), .3).mul(vec3(1.15, 1.12, 1.08)).mul(fine.mul(.12).add(1));
+    const soilC = vec3(.08, .058, .042).mul(fine.mul(.2).add(1));
+    summerGround = mix(mix(mix(mix(field, dirt, trod), gravel, maskG), soilC, maskB), rock, rockMix);
+    summerN = mix(mix(sgN, trailN, trod.max(maskG)), rockN, rockMix);
+  }
+  // Winter: trampled grey snow in yards and paths, wheel-worn dirt showing at the gates.
+  const trampled = snow.mul(mix(vec3(1), vec3(.8, .79, .8), maskR.mul(.85)));
+  const worn = mix(trampled, trailMap.mul(.75), maskG.mul(smoothstep(-.3, .5, mid.add(fine)).mul(.55)));
+  material.colorNode = summer ? summerGround : mix(ground, worn, snowCover);
 
   // Normals: tangent-space blend, then into world space for the XZ
   // projection (tangent +x = +u, bitangent +z = +v for OpenGL-style maps).
   const groundN = mix(grassN, rockN, rockMix);
   const strength = mix(float(.35), float(1), detailFade);
-  const tn = summer ? groundN : mix(groundN, snowN.mul(vec3(.8, .8, 1)), snowCover);
+  const tn = summer ? summerN : mix(groundN, snowN.mul(vec3(.8, .8, 1)), snowCover);
 
   // Wind-packed drifts: a low (~0.3 m) procedural relief, stretched along the
   // wind, that the grazing winter sun picks out. Normal only, from finite

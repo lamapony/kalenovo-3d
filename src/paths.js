@@ -72,7 +72,7 @@ function ribbonGeometry(points, width, bank, ground, { water = false, lift = .1,
 // Two layers per road: 'bank' (snow shoulder, whole ribbon) and 'surface' (packed
 // track, alpha = onRoad). Every bank draws before every surface (renderOrder), so
 // where ways meet, one road's snow shoulder never paints over another's track.
-function roadMaterial(layer) {
+function roadMaterial(layer, textures = null) {
   const road = textureSet('road'), ruts = textureSet('ruts'), snow = textureSet('snow');
   const m = new THREE.MeshStandardNodeMaterial({ transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
   const fade = attribute('fade', 'float');
@@ -98,16 +98,24 @@ function roadMaterial(layer) {
   m.normalNode = normalMap(texture(road.normal, uvR), vec2(.9, .9));
   m.metalnessNode = float(0);
   if (season.summer) {
-    // Dry dirt road: sandy grey-brown, darker compacted ruts, pebbles, grassy fringes.
-    const dirt = vec3(.3, .235, .16).mul(n1.mul(.12).add(1)).mul(mx_noise_float(positionWorld.xz.mul(3.1)).mul(.1).add(1));
-    const grit = texture(ruts.color, uvR.mul(1.7)).rgb.dot(vec3(.33)).mul(.5).add(.6);
-    const rutDirt = mix(dirt.mul(grit), dirt.mul(vec3(.62, .58, .55)), rut.mul(.7));
-    const grassy = smoothstep(hw.mul(.55), hw.add(.3), a.add(n2.mul(.5))).mul(.75);
-    m.colorNode = mix(rutDirt, vec3(.09, .12, .04), grassy);
+    // Dry gravel-dirt road (CC0 Rocky Trail, world-projected): sandy grey-brown with stones,
+    // two darker compacted ruts with a raised grassy crown between them, grassy fringes.
+    const trail = textures?.trail;
+    const pw = positionWorld.xz;
+    const tA = trail ? texture(trail.map, pw.div(2)).rgb : vec3(.3, .235, .16);
+    const tB = trail ? texture(trail.map, vec2(pw.x.mul(.8253).sub(pw.y.mul(.5646)), pw.x.mul(.5646).add(pw.y.mul(.8253))).div(5.3)).rgb : tA;
+    // Half the texture contrast and a little lighter: the street is smooth sandy dirt, not scree.
+    const dirt = mix(mix(tA, tB, smoothstep(-.3, .3, n1)), vec3(.32, .25, .17), .45).mul(1.08).mul(n1.mul(.1).add(1));
+    const rutDirt = mix(dirt, dirt.mul(vec3(.66, .62, .58)), rut.mul(.75)).mul(float(1).sub(rutCore.mul(.15)));
+    // Crown strip between the inner ruts carries a thin line of grass on quiet roads.
+    const crown = smoothstep(c1.mul(.55), float(0), ar).mul(smoothstep(-.1, .4, n2)).mul(.5);
+    const grassy = smoothstep(hw.mul(.6), hw.add(.3), a.add(n2.mul(.5))).mul(.7).max(crown);
+    m.colorNode = mix(rutDirt, vec3(.1, .13, .045).mul(n2.mul(.3).add(1)), grassy);
+    if (trail) m.normalNode = normalMap(texture(trail.normal, pw.div(2)), vec2(.45, .45));
     m.roughnessNode = float(.95);
     if (layer === 'bank') {
       // Trampled verge: bare earth breaking up into sparse grass away from the road.
-      const verge = mix(dirt.mul(.85), vec3(.12, .15, .05), smoothstep(hw.add(bank.mul(.35)), hw.add(bank), a.add(n2.mul(1.2))).mul(.8));
+      const verge = mix(dirt.mul(.92), vec3(.12, .15, .05), smoothstep(hw.add(bank.mul(.25)), hw.add(bank), a.add(n2.mul(1.4))).mul(.85));
       m.colorNode = verge;
       m.opacityNode = float(1).sub(smoothstep(hw.add(bank.mul(.6)), hw.add(bank), a.add(n1.mul(.9)))).mul(smoothstep(-.8, -.1, n2.add(.25))).mul(fade);
       m.name = 'road verge (summer)';
@@ -154,10 +162,10 @@ function iceMaterial() {
   return m;
 }
 
-export function createPaths(features, meta, ground) {
+export function createPaths(features, meta, ground, { textures = null } = {}) {
   const group = new THREE.Group(), exclusions = [];
   const lines = wayLines(features, meta);
-  const bankMat = roadMaterial('bank'), surfaceMat = roadMaterial('surface'), iceMat = iceMaterial();
+  const bankMat = roadMaterial('bank', textures), surfaceMat = roadMaterial('surface', textures), iceMat = iceMaterial();
   // An end shared with another way of the same kind continues the road; any other
   // end is free (dead end or T junction) and fades out.
   const ends = lines.flatMap(l => [l.points[0], l.points[l.points.length - 1]].map(p => ({ p, kind: l.kind })));

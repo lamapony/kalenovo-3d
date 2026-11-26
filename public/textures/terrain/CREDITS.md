@@ -1,6 +1,7 @@
 # Terrain texture credits
 
-All maps are the 1K JPG downloads from Poly Haven, unmodified. Licence:
+All maps are the 1K JPG downloads from Poly Haven (the two added for the main street
+re-encoded to JPEG quality 84, otherwise unmodified). Licence:
 CC0 1.0 (public domain), https://polyhaven.com/license
 
 | Files | Asset | Author | Real tile size | Source |
@@ -8,7 +9,12 @@ CC0 1.0 (public domain), https://polyhaven.com/license
 | `snow_02_diff_1k.jpg`, `snow_02_nor_gl_1k.jpg` | Snow 02 | Rob Tuytel | 2 m | https://polyhaven.com/a/snow_02 |
 | `withered_grass_diff_1k.jpg`, `withered_grass_nor_gl_1k.jpg` | Withered Grass | Charlotte Baglioni | 2 m | https://polyhaven.com/a/withered_grass |
 | `rock_ground_02_diff_1k.jpg`, `rock_ground_02_nor_gl_1k.jpg` | Rock Ground 02 | Rob Tuytel | 3 m | https://polyhaven.com/a/rock_ground_02 |
+| `rocky_trail_diff_1k.jpg`, `rocky_trail_nor_gl_1k.jpg` | Rocky Trail | Amal Kumar | 2 m | https://polyhaven.com/a/rocky_trail |
+| `sparse_grass_diff_1k.jpg`, `sparse_grass_nor_gl_1k.jpg` | Sparse Grass | Amal Kumar | 2 m | https://polyhaven.com/a/sparse_grass |
 
 `_diff` is sRGB albedo, `_nor_gl` an OpenGL-convention (Y+) tangent-space
 normal map. `src/terrainMaterial.js` projects them on world XZ and rescales
 the albedo to winter values (snow about 0.82, frozen grass darker).
+
+Rocky Trail is the trodden dirt, gravel drives and dirt roads of the village (both
+seasons); Sparse Grass is the patchy summer grass (`?season=summer`, loaded only then).
