@@ -367,7 +367,7 @@ function buildGables(ctx, spec, rg, deco, surfOff, random) {
       }
     }
     // Cornice shelf at the gable base (street gable and every gable of a log house).
-    if (gw.axis === 'x' && (street || spec.wall.material === 'log') && rg.shape !== 'shed') {
+    if (gw.axis === 'x' && (street || spec.wall.material === 'log') && rg.shape !== 'shed' && spec.wall.material !== 'siding') {
       const hs = rg.S / 2, y0 = rg.y0, archH = street && r.gableArch ? Math.min(1.1, rg.rise * .36) : 0;
       const proj = .3, n = archH ? 18 : 1, pts = [];
       for (let i = 0; i <= n; i++) {

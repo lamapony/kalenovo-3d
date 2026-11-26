@@ -1,12 +1,12 @@
 // Pure ground mask for the main street (no three.js): where the ground is trodden dirt (R),
-// gravel or paving (G) and tilled soil (B), as feathered world rectangles rasterised into an
+// gravel (G), tilled soil (B) and concrete paving tiles (A), as feathered world rectangles rasterised into an
 // RGBA8 grid that the terrain shader samples. Driven by the passport layout: yards beside the
 // houses, worn strips outside the street fences, driveways from each gate to the road, paths
 // from wickets, beds, and the trampled ground around sheds, banyas and woodpiles.
 import { nearestOnLines } from '../passports.js';
 
 export const MASK_RES = .7; // metres per texel (coarser if the street would not fit maxSize)
-const CH = { dirt: 0, gravel: 1, soil: 2 };
+const CH = { dirt: 0, gravel: 1, soil: 2, paving: 3 };
 
 function worldRect(frame, x0, x1, z0, z1) {
   const [x, z] = frame.world((x0 + x1) / 2, (z0 + z1) / 2);
@@ -40,8 +40,13 @@ export function groundShapes(plots, lines, { roadHalf = 4.5 } = {}) {
       let nx = -dz / len, nz = dx / len;
       const toRoad = nearestOnLines(mid[0], mid[1], lines);
       if (toRoad.point && (toRoad.point[0] - mid[0]) * nx + (toRoad.point[1] - mid[1]) * nz < 0) { nx = -nx; nz = -nz; }
-      const r = strip([f.a[0] + nx * 1.6, f.a[1] + nz * 1.6], [f.b[0] + nx * 1.6, f.b[1] + nz * 1.6], 3.2);
-      out.push(shape(r, 'dirt', .62, 1.3));
+      // Trodden sandy front apron from just outside the fence (a thin line of grass stays
+      // along the boards) right out to the road, as in the street imagery.
+      const reach = toRoad.point ? Math.max(1.5, toRoad.distance - roadHalf + 1) : 3.2;
+      // Extended 2 m past both ends so neighbouring aprons overlap (no grass seams between plots).
+      const ux = dx / len * 2, uz = dz / len * 2, o = .55 + reach / 2;
+      const r = strip([f.a[0] - ux + nx * o, f.a[1] - uz + nz * o], [f.b[0] + ux + nx * o, f.b[1] + uz + nz * o], reach);
+      out.push(shape(r, 'dirt', .95, 1));
       for (const g of f.gates) {
         const gx = f.a[0] + dx * g.t / len, gz = f.a[1] + dz * g.t / len;
         const near = nearestOnLines(gx, gz, lines);
@@ -49,8 +54,10 @@ export function groundShapes(plots, lines, { roadHalf = 4.5 } = {}) {
         const outer = [gx + nx * dist, gz + nz * dist], inner = [gx - nx * 3.5, gz - nz * 3.5];
         if (g.type === 'wicket') out.push(shape(strip(inner, outer, 1.1), 'dirt', .85, .5));
         else {
-          out.push(shape(strip([gx, gz], outer, g.width + .6), 'gravel', 1, .7));
-          out.push(shape(strip(inner, [gx, gz], g.width + .4), 'gravel', .8, 1));
+          // Drive: gravel by default, concrete tiles where the passport says so (fence.drive).
+          const ch = plot.passport?.fence?.drive === 'paving' ? 'paving' : 'gravel';
+          out.push(shape(strip([gx, gz], outer, g.width + .6), ch, 1, ch === 'paving' ? .25 : .7));
+          out.push(shape(strip(inner, [gx, gz], g.width + .4), ch, .9, ch === 'paving' ? .25 : 1));
         }
       }
     }
@@ -73,14 +80,13 @@ export function maskBounds(shapes, pad = 6) {
   return { x0: x0 - pad, z0: z0 - pad, x1: x1 + pad, z1: z1 + pad };
 }
 
-// Rasterise shapes into RGBA8 (A unused = 255). Texel (i, j) covers x0 + (i + .5) * res,
+// Rasterise shapes into RGBA8 (A = paving). Texel (i, j) covers x0 + (i + .5) * res,
 // z0 + (j + .5) * res; row 0 is the smallest z. Channels combine by maximum.
 export function rasterizeMask(shapes, bounds, res = MASK_RES, maxSize = 4096) {
   res = Math.max(res, (bounds.x1 - bounds.x0) / maxSize, (bounds.z1 - bounds.z0) / maxSize);
   const width = Math.min(maxSize, Math.ceil((bounds.x1 - bounds.x0) / res));
   const height = Math.min(maxSize, Math.ceil((bounds.z1 - bounds.z0) / res));
   const data = new Uint8Array(width * height * 4);
-  for (let i = 3; i < data.length; i += 4) data[i] = 255;
   for (const s of shapes) {
     const c = Math.cos(s.angle), sn = Math.sin(s.angle), hw = s.w / 2, hd = s.d / 2, r = Math.hypot(hw, hd);
     const i0 = Math.max(0, Math.floor((s.x - r - bounds.x0) / res)), i1 = Math.min(width - 1, Math.ceil((s.x + r - bounds.x0) / res));
@@ -100,7 +106,7 @@ export function rasterizeMask(shapes, bounds, res = MASK_RES, maxSize = 4096) {
 
 export function sampleMask(mask, x, z) {
   const i = Math.floor((x - mask.x0) / mask.res), j = Math.floor((z - mask.z0) / mask.res);
-  if (i < 0 || j < 0 || i >= mask.width || j >= mask.height) return [0, 0, 0];
+  if (i < 0 || j < 0 || i >= mask.width || j >= mask.height) return [0, 0, 0, 0];
   const k = (j * mask.width + i) * 4;
-  return [mask.data[k] / 255, mask.data[k + 1] / 255, mask.data[k + 2] / 255];
+  return [mask.data[k] / 255, mask.data[k + 1] / 255, mask.data[k + 2] / 255, mask.data[k + 3] / 255];
 }

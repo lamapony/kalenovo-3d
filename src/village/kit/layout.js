@@ -244,7 +244,10 @@ export function layoutMainStreet(passports, meta, lines) {
       const a = row[k - 1], b = row[k];
       if (a.c.line !== b.c.line) continue;
       const p0 = a.endPos, p1 = b.endNeg, len = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]);
-      if (len < .6 || len > 60) continue;
+      // Along-street gap only: plots that meet but whose street lines differ in depth get no
+      // diagonal filler (their side fences already close the gap).
+      const along = Math.abs((p1[0] - p0[0]) * a.c.dir[0] + (p1[1] - p0[1]) * a.c.dir[1]);
+      if (len < .6 || len > 60 || along < 2.5 || along < len * .6) continue;
       const f = { a: p0, b: p1, t0: 0, t1: len, type: 'plank', color: '#6c6153', height: 1.7, role: 'filler', gates: [], owner: `${a.p.id}+` };
       const plot = { id: `${a.p.id}-gap`, filler: true, fences: [f], outbuildings: [], seed: a.seed ^ 0x9e37, frame: a.frame, rect: { x: (p0[0] + p1[0]) / 2, z: (p0[1] + p1[1]) / 2, w: len, d: .8, angle: Math.atan2(p1[1] - p0[1], p1[0] - p0[0]) } };
       fillers.push(plot);

@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu';
 import {
   cameraPosition, cameraViewMatrix, clamp, float, floor, uniform, mix, mx_cell_noise_float, mx_fractal_noise_float,
   mx_noise_float, normalWorldGeometry, positionWorld, smoothstep, texture, vec2, vec3, vec4,
-  step,
+  step, fract,
 } from 'three/tsl';
 import { season } from './season.js';
 
@@ -100,7 +100,7 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
   const snow = snowAlbedo.mul(2.15).mul(large.mul(.07).add(1)).mul(mix(vec3(.93, .96, 1.0), vec3(1), smoothstep(-.3, .3, mid)));
   // Village ground mask (src/village/kit/groundMask.js): R trodden dirt, G gravel/paving,
   // B tilled soil, sampled with a little positional wobble so edges are never straight.
-  let maskR = float(0), maskG = float(0), maskB = float(0);
+  let maskR = float(0), maskG = float(0), maskB = float(0), maskA = float(0);
   if (groundMask && !far) {
     const mt = new THREE.DataTexture(groundMask.data, groundMask.width, groundMask.height, THREE.RGBAFormat);
     // Mipmapped: distant terrain then reads a small, cache-friendly level of the 20 MB mask.
@@ -110,7 +110,7 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
     const inside = step(0, muv.x).mul(step(muv.x, 1)).mul(step(0, muv.y)).mul(step(muv.y, 1));
     const m = texture(mt, muv).mul(inside);
     const edge = fine.mul(.35).add(breakup.mul(.15));
-    maskR = smoothstep(.25, .75, m.r.add(edge)); maskG = smoothstep(.3, .7, m.g.add(edge.mul(.5))); maskB = smoothstep(.4, .6, m.b);
+    maskR = smoothstep(.25, .75, m.r.add(edge)); maskG = smoothstep(.3, .7, m.g.add(edge.mul(.5))); maskB = smoothstep(.4, .6, m.b); maskA = smoothstep(.45, .55, m.a);
   }
   // Winter only needs the dirt colour where wheels wear through the snow: no texture there.
   const trailMap = far || !season.summer ? vec3(...SETS.trail.mean).mul(fine.mul(.25).add(1)) : mix(texture(tex.trail.map, p.div(tex.trail.tile)).rgb, vec3(...SETS.trail.mean), flatten);
@@ -133,12 +133,17 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
     const trod = clamp(maskR.mul(fine.mul(.25).add(.85)).max(bare), 0, 1);
     const gravel = mix(trailMap, vec3(.32, .26, .19), .3).mul(vec3(1.15, 1.12, 1.08)).mul(fine.mul(.12).add(1));
     const soilC = vec3(.08, .058, .042).mul(fine.mul(.2).add(1));
-    summerGround = mix(mix(mix(mix(field, dirt, trod), gravel, maskG), soilC, maskB), rock, rockMix);
+    // Concrete paving tiles (0.4 m, dark joints, slight per-tile tone) on paved drives.
+    const tile = vec2(fract(p.x.div(.4)), fract(p.y.div(.4)));
+    const joint = smoothstep(.0, .04, tile.x).mul(smoothstep(1, .96, tile.x)).mul(smoothstep(0, .04, tile.y)).mul(smoothstep(1, .96, tile.y));
+    const tileTone = mx_cell_noise_float(vec3(floor(p.div(.4)), 5.5)).mul(.18).add(.9);
+    const paving = mix(vec3(.12, .11, .1), vec3(.38, .34, .3).mul(tileTone), joint).mul(fine.mul(.1).add(1));
+    summerGround = mix(mix(mix(mix(mix(field, dirt, trod), gravel, maskG), soilC, maskB), paving, maskA), rock, rockMix);
     summerN = mix(mix(sgN, trailN, trod.max(maskG)), rockN, rockMix);
   }
   // Winter: trampled grey snow in yards and paths, wheel-worn dirt showing at the gates.
   const trampled = snow.mul(mix(vec3(1), vec3(.8, .79, .8), maskR.mul(.85)));
-  const worn = mix(trampled, trailMap.mul(.75), maskG.mul(smoothstep(-.3, .5, mid.add(fine)).mul(.55)));
+  const worn = mix(trampled, trailMap.mul(.75), maskG.max(maskA).mul(smoothstep(-.3, .5, mid.add(fine)).mul(.55)));
   material.colorNode = summer ? summerGround : mix(ground, worn, snowCover);
 
   // Normals: tangent-space blend, then into world space for the XZ

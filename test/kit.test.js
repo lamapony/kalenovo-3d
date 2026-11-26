@@ -251,7 +251,7 @@ test('ground mask: feathered rectangles rasterise into the right channels', () =
   assert.ok(sampleMask(m, 4.8, 0)[1] < .4, 'feathered edge');
   assert.equal(sampleMask(m, 0, 3)[1], 0);
   assert.ok(Math.abs(sampleMask(m, 0, 0)[0] - .5) < .02, 'dirt channel at half strength');
-  assert.deepEqual(sampleMask(m, 100, 100), [0, 0, 0]);
+  assert.deepEqual(sampleMask(m, 100, 100), [0, 0, 0, 0]);
 });
 
 test('main street ground shapes: drives at gates, yards beside houses, soil under beds', () => {

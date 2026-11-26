@@ -63,6 +63,7 @@ export function resolveHouse(p) {
     frieze: r.frieze ?? false,
     trimColor: r.trimColor ?? null,
     dormers: r.dormers ?? [],
+    hipUpper: r.hipUpper ?? false,
   };
   const win = h.windows ?? {
     street: roof.ridge === 'parallel' ? clamp(Math.round(w / 2.4), 2, 4) : (w >= 6.5 ? 3 : 2),
@@ -140,16 +141,35 @@ export function roofGeometry(spec) {
   if (shape === 'mansard') {
     const lowerRun = S * .11, k = hs - lowerRun, yk = y0 + lift + lowerRun * t;
     const tu = Math.tan(MANSARD_UPPER_PITCH * Math.PI / 180), yR = yk + k * tu, yE = y0 + lift - e * t;
+    // hipUpper: the shallow upper roof is hipped at both ends (house 45), so the end walls
+    // stop at the knee and the red roof wraps over the top of the street end.
+    // The hip ends are steeper than the shallow upper slopes (about half the run), as seen
+    // on house 45 from the street.
+    const hip = !!r.hipUpper, X = hl + g, c = hip ? k * .5 : 0;
     for (const s of [-1, 1]) {
-      const eA = [-hl - g, yE, s * (hs + e)], eB = [hl + g, yE, s * (hs + e)];
-      const kA = [-hl - g, yk, s * k], kB = [hl + g, yk, s * k], rA = [-hl - g, yR, 0], rB = [hl + g, yR, 0];
+      const eA = [-X, yE, s * (hs + e)], eB = [X, yE, s * (hs + e)];
+      const kA = [-X, yk, s * k], kB = [X, yk, s * k], rA = [-X + c, yR, 0], rB = [X - c, yR, 0];
       out.slopes.push(slope(s > 0 ? [eA, eB, kB, kA] : [eB, eA, kA, kB], eA, eB));
       out.slopes.push(slope(s > 0 ? [kA, kB, rB, rA] : [kB, kA, rA, rB], kA, kB));
       out.eaves.push({ a: eA, b: eB, out: [0, 0, s] });
-      for (const x of [-hl - g, hl + g]) { out.rakes.push({ a: [x, yE, s * (hs + e)], b: [x, yk, s * k] }); out.rakes.push({ a: [x, yk, s * k], b: [x, yR, 0] }); }
+      for (const x of [-X, X]) {
+        out.rakes.push({ a: [x, yE, s * (hs + e)], b: [x, yk, s * k] });
+        if (!hip) out.rakes.push({ a: [x, yk, s * k], b: [x, yR, 0] });
+      }
     }
-    out.ridges.push([[-hl - g, yR, 0], [hl + g, yR, 0]]);
-    for (const sx of [-1, 1]) out.gableWalls.push({ axis: 'x', at: sx * hl, outward: sx, poly: [[-hs, y0], [hs, y0], [k, yk - lift], [0, yR - lift], [-k, yk - lift]] });
+    if (hip) {
+      for (const sx of [-1, 1]) {
+        const A = [sx * X, yk, sx * k], B = [sx * X, yk, -sx * k], R = [sx * (X - c), yR, 0];
+        out.slopes.push(slope([A, B, R], A, B));
+        out.eaves.push({ a: A, b: B, out: [sx, 0, 0] });
+        out.hips.push([A, R], [B, R]);
+        out.gableWalls.push({ axis: 'x', at: sx * hl, outward: sx, poly: [[-hs, y0], [hs, y0], [k, yk - lift], [-k, yk - lift]] });
+      }
+      out.ridges.push([[-X + c, yR, 0], [X - c, yR, 0]]);
+    } else {
+      out.ridges.push([[-X, yR, 0], [X, yR, 0]]);
+      for (const sx of [-1, 1]) out.gableWalls.push({ axis: 'x', at: sx * hl, outward: sx, poly: [[-hs, y0], [hs, y0], [k, yk - lift], [0, yR - lift], [-k, yk - lift]] });
+    }
     Object.assign(out, { ridgeY: yR, eaveY: yE, kneeY: yk, rise: yR - y0 });
     return out;
   }

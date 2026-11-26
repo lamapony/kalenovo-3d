@@ -1662,7 +1662,7 @@
    "lon": 107.1183007,
    "side": "N",
    "setbackM": 17.6,
-   "facadeYawDeg": -26.7,
+   "facadeYawDeg": -19,
    "footprintIndex": 263,
    "mergedFootprint": true,
    "house": {
@@ -1688,7 +1688,9 @@
        "side": "left",
        "at": 0.84
       }
-     ]
+     ],
+     "hipUpper": true,
+     "trimColor": "#ecebe6"
     },
     "windows": {
      "street": 4,
@@ -1725,7 +1727,8 @@
     "yardType": "profiled",
     "yardColor": "#6c3429",
     "gateSide": "left",
-    "gardenM": 7.6
+    "gardenM": 7.6,
+    "drive": "paving"
    },
    "outbuildings": [],
    "notes": "Толстихина, 45. Red-brown profiled gate with a wicket on the west side of the house; red profiled fence to the east behind the picket."
