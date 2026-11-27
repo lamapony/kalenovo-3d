@@ -1172,7 +1172,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
@@ -1398,7 +1399,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "mesh",
@@ -1620,7 +1622,9 @@
      "type": "double",
      "color": "#987d55",
      "roofed": false,
-     "wicket": false
+     "wicket": false,
+     "pattern": "diamond",
+     "patternColor": "#c8ab78"
     }
    },
    "outbuildings": [],
@@ -1650,18 +1654,21 @@
      "type": "double",
      "color": "#71a99e",
      "roofed": false,
-     "wicket": true
+     "wicket": true,
+     "pattern": "diamond"
     }
    },
    "outbuildings": [
     {
      "kind": "garage",
      "roof": "shed",
-     "color": "#c0ac8e",
+     "color": "#d6ccb2",
      "approxOffsetM": [
       -6,
       2
-     ]
+     ],
+     "material": "metal",
+     "doorColor": "#b9ab8e"
     }
    ],
    "notes": "house hidden by a large tree; teal gates with a diamond pattern; beige garage at the left (east) end"
@@ -1812,7 +1819,10 @@
      "color": "#0f4314",
      "roofed": false,
      "wicket": false
-    }
+    },
+    "diamonds": "#e4e2da",
+    "picketGapM": 0.035,
+    "yardLengthM": 4.8
    },
    "outbuildings": [
     {
@@ -1820,9 +1830,11 @@
      "roof": "shed",
      "color": "#dbccb7",
      "approxOffsetM": [
-      -7,
-      0
-     ]
+      -9.5,
+      -0.4
+     ],
+     "material": "metal",
+     "doorColor": "#c4952e"
     }
    ],
    "notes": "green picket with white diamonds; beige garage with ochre doors to the east"
@@ -1885,7 +1897,9 @@
      "depthM": 5.2,
      "color": "#2c6a57",
      "glazed": true
-    }
+    },
+    "chimneyType": "metal-pipe",
+    "chimneyCount": 2
    },
    "fence": {
     "type": "stripe",
@@ -1897,7 +1911,9 @@
      "type": "double",
      "color": "#165035",
      "roofed": false,
-     "wicket": false
+     "wicket": false,
+     "pattern": "x",
+     "patternColor": "#e3e3dc"
     },
     "gateSide": "left",
     "gardenM": 3.7
@@ -1977,8 +1993,19 @@
      "type": "double",
      "color": "#306460",
      "roofed": false,
-     "wicket": false
-    }
+     "wicket": false,
+     "pattern": "chevron",
+     "patternColor": "#3c7873"
+    },
+    "extra": [
+     {
+      "type": "picket",
+      "color": "#e5e3dc",
+      "side": "right",
+      "lengthM": 5,
+      "heightM": 1.1
+     }
+    ]
    },
    "outbuildings": [],
    "notes": "blue plank gate with a diamond pattern; white picket further west"
@@ -2033,7 +2060,9 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe",
+    "chimneyCount": 2
    },
    "fence": {
     "type": "plank",
@@ -2071,11 +2100,14 @@
     {
      "kind": "garage",
      "roof": "gable",
-     "color": "#59442d",
+     "color": "#4a3a2a",
      "approxOffsetM": [
       0,
       4
-     ]
+     ],
+     "material": "log",
+     "doorColor": "#59442d",
+     "roofColor": "#c3c3bd"
     }
    ],
    "notes": "plank garage with double doors attached to a log section, pale grey corrugated roof"
@@ -2270,7 +2302,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "profiled",
@@ -2338,7 +2371,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -2496,7 +2530,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
@@ -2594,7 +2629,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "profiled",
@@ -2606,7 +2642,16 @@
      "color": "#27587e",
      "roofed": false,
      "wicket": true
-    }
+    },
+    "extra": [
+     {
+      "type": "mesh",
+      "color": "#8b8f8d",
+      "side": "left",
+      "lengthM": 3,
+      "heightM": 1.4
+     }
+    ]
    },
    "outbuildings": [],
    "notes": "partly behind a tree; bright blue profiled gate"
@@ -2662,7 +2707,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "metal-rail",
@@ -2788,7 +2834,8 @@
     "porch": null,
     "veranda": true,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -2856,7 +2903,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "profiled",
@@ -2919,7 +2967,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -3153,7 +3202,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "mesh",
@@ -3216,7 +3266,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -3686,7 +3737,9 @@
      "wicket": false
     },
     "yardType": "profiled",
-    "yardColor": "#2d405a"
+    "yardColor": "#2d405a",
+    "picketTop": "fan",
+    "postColor": "#3f6fa6"
    },
    "outbuildings": [],
    "notes": "white fan-shaped pickets with blue posts; blue profiled fence; blue east gable seen from the next shot"
@@ -3883,7 +3936,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
@@ -4099,7 +4153,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "brick"
    },
    "fence": {
     "type": "plank",
@@ -4110,7 +4165,8 @@
      "type": "double",
      "color": "#7fb2c8",
      "roofed": false,
-     "wicket": false
+     "wicket": false,
+     "pattern": "chevron"
     },
     "pattern": "horizontal"
    },
@@ -4231,7 +4287,8 @@
     },
     "veranda": true,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "verandaSide": "left"
    },
    "fence": {
     "type": "lattice",
@@ -4242,7 +4299,8 @@
      "type": "double",
      "color": "#104628",
      "roofed": false,
-     "wicket": false
+     "wicket": false,
+     "pattern": "chevron"
     }
    },
    "outbuildings": [
@@ -4360,8 +4418,11 @@
      "type": "double",
      "color": "#33655c",
      "roofed": false,
-     "wicket": false
-    }
+     "wicket": false,
+     "pattern": "x",
+     "patternColor": "#d9dcd4"
+    },
+    "diamonds": "#e2e0d8"
    },
    "outbuildings": [],
    "notes": "sunburst gable; teal picket with white diamonds"
@@ -4932,7 +4993,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "profiled",
@@ -5002,7 +5064,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -5220,7 +5283,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": null,
    "outbuildings": [],
@@ -5290,7 +5354,8 @@
      "type": "double",
      "color": "#552e1e",
      "roofed": false,
-     "wicket": true
+     "wicket": true,
+     "pattern": "chevron"
     }
    },
    "outbuildings": [],
@@ -5369,7 +5434,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -5453,14 +5519,15 @@
       "color": "#518aa1"
      }
     },
-    "chimney": false,
+    "chimney": true,
     "porch": {
      "side": "front",
      "roofed": false
     },
     "veranda": true,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -5539,7 +5606,9 @@
      "type": "double",
      "color": "#7a8c68",
      "roofed": false,
-     "wicket": true
+     "wicket": true,
+     "pattern": "diamond",
+     "patternColor": "#e6e5e0"
     }
    },
    "outbuildings": [],
@@ -5596,7 +5665,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "mesh",
@@ -5666,7 +5736,8 @@
     "color": "#c8c4b8",
     "heightM": 1.2,
     "lengthM": 4.9,
-    "gate": null
+    "gate": null,
+    "picketTop": "rounded"
    },
    "outbuildings": [],
    "notes": "white and teal carved picket"
@@ -5722,7 +5793,8 @@
     "porch": null,
     "veranda": true,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "profiled",
@@ -5859,14 +5931,16 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
     "color": "#946a3f",
     "heightM": 1.2,
     "lengthM": 2.5,
-    "gate": null
+    "gate": null,
+    "picketTop": "rounded"
    },
    "outbuildings": [],
    "notes": "small building with a telecom sign on the wall; part of the wall maroon planks; carved wooden picket"
@@ -6010,7 +6084,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "profiled",
@@ -6078,7 +6153,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
@@ -6197,7 +6273,8 @@
     "porch": null,
     "veranda": true,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
@@ -6261,7 +6338,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -6336,7 +6414,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -6399,7 +6478,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -6542,7 +6622,16 @@
      "color": "#414e32",
      "roofed": false,
      "wicket": false
-    }
+    },
+    "extra": [
+     {
+      "type": "plank",
+      "color": "#5e8669",
+      "side": "right",
+      "lengthM": 7,
+      "heightM": 1.9
+     }
+    ]
    },
    "outbuildings": [],
    "notes": "red brick chimney; green plank fence"
@@ -6628,7 +6717,8 @@
     "porch": null,
     "veranda": true,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "verandaSide": "left"
    },
    "fence": {
     "type": "plank",
@@ -6690,7 +6780,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -6804,7 +6895,16 @@
      "color": "#245f30",
      "roofed": false,
      "wicket": true
-    }
+    },
+    "extra": [
+     {
+      "type": "picket",
+      "color": "#4f7fb5",
+      "side": "right",
+      "lengthM": 2.5,
+      "heightM": 1.1
+     }
+    ]
    },
    "outbuildings": [],
    "notes": "east roof end hipped; large white-framed windows"
@@ -7003,7 +7103,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -7068,7 +7169,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -7214,7 +7316,8 @@
     "veranda": false,
     "basementM": 0.3,
     "notes": "",
-    "wallHeightM": 3
+    "wallHeightM": 3,
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "stripe",
@@ -7330,7 +7433,8 @@
      "wicket": false
     },
     "gateSide": "right",
-    "gardenM": 2.5
+    "gardenM": 2.5,
+    "diamonds": "#d9dcd8"
    },
    "outbuildings": [],
    "notes": "part of the wall painted blue"
@@ -7438,7 +7542,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "brick"
    },
    "fence": {
     "type": "picket",
@@ -7515,7 +7620,8 @@
     "heightM": 1.2,
     "lengthM": 4.8,
     "gate": null,
-    "gardenM": 1
+    "gardenM": 1,
+    "diamonds": "#dfe2dc"
    },
    "outbuildings": [
     {
@@ -7646,7 +7752,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "profiled",
@@ -7712,7 +7819,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
@@ -7854,7 +7962,8 @@
     "veranda": false,
     "basementM": 0.3,
     "notes": "",
-    "wallHeightM": 2.9
+    "wallHeightM": 2.9,
+    "chimneyType": "metal-pipe"
    },
    "fence": null,
    "outbuildings": [
@@ -7865,7 +7974,8 @@
      "approxOffsetM": [
       5,
       0
-     ]
+     ],
+     "roofColor": "#c8c6bf"
     }
    ],
    "notes": "blue painted log walls, bright green roof; plank garage with green doors attached on the west"
