@@ -116,7 +116,11 @@ export function layoutMainStreet(passports, meta, lines) {
     const runs = [];
     const run = (x0, z0, x1, z1, type, color, color2, height, role) => {
       if (Math.hypot(x1 - x0, z1 - z0) < .4) return;
-      runs.push({ x0, z0, x1, z1, type, color, color2, height, role, gates: [], pattern: type === fence?.type ? fence?.pattern : undefined, pillars: role === 'yard' ? fence?.pillarColor : undefined });
+      const own = type === fence?.type && color === fence?.color;
+      runs.push({
+        x0, z0, x1, z1, type, color, color2, height, role, gates: [], pattern: type === fence?.type ? fence?.pattern : undefined, pillars: role === 'yard' ? fence?.pillarColor : undefined,
+        ...(own ? { picketTop: fence.picketTop, diamonds: fence.diamonds, postColor: fence.postColor, gapM: fence.picketGapM } : {}),
+      });
     };
     if (fence && plan) {
       const solid = SOLID_TYPES.has(fence.type);
@@ -154,14 +158,17 @@ export function layoutMainStreet(passports, meta, lines) {
         run(-w / 2, zFacade + .05, s0, zFacade + .05, fence.type, fence.color, fence.color2, fence.heightM, yardSide < 0 ? 'yard' : 'front');
         run(w / 2, zFacade + .05, s1, zFacade + .05, fence.type, fence.color, fence.color2, fence.heightM, yardSide > 0 ? 'yard' : 'front');
       }
+      // Second fence types on the street line (fence.extra): they replace the end of the line.
+      if (fence.extra?.length) applyExtraRuns(runs, fence.extra, { s0, s1, zLine: plan.kind === 'front' ? zFront : zFacade + .05 });
       // Gate (and wicket) on the yard run, next to the house.
       const yard = runs.find(r => r.role === 'yard') ?? runs[0];
       if (fence.gate && yard) {
         const gw = GATE_WIDTH[fence.gate.type] ?? 3;
         const L = Math.hypot(yard.x1 - yard.x0, yard.z1 - yard.z0);
         const wants = [];
-        if (fence.gate.wicket) wants.push({ type: 'wicket', width: WICKET_WIDTH, color: fence.gate.color, roofed: false });
-        wants.push({ type: fence.gate.type, width: gw, color: fence.gate.color, roofed: fence.gate.roofed });
+        const pat = { pattern: fence.gate.pattern, patternColor: fence.gate.patternColor };
+        if (fence.gate.wicket) wants.push({ type: 'wicket', width: WICKET_WIDTH, color: fence.gate.color, roofed: false, ...pat });
+        wants.push({ type: fence.gate.type, width: gw, color: fence.gate.color, roofed: fence.gate.roofed, ...pat });
         let t = yard.gateStart ?? .35;
         for (const g of wants) {
           if (t + g.width + .2 > L) { g.width = Math.max(0, L - t - .25); if (g.width < .9) break; }
@@ -175,7 +182,7 @@ export function layoutMainStreet(passports, meta, lines) {
     for (const [k, o] of (p.outbuildings || []).entries()) {
       const [ow, od] = OUTBUILDING_SIZE[o.kind] ?? [3, 3.4];
       let ox = o.approxOffsetM[0], oz = -o.approxOffsetM[1];
-      const make = () => localRect(frame, ox - ow / 2, ox + ow / 2, oz - od / 2, oz + od / 2, { kind: o.kind, id: `${p.id}-ob${k}`, roof: o.roof, color: o.color, seed: it.seed + k * 17 });
+      const make = () => localRect(frame, ox - ow / 2, ox + ow / 2, oz - od / 2, oz + od / 2, { kind: o.kind, id: `${p.id}-ob${k}`, roof: o.roof, color: o.color, material: o.material, doorColor: o.doorColor, roofColor: o.roofColor, seed: it.seed + k * 17 });
       let r = make();
       for (let tries = 0; tries < 12 && [...rects, ...outbuildings].some(q => rectsOverlap(q, r, .05)); tries++) {
         if (Math.abs(ox) >= Math.abs(oz)) ox += Math.sign(ox || 1) * .6; else oz -= .6;
@@ -215,7 +222,7 @@ export function layoutMainStreet(passports, meta, lines) {
     // World segments.
     for (const r of runs) {
       const a = frame.world(r.x0, r.z0), b = frame.world(r.x1, r.z1), len = Math.hypot(b[0] - a[0], b[1] - a[1]);
-      const f = { a, b, t0: 0, t1: len, pattern: r.pattern, type: r.type, color: r.color, color2: r.color2, height: r.height, role: r.role, gates: r.gates, owner: p.id, pillars: r.pillars };
+      const f = { a, b, t0: 0, t1: len, pattern: r.pattern, type: r.type, color: r.color, color2: r.color2, height: r.height, role: r.role, gates: r.gates, owner: p.id, pillars: r.pillars, picketTop: r.picketTop, diamonds: r.diamonds, postColor: r.postColor, gapM: r.gapM };
       plot.fences.push(f);
       let spans = [[0, len]];
       for (const g of r.gates) {
@@ -291,4 +298,41 @@ export function carPlacements(p, runs, zLine) {
     const [w, l] = CAR_SIZE[c.kind] ?? CAR_SIZE.car;
     return { kind: c.kind, color: c.color, yawDeg: c.yawDeg ?? 0, w, l, lx: (gate ? gate.lx : 0) + k * (w + .8), lz: zLine + .5 + l / 2 };
   });
+}
+
+// fence.extra: a second fence type at one end of the street line (house-local x from the
+// plot edge inwards, `lengthM` long). Street-line runs (front/yard, parallel to the facade)
+// are cut back where the extra run stands, never through a gate; the extra run sits on the
+// line of the run it replaces (else zLine), moved `offsetM` toward the street. Pure; mutates runs.
+export function applyExtraRuns(runs, extras, { s0, s1, zLine }) {
+  for (const x of extras) {
+    const right = x.side === 'right';
+    let a = right ? s1 - x.lengthM : s0, b = right ? s1 : s0 + x.lengthM;
+    const street = runs.filter(r => (r.role === 'front' || r.role === 'yard') && Math.abs(r.z1 - r.z0) < .01);
+    // Never through a gate: shrink the interval to stop short of any gate.
+    for (const r of street) for (const g of r.gates || []) {
+      const dir = Math.sign(r.x1 - r.x0) || 1;
+      const gx = r.x0 + dir * g.t, g0 = gx - g.width / 2 - .2, g1 = gx + g.width / 2 + .2;
+      if (right && g1 > a) a = Math.max(a, g1);
+      if (!right && g0 < b) b = Math.min(b, g0);
+    }
+    if (b - a < .5) continue;
+    const host = street.find(r => Math.min(r.x0, r.x1) <= (right ? b - .1 : a + .1) && Math.max(r.x0, r.x1) >= (right ? b - .1 : a + .1));
+    const z = (host ? host.z0 : zLine) + (x.offsetM ?? 0);
+    for (const r of street) {
+      const lo = Math.min(r.x0, r.x1), hi = Math.max(r.x0, r.x1);
+      if (hi <= a || lo >= b) continue;
+      const forward = r.x1 >= r.x0;
+      // Keep the part outside [a, b] (one piece: extras start at a plot edge).
+      const keep = right ? [lo, Math.min(hi, a)] : [Math.max(lo, b), hi];
+      if (keep[1] - keep[0] < .3) { r.dead = true; continue; }
+      if (forward) { r.x0 = keep[0]; r.x1 = keep[1]; } else { r.x0 = keep[1]; r.x1 = keep[0]; }
+    }
+    for (let i = runs.length - 1; i >= 0; i--) if (runs[i].dead) runs.splice(i, 1);
+    runs.push({
+      x0: a, z0: z, x1: b, z1: z, type: x.type, color: x.color, color2: x.color2 ?? null, height: x.heightM ?? 1.5, role: 'extra', gates: [],
+      picketTop: x.picketTop, diamonds: x.diamonds, postColor: x.postColor,
+    });
+  }
+  return runs;
 }

@@ -84,8 +84,12 @@ export function resolveHouse(p) {
       width: win.widthM ?? (material === 'log' ? .92 : 1.0), height: win.heightM ?? (material === 'log' ? 1.22 : 1.3), sill: material === 'log' ? .74 : .9,
     },
     chimney: h.chimney ?? random() < .6,
+    // Most flues on the street are thin metal pipes (round 4 review); brick only where seen.
+    chimneyType: h.chimneyType ?? 'brick',
+    chimneyCount: h.chimneyCount ?? 1,
     porch: h.porch ?? null,
     veranda: h.veranda ?? false,
+    verandaSide: h.verandaSide ?? null,
     annex: h.annex ?? null,
     basement: h.basementM ?? .3,
     plinthColor: h.plinthColor ?? (material === 'log' || material === 'planks' ? '#57514a' : '#8b8a84'),
@@ -324,10 +328,25 @@ export function annexFootprint(spec, yardSide = 1) {
   if (!(spec.veranda || spec.annex)) return null;
   const { w, d } = spec;
   const glazed = spec.annex ? !!spec.annex.glazed : true;
-  const side = spec.annex?.side === 'right' ? 1 : spec.annex?.side === 'left' ? -1 : yardSide;
+  const sideName = spec.annex?.side ?? spec.verandaSide;
+  const side = sideName === 'right' ? 1 : sideName === 'left' ? -1 : yardSide;
   const aw = spec.annex?.widthM ?? (spec.roof.ridge === 'parallel' ? Math.min(3.6, w * .42) : 2.4);
   const ad = spec.annex?.depthM ?? (spec.roof.ridge === 'parallel' ? d * .78 : Math.min(d * .6, 4.2));
   const x0 = side > 0 ? w / 2 : -w / 2 - aw, x1 = x0 + aw;
   const z1 = spec.roof.ridge === 'parallel' ? d / 2 - .25 : -d / 2 + ad + .2, z0 = z1 - ad;
   return { x0, x1, z0, z1, w: aw, d: ad, side, glazed };
+}
+
+// Flue positions in the house frame: `count` stacks or pipes spread along the ridge, set a little
+// down the street-facing slope (z' > 0 in the ridge frame). Pure: [{ x, z }] for chimney().
+export function chimneyPositions(spec, L, random = () => .5) {
+  const n = Math.max(1, spec.chimneyCount ?? 1), pipe = spec.chimneyType === 'metal-pipe';
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const along = n === 1 ? -L * .18 + (random() - .5) * L * .1 : -L * .32 + L * .64 * i / (n - 1) + (random() - .5) * L * .06;
+    const across = pipe ? .55 + random() * .5 : .45;
+    const [x, , z] = ridgeToHouse(spec.roof.ridge, [along, 0, across]);
+    out.push({ x, z });
+  }
+  return out;
 }

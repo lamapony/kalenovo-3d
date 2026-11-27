@@ -33,6 +33,12 @@ export const ENUMS = {
   gate: ['swing', 'double', 'sliding'],
   outbuilding: ['shed', 'garage', 'banya', 'barn', 'greenhouse'],
   floors: [1, 1.5, 2],
+  // Round 4 kit fields (all optional).
+  chimneyType: ['brick', 'metal-pipe'],
+  verandaSide: ['left', 'right'],
+  picketTop: ['pointed', 'flat', 'rounded', 'fan'],
+  gatePattern: ['vertical', 'chevron', 'x', 'diamond'],
+  outbuildingMaterial: ['boards', 'metal', 'siding', 'log'],
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -132,6 +138,9 @@ export function validatePassport(p) {
         });
       }
       for (const k of ['chimney', 'veranda']) if (!(sat && h[k] === null) && typeof h[k] !== 'boolean') err(`house.${k} must be boolean`);
+      opt(h.chimneyType, v => oneOf(v, ENUMS.chimneyType, 'house.chimneyType'));
+      opt(h.chimneyCount, v => { if (!(Number.isInteger(v) && v >= 1 && v <= 3)) err('house.chimneyCount must be 1..3'); });
+      opt(h.verandaSide, v => oneOf(v, ENUMS.verandaSide, 'house.verandaSide'));
       opt(h.porch, v => { oneOf(v.side, ENUMS.porchSide, 'porch.side'); if (typeof v.roofed !== 'boolean') err('porch.roofed must be boolean'); });
       if (!(sat && h.basementM === null)) num(h.basementM, 'house.basementM', 0, 2);
       opt(h.plinthColor, v => hex(v, 'house.plinthColor'));
@@ -164,6 +173,24 @@ export function validatePassport(p) {
       oneOf(g.type, ENUMS.gate, 'gate.type');
       hex(g.color, 'gate.color');
       if (typeof g.roofed !== 'boolean' || typeof g.wicket !== 'boolean') err('gate.roofed/wicket must be boolean');
+      opt(g.pattern, v => oneOf(v, ENUMS.gatePattern, 'gate.pattern'));
+      opt(g.patternColor, v => hex(v, 'gate.patternColor'));
+    });
+    opt(f.picketTop, v => oneOf(v, ENUMS.picketTop, 'fence.picketTop'));
+    opt(f.picketGapM, v => num(v, 'fence.picketGapM', .01, .3));
+    opt(f.diamonds, v => hex(v, 'fence.diamonds'));
+    opt(f.postColor, v => hex(v, 'fence.postColor'));
+    opt(f.extra, list => {
+      if (!Array.isArray(list)) return err('fence.extra must be an array');
+      for (const x of list) {
+        oneOf(x.type, ENUMS.fence.filter(t => t !== 'none'), 'fence.extra.type');
+        hex(x.color, 'fence.extra.color');
+        oneOf(x.side, ['left', 'right'], 'fence.extra.side');
+        num(x.lengthM, 'fence.extra.lengthM', .5, 40);
+        opt(x.heightM, v => num(v, 'fence.extra.heightM', .3, 3.5));
+        opt(x.offsetM, v => num(v, 'fence.extra.offsetM', -10, 10));
+        opt(x.picketTop, v => oneOf(v, ENUMS.picketTop, 'fence.extra.picketTop'));
+      }
     });
   });
   if (p.house === null && p.fence === null) err('passport needs a house or a fence');
@@ -178,6 +205,9 @@ export function validatePassport(p) {
     if (typeof o.roof !== 'string') err('outbuilding.roof must be a string');
     hex(o.color, 'outbuilding.color');
     if (!Array.isArray(o.approxOffsetM) || o.approxOffsetM.length !== 2 || !o.approxOffsetM.every(Number.isFinite)) err('outbuilding.approxOffsetM must be [along, back]');
+    opt(o.material, v => oneOf(v, ENUMS.outbuildingMaterial, 'outbuilding.material'));
+    opt(o.doorColor, v => hex(v, 'outbuilding.doorColor'));
+    opt(o.roofColor, v => hex(v, 'outbuilding.roofColor'));
   }
   return errors;
 }
