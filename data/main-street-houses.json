@@ -1325,7 +1325,10 @@
      }
     },
     "chimney": false,
-    "porch": null,
+    "porch": {
+     "side": "front",
+     "roofed": true
+    },
     "veranda": false,
     "basementM": 0.3,
     "notes": ""
