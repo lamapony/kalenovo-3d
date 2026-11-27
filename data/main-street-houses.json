@@ -1687,7 +1687,7 @@
     "floors": 1.5,
     "wall": {
      "material": "siding",
-     "color": "#bbaa93",
+     "color": "#a98b62",
      "cornerJoint": null
     },
     "roof": {
@@ -1698,7 +1698,7 @@
      "color": "#934a51",
      "overhangM": 0.45,
      "gableFinish": "siding",
-     "gableColor": "#bbaa93",
+     "gableColor": "#a88a61",
      "dormers": [
       {
        "side": "left",
