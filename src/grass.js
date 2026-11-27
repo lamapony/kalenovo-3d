@@ -53,14 +53,14 @@ function weedGeometry(seed, thistle) {
       blade(Math.cos(a), Math.sin(a), h, .012 + random() * .01, .1 + random() * .3, [.16, .2, .07], random() < .4 ? [.62, .56, .3] : [.36, .44, .16]);
     }
   } else {
-    const stems = 3 + Math.floor(random() * 3);
+    const stems = 3 + Math.floor(random() * 2);
     for (let k = 0; k < stems; k++) {
       const a = random() * Math.PI * 2, h = .55 + random() * .4, lx = Math.cos(a) * .08, lz = Math.sin(a) * .08;
       blade(Math.cos(a), Math.sin(a), h, .008, .05, [.3, .36, .3], [.45, .5, .45]);
       // Spiny leaves near the base.
-      for (let l = 0; l < 3; l++) { const b = a + (l - 1) * 1.4; blade(Math.cos(b), Math.sin(b), .22 + random() * .1, .035, .9, [.25, .32, .24], [.5, .56, .48]); }
+      for (let l = 0; l < 2; l++) { const b = a + (l - .5) * 1.4; blade(Math.cos(b), Math.sin(b), .22 + random() * .1, .035, .9, [.25, .32, .24], [.5, .56, .48]); }
       // Globe head: a low-poly ball of blue.
-      const g = new THREE.IcosahedronGeometry(.035 + random() * .012, 1), gp = g.attributes.position, base = pos.length / 3;
+      const g = new THREE.IcosahedronGeometry(.038 + random() * .012, 0), gp = g.attributes.position, base = pos.length / 3;
       const hx = lx * h * .6, hz = lz * h * .6;
       for (let i = 0; i < gp.count; i++) {
         const x = gp.getX(i), y = gp.getY(i), z = gp.getZ(i), l = Math.hypot(x, y, z);
@@ -153,7 +153,7 @@ export function createGrass({ plots, buildings, ground, lines = [], nearPath }) 
     let l = chunks.get(key); if (!l) chunks.set(key, l = []); l.push(it);
   }
   const material = grassMaterial(), variants = [11, 23, 37].map(tuftGeometry);
-  const weedMat = grassMaterial(true), tall = [51, 63].map(sd => weedGeometry(sd, false)), thistles = [71, 83].map(sd => weedGeometry(sd, true));
+  const weedMat = grassMaterial(true), tall = [weedGeometry(51, false)], thistles = [weedGeometry(71, true)];
   const group = new THREE.Group(), dummy = new THREE.Object3D();
   for (const [key, list] of chunks) {
     const [cx, cz] = key.split(',').map(Number), centre = new THREE.Vector3((cx + .5) * CHUNK, 0, (cz + .5) * CHUNK);

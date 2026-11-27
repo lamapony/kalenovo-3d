@@ -71,15 +71,18 @@ function greenhouse(B, ground, r) {
   const { ctx } = placeCtx(B, ground, r, 0);
   const film = !!r.local.film, len = r.d, half = r.w / 2, h = film ? 1.9 : 2.2;
   const M = new THREE.Matrix4().makeRotationY(Math.PI / 2); // tunnel axis along local z
-  // Film / polycarbonate: one shared translucent material (no shadows, no depth write).
-  const cover = ctx.b('greenhouseCover', M);
-  cover.setColor(film ? lin('#eef0ea') : lin('#dce8e4'));
-  cover.log(-len / 2, len / 2, 0, 0, h, half, { segments: 12, arc: [0, Math.PI], caps: [false, false] });
-  // End walls: half-discs as triangle fans.
-  for (const x of [-len / 2, len / 2]) {
-    const c = cover.vertex(x, 0, 0, Math.sign(x), 0, 0, .5, 0), ring = [];
-    for (let i = 0; i <= 10; i++) { const a = Math.PI * i / 10; ring.push(cover.vertex(x, Math.sin(a) * h, Math.cos(a) * half, Math.sign(x), 0, 0, .5 + Math.cos(a) * .5, Math.sin(a))); }
-    for (let i = 0; i < 10; i++) cover.tri(c, ring[i], ring[i + 1]);
+  // Film / polycarbonate: one shared translucent material (no shadows, no depth write) up close;
+  // beyond the detail distance an opaque milky stand-in (no transparent pass, fewer draws).
+  for (const [key, lod, tint] of [['greenhouseCover', 'detail', film ? lin('#eef0ea') : lin('#dce8e4')], ['concrete', 'far', (film ? lin('#e4e6e2') : lin('#cfd9d6')).map(v => v / .57)]]) {
+    const cover = ctx.b(key, M, lod);
+    cover.setColor(tint);
+    cover.log(-len / 2, len / 2, 0, 0, h, half, { segments: 12, arc: [0, Math.PI], caps: [false, false] });
+    // End walls: half-discs as triangle fans.
+    for (const x of [-len / 2, len / 2]) {
+      const c = cover.vertex(x, 0, 0, Math.sign(x), 0, 0, .5, 0), ring = [];
+      for (let i = 0; i <= 10; i++) { const a = Math.PI * i / 10; ring.push(cover.vertex(x, Math.sin(a) * h, Math.cos(a) * half, Math.sign(x), 0, 0, .5 + Math.cos(a) * .5, Math.sin(a))); }
+      for (let i = 0; i < 10; i++) cover.tri(c, ring[i], ring[i + 1]);
+    }
   }
   const ribs = ctx.b(film ? 'logs' : 'darkMetal', M);
   ribs.setColor(film ? lin('#6d5b48') : [2.2, 2.2, 2.2]);

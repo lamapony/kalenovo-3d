@@ -112,7 +112,7 @@ export function trimTemplates() {
   dr.moveTo(-.018, 0); dr.lineTo(.018, 0); dr.lineTo(.018, -.04); dr.absarc(0, -.07, .032, Math.PI / 2 - 1, Math.PI / 2 + 1 - Math.PI * 2, true); dr.lineTo(-.018, -.04); dr.closePath();
 
   cache = {
-    carved: { crowns: [extrude(rk2, .04, 4), extrude(rp2, .04, 3), extrude(rt2, .04, 3)], side: extrude(sbd, .03, 2), apron: extrude(ap, .03, 3), drop: extrude(dr, .03, 3) },
+    carved: { crowns: [extrude(rk2, .04, 3), extrude(rp2, .04, 2), extrude(rt2, .04, 2)], side: extrude(sbd, .03, 2), apron: extrude(ap, .03, 2), drop: extrude(dr, .03, 2) },
     crests: [extrude(kok, .036), extrude(ped, .036), extrude(wav, .036), extrude(tra, .04)],
     skirt: extrude(sk, .03),
     rake: extrude(rk, .035, 4),

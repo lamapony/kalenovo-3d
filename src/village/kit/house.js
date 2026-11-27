@@ -211,7 +211,7 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
       }
       const dr = ctx.b('painted', at(x, y0 + wh + .178, z + .1), 'detail');
       dr.setColor(crownC);
-      const nd = ww > .8 ? 5 : 3;
+      const nd = 3;
       for (let i = 0; i < nd; i++) dr.geometry(C.drop, T(-(ww + .36) / 2 + (ww + .36) * (i + .5) / nd, 0, 0));
       const sd = ctx.b('painted', at(x, y0 - .02, z + .032), 'detail');
       sd.setColor(brighten(nalC, 1.06));
