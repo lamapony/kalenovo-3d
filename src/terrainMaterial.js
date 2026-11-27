@@ -43,7 +43,7 @@ export async function loadTerrainTextures(baseUrl, { anisotropy = 8 } = {}) {
 // visibly. Snow carries wind-drift relief and tiny glints (see below).
 // `far: true` builds the cheap variant for the horizon ring (beyond 1.8 km):
 // maps replaced by their mean albedo, no drift relief, no glints.
-export function createTerrainMaterial(textures, { lightDirection = new THREE.Vector3(0, 1, 0), far = false, groundMask = null } = {}) {
+export function createTerrainMaterial(textures, { lightDirection = new THREE.Vector3(0, 1, 0), far = false, groundMask = null, landMask = null } = {}) {
   const glintLight = uniform(lightDirection.clone().normalize());
   const material = new THREE.MeshStandardNodeMaterial({ roughness: .95, metalness: 0 });
   const p = positionWorld.xz;
@@ -112,6 +112,19 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
     const edge = fine.mul(.35).add(breakup.mul(.15));
     maskR = smoothstep(.25, .75, m.r.add(edge)); maskG = smoothstep(.3, .7, m.g.add(edge.mul(.5))); maskB = smoothstep(.4, .6, m.b); maskA = smoothstep(.45, .55, m.a);
   }
+  // Land cover around the street (src/village/kit/landCover.js): R mown hay (value = swath
+  // brightness), G potato field, B dirt track, A rough unmown grass and weedy boundaries.
+  let hayK = float(0), hayV = float(0), potK = float(0), trackK = float(0), roughK = float(0);
+  if (landMask && !far) {
+    const lt = new THREE.DataTexture(landMask.data, landMask.width, landMask.height, THREE.RGBAFormat);
+    lt.magFilter = THREE.LinearFilter; lt.minFilter = THREE.LinearMipmapLinearFilter; lt.generateMipmaps = true; lt.needsUpdate = true;
+    const luv = p.add(vec2(mid, breakup).mul(.8)).sub(vec2(landMask.x0, landMask.z0)).div(vec2(landMask.sizeX, landMask.sizeZ));
+    const lin_ = step(0, luv.x).mul(step(luv.x, 1)).mul(step(0, luv.y)).mul(step(luv.y, 1));
+    const l = texture(lt, luv).mul(lin_);
+    const e = breakup.mul(.12).add(fine.mul(.1));
+    hayK = smoothstep(.2, .45, l.r.add(e)); hayV = smoothstep(.62, .95, l.r);
+    potK = smoothstep(.3, .6, l.g.add(e)); trackK = smoothstep(.3, .65, l.b.add(e.mul(1.5))); roughK = smoothstep(.25, .7, l.a.add(e));
+  }
   // Winter only needs the dirt colour where wheels wear through the snow: no texture there.
   const trailMap = far || !season.summer ? vec3(...SETS.trail.mean).mul(fine.mul(.25).add(1)) : mix(texture(tex.trail.map, p.div(tex.trail.tile)).rgb, vec3(...SETS.trail.mean), flatten);
   const trailN = far || !season.summer ? vec3(0, 0, 1) : decode(texture(tex.trail.normal, p.div(tex.trail.tile)));
@@ -128,9 +141,24 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
     let field = sg.mul(mix(vec3(1), vec3(1.4, 1.2, .85), dryK.mul(.8))).mul(mix(vec3(1), vec3(.78, .98, .8), lushK));
     const weeds = smoothstep(.3, .7, breakup.mul(.6).add(fine.mul(.6)));
     field = field.mul(mix(float(1), float(.72), weeds.mul(.6)));
+    // Pasture: large grazed (yellower, shorter) and ungrazed (greener) zones, and dark tussocks.
+    const graze = smoothstep(-.15, .45, mx_noise_float(vec3(p.mul(.0045), 7.7)).add(large.mul(.3)));
+    field = field.mul(mix(vec3(1), vec3(1.16, 1.06, .78), graze.mul(.55)));
+    const tussock = smoothstep(.8, .93, mx_cell_noise_float(vec3(floor(p.div(1.7)), 2.3))).mul(smoothstep(160, 40, distance));
+    field = field.mul(float(1).sub(tussock.mul(.28)));
+    // Land cover: rough grass (darker, lush, weedy), mown hay swaths (straw over stubble, light
+    // and dark swaths), potato rows (dark-green haulm over soil ridges, rows along the strip).
+    const rough = field.mul(vec3(.72, .9, .62)).mul(mix(float(1), float(.78), weeds));
+    field = mix(field, rough, roughK);
+    const hay = mix(field.mul(vec3(1.25, 1.12, .8)), vec3(.3, .27, .14), mix(float(.12), float(.34), hayV)).mul(mix(float(.93), float(1.05), hayV)).mul(fine.mul(.1).add(1));
+    field = mix(field, hay, hayK);
+    const rowPhase = p.x.mul(.89).add(p.y.mul(.45)).div(.75);
+    const ridge = smoothstep(-.3, .5, mx_noise_float(vec3(p.mul(.6), 4.4)).mul(.4).add(fract(rowPhase).sub(.5).abs().mul(-4).add(1)));
+    const potato = mix(vec3(.08, .06, .042), vec3(.05, .1, .028).mul(mid.mul(.2).add(1)), mix(float(.62), ridge, smoothstep(220, 50, distance)));
+    field = mix(field, potato, potK);
     const dirt = trailMap.mul(fine.mul(.12).add(1));
     const bare = clamp(smoothstep(.72, .9, patch.add(breakup.mul(.12))).mul(.6).add(smoothstep(.12, .24, slope)), 0, 1);
-    const trod = clamp(maskR.mul(fine.mul(.25).add(.85)).max(bare), 0, 1);
+    const trod = clamp(maskR.mul(fine.mul(.25).add(.85)).max(bare).max(trackK.mul(.92)), 0, 1);
     const gravel = mix(trailMap, vec3(.32, .26, .19), .3).mul(vec3(1.15, 1.12, 1.08)).mul(fine.mul(.12).add(1));
     const soilC = vec3(.08, .058, .042).mul(fine.mul(.2).add(1));
     // Concrete paving tiles (0.4 m, dark joints, slight per-tile tone) on paved drives.
@@ -142,7 +170,7 @@ export function createTerrainMaterial(textures, { lightDirection = new THREE.Vec
     summerN = mix(mix(sgN, trailN, trod.max(maskG)), rockN, rockMix);
   }
   // Winter: trampled grey snow in yards and paths, wheel-worn dirt showing at the gates.
-  const trampled = snow.mul(mix(vec3(1), vec3(.8, .79, .8), maskR.mul(.85)));
+  const trampled = snow.mul(mix(vec3(1), vec3(.8, .79, .8), maskR.max(trackK.mul(.7)).mul(.85)));
   const worn = mix(trampled, trailMap.mul(.75), maskG.max(maskA).mul(smoothstep(-.3, .5, mid.add(fine)).mul(.55)));
   material.colorNode = summer ? summerGround : mix(ground, worn, snowCover);
 

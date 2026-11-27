@@ -241,6 +241,26 @@ function fenceSpan(B, ground, f, o) {
   } else if (f.type === 'metal-rail') {
     count += posts(B, f, { s0, s1, P, M, h, size: .06, key: 'paintedMetal', tint: color });
     rails(B, f, { s0, s1, P, M, plotSide, key: 'paintedMetal', tint: color, heights: [.35, h * .6, h - .05], size: [.04, .04] });
+  } else if (f.type === 'poles') {
+    // Field fence (прясло): split posts every ~3 m and two long poles, weathered grey.
+    const n = Math.max(1, Math.ceil(L / 3.2));
+    const b = B.get('logs', ...P(s0));
+    for (let i = 0; i <= n; i++) {
+      const t = s0 + L * i / n, hh = h * (.9 + random() * .2);
+      b.setMatrix(M(t)); b.setColor(jitter(color, random, .1));
+      b.box(.1, hh + .3, .1, 0, (hh - .3) / 2, 0, { faces: ['px', 'nx', 'pz', 'nz', 'py'], uo: random() * 3 });
+    }
+    for (let i = 0; i < n; i++) {
+      const a = s0 + L * i / n, c = s0 + L * (i + 1) / n, [xa, za] = P(a), [xc, zc] = P(c);
+      for (const y of [h * .45, h * .88]) {
+        const ya = ground(xa, za) + y, yc = ground(xc, zc) + y + (random() - .5) * .08;
+        const ang = Math.atan2(yc - ya, c - a);
+        b.setMatrix(M(a).multiply(new THREE.Matrix4().makeTranslation((c - a) / 2, (ya + yc) / 2 - ground(xa, za), .07)).multiply(new THREE.Matrix4().makeRotationZ(ang)));
+        b.setColor(jitter(color, random, .1));
+        b.box(Math.hypot(c - a, yc - ya) + .3, .08, .08, 0, 0, 0, { faces: ['pz', 'nz', 'py', 'ny'], uo: random() * 4 });
+      }
+    }
+    count += n;
   } else if (f.type === 'concrete') {
     const n = Math.max(1, Math.ceil(L / 2));
     for (let i = 0; i < n; i++) {

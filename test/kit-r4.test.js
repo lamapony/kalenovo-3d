@@ -112,3 +112,28 @@ test('round 4 passport fields are validated', () => {
   const errors = validatePassport(bad).join('\n');
   for (const k of ['chimneyType', 'chimneyCount', 'verandaSide', 'picketTop', 'fence.diamonds', 'gate.pattern', 'extra.type', 'extra.color', 'extra.side', 'extra.lengthM', 'outbuilding.material']) assert.match(errors, new RegExp(k.replace('.', '\\.')));
 });
+
+test('land cover: a strip behind every passport house, smooth lane, fences cleared of buildings', async () => {
+  const { landCover, stripLength, stripUse, clearFences } = await import('../src/village/kit/landCover.js');
+  const meta = JSON.parse(fs.readFileSync(new URL('../public/data/meta.json', import.meta.url)));
+  const osm = JSON.parse(fs.readFileSync(new URL('../public/data/osm.geojson', import.meta.url))).features;
+  const lines = streetLines(osm, meta, doc.street);
+  const main = layoutMainStreet(loadPassports(doc), meta, lines);
+  const a = landCover(main.plots, lines), b = landCover(main.plots, lines);
+  assert.deepEqual(a.shapes, b.shapes, 'deterministic');
+  const houses = main.plots.filter(p => p.passport?.house && !p.filler).length;
+  assert.equal(a.rows.N.length + a.rows.S.length, houses);
+  for (const row of Object.values(a.rows)) for (const it of row) assert.ok(it.L >= 35 && it.L <= 80);
+  const uses = Object.values(a.rows).flat().map(i => i.use);
+  for (const u of ['hay', 'potato', 'rough']) assert.ok(uses.includes(u));
+  assert.ok(a.stacks.length > 5 && a.lanes.length > 20 && a.fences.length > houses);
+  // Neighbouring strips differ by a few metres only (gentle back lane).
+  for (let s = 0; s < 1500; s += 10) assert.ok(Math.abs(stripLength(s + 10, 7) - stripLength(s, 7)) < 6);
+  assert.equal(stripUse(.1), 'hay'); assert.equal(stripUse(.6), 'potato'); assert.equal(stripUse(.9), 'rough');
+  // Fence pieces avoid a blocked square in the middle of a segment.
+  const cut = clearFences([{ a: [0, 0], b: [30, 0] }], (x) => x > 12 && x < 18);
+  assert.equal(cut.length, 2);
+  assert.ok(cut[0].b[0] <= 12 && cut[1].a[0] >= 18);
+  // No strip mask over the street itself.
+  for (const sh of a.shapes) if (sh.ch !== 2) assert.ok(Math.min(...lines.map(l => l.reduce((m, p) => Math.min(m, Math.hypot(p[0] - sh.x, p[1] - sh.z)), Infinity))) > 8);
+});

@@ -464,21 +464,11 @@ export function createForest(features, meta, ground, exclusions, buildings, opti
     trees.push({ x, y: ground(x, z), z, scale: .5 + random() * .45, angle: random() * 6.28, birch: true });
   }
 
-  // Field behind the main-street plots: scattered birch clumps and low shrubs (generic
-  // vegetation only), a few metres beyond the back fences.
-  const fieldRandom = randomGenerator(6271);
-  for (const plot of plots) {
-    if (!plot.passport || !plot.frame || plot.zBack === undefined) continue;
-    for (let lx = plot.s0; lx < plot.s1; lx += 6 + fieldRandom() * 8) {
-      if (fieldRandom() > .42) continue;
-      const lz = plot.zBack - 4 - fieldRandom() ** 1.6 * 110, [x, z] = plot.frame.world(lx, lz);
-      if (Math.abs(x) > half || Math.abs(z) > half || nearPath(x, z, 1.5) || villageAt(x, z).blocked) continue;
-      const shrub = fieldRandom() < .55;
-      for (let k = 0; k < (shrub ? 1 : 1 + Math.floor(fieldRandom() * 3)); k++) {
-        const tx = x + (fieldRandom() - .5) * 4, tz = z + (fieldRandom() - .5) * 4;
-        trees.push({ x: tx, y: ground(tx, tz), z: tz, scale: shrub ? .22 + fieldRandom() * .12 : .5 + fieldRandom() * .35, angle: fieldRandom() * 6.28, birch: true });
-      }
-    }
+  // Field edges behind the main-street plots (landCover.js): birch clumps where the strip
+  // boundaries meet the back lane, low shrubs along the boundaries.
+  for (const t of options.fieldTrees || []) {
+    if (Math.abs(t.x) > half || Math.abs(t.z) > half || nearPath(t.x, t.z, 1.5) || villageAt(t.x, t.z).blocked) continue;
+    trees.push({ x: t.x, y: ground(t.x, t.z), z: t.z, scale: t.scale, angle: random() * 6.28, birch: true });
   }
   // Garden birches chosen by the main-street yard layout.
   for (const t of options.trees || []) trees.push({ x: t.x, y: ground(t.x, t.z), z: t.z, scale: t.scale, angle: random() * 6.28, birch: true });

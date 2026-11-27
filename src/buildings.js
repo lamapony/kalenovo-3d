@@ -13,6 +13,8 @@ import { buildKitFences } from './village/kit/fences.js';
 import { createKitMaterials } from './village/kit/materials.js';
 import { buildYards } from './village/kit/yardBuild.js';
 import { buildCars } from './village/kit/cars.js';
+import { clearFences, FIELD_FENCE_COLOR } from './village/kit/landCover.js';
+import { buildStacks } from './village/kit/yardBuild.js';
 import passportDoc from '../data/main-street-houses.json';
 
 export { fitRectangle };
@@ -20,6 +22,19 @@ export { fitRectangle };
 export function inBuilding(x, z, rect, margin = 0) { return inRect(x, z, rect, margin); }
 
 const TILE = 220, DETAIL_DISTANCE = 220;
+
+// Point-blocked test against many rotated rects through a 24 m grid (fields reach far).
+function rectIndex(rects, margin) {
+  const cell = 24, grid = new Map();
+  for (const r of rects) {
+    const rad = Math.hypot(r.w, r.d) / 2 + margin;
+    for (let i = Math.floor((r.x - rad) / cell); i <= Math.floor((r.x + rad) / cell); i++)
+      for (let j = Math.floor((r.z - rad) / cell); j <= Math.floor((r.z + rad) / cell); j++) {
+        const k = `${i},${j}`; if (!grid.has(k)) grid.set(k, []); grid.get(k).push(r);
+      }
+  }
+  return (x, z) => (grid.get(`${Math.floor(x / cell)},${Math.floor(z / cell)}`) || []).some(r => inRect(x, z, r, margin));
+}
 export const FAMILY_HOUSE_ID = 'tolstikhina-45';
 
 // Village: улица Толстихина from house passports (data/main-street-houses.json, built with the
@@ -76,6 +91,18 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
   const kitFences = buildKitFences(B, ground, main.plots);
   const cars = buildCars(B, ground, main.plots);
 
+  // Land cover around the street (landCover.js): pole fences on the strip boundaries, hay
+  // stacks, field trees; kept clear of every house, outbuilding and yard item.
+  let fieldTrees = [], fieldFences = 0, stacks = 0;
+  if (options.land) {
+    const blocked = rectIndex([...plan.rects, ...mainRects], 1.5);
+    const segs = clearFences(options.land.fences, blocked);
+    const fieldPlots = segs.map((s, i) => ({ seed: 0x7f4a7c15 ^ i, frame: { x: s.a[0], z: s.a[1] }, fences: [{ ...s, type: 'poles', color: FIELD_FENCE_COLOR, height: 1.25, role: 'field', gates: [] }] }));
+    fieldFences = buildKitFences(B, ground, fieldPlots).pieces;
+    stacks = buildStacks(B, ground, options.land.stacks.filter(t => !blocked(t.x, t.z)));
+    fieldTrees = options.land.trees.filter(t => !blocked(t.x, t.z));
+  }
+
   const group = new THREE.Group();
   const tiles = new Map();
   let triangles = 0, drawCalls = 0;
@@ -116,7 +143,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
   group.name = `Village: ${plan.plots.length} generic + ${mainHouses} passport houses`;
   const stats = {
     houses: plan.plots.length, passportHouses: mainHouses, passportPlots: main.plots.length, rects: plan.rects.length + mainRects.length,
-    pickets: fences.pickets, kitFencePieces: kitFences.pieces, cars, poles, chimneys: chimneys.length, triangles, drawCalls, ms: Math.round(performance.now() - t0),
+    pickets: fences.pickets, kitFencePieces: kitFences.pieces, fieldFences, stacks, cars, poles, chimneys: chimneys.length, triangles, drawCalls, ms: Math.round(performance.now() - t0),
   };
   console.info('Kalenovo village', stats);
   return {
@@ -126,6 +153,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
     fenceColliders: [...fenceColliders(plan.plots), ...main.colliders],
     family,
     gardenBirches: yards.birches,
+    fieldTrees,
     stats,
     smoke,
     setLights(on) { lights.value = on ? 1 : 0; kit.lights.value = on ? 1 : 0; },

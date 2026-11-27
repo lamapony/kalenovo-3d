@@ -51,12 +51,12 @@ function gridGeometry(n, positionAt, { keepQuad, skirtDepth }) {
 }
 
 // Copernicus GLO-30 near tile (walkable) plus a far ring that fills the horizon.
-export function createTerrain(meta, dem, nearBuffer, farBuffer, { textures, lightDirection, groundMask = null } = {}) {
+export function createTerrain(meta, dem, nearBuffer, farBuffer, { textures, lightDirection, groundMask = null, landMask = null } = {}) {
   const centerElev = meta.centerElev, ve = VERTICAL_EXAGGERATION;
   const nearN = dem.near.gridSize, nearHalf = dem.near.halfSizeM;
   const near = parseHeightmap(nearBuffer, nearN);
   activeGroundHeight = createGroundSampler({ gridSize: nearN, halfSizeM: nearHalf, centerElev }, near);
-  const material = createTerrainMaterial(textures, { lightDirection, groundMask });
+  const material = createTerrainMaterial(textures, { lightDirection, groundMask, landMask });
   const group = new THREE.Group();
   group.name = 'Copernicus DEM GLO-30 terrain';
 

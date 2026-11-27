@@ -163,3 +163,38 @@ export function buildYards(B, ground, plots) {
   }
   return { birches, chimneys };
 }
+
+// Hay stacks (зарод) on the mown strips behind the street (landCover.js): an elongated
+// rounded mound of straw on the concrete-noise material, a little sagging; in winter a snow cap.
+let stackGeo = null;
+function stackGeometry() {
+  if (stackGeo) return stackGeo;
+  let g = new THREE.SphereGeometry(1, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2);
+  g.deleteAttribute('uv'); g.deleteAttribute('normal');
+  g = mergeVertices(g);
+  const p = g.attributes.position, random = randomGenerator(311);
+  for (let i = 0; i < p.count; i++) {
+    const y = p.getY(i), k = .92 + random() * .14;
+    // Flatter crown, steeper flanks (a stacked mound rather than a dome).
+    p.setXYZ(i, p.getX(i) * k, Math.pow(Math.max(0, y), .8) * k, p.getZ(i) * k);
+  }
+  g.computeVertexNormals();
+  g.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(p.count * 2), 2));
+  return (stackGeo = g);
+}
+export function buildStacks(B, ground, stacks) {
+  const geo = stackGeometry(), random = randomGenerator(902);
+  for (const s of stacks) {
+    const r = { x: s.x, z: s.z, w: s.len, d: s.w, angle: s.angle };
+    const { ctx } = placeCtx(B, ground, r, -.15);
+    const b = ctx.b('concrete');
+    b.setColor(jitter(lin(season.summer ? '#a88f55' : '#8a7a58').map(v => v / .58), random, .08));
+    b.geometry(geo, mul(T(0, 0, 0), new THREE.Matrix4().makeScale(s.len / 2, s.h, s.w / 2)));
+    if (!season.summer) {
+      const sn = ctx.b('snow');
+      sn.setColor([1, 1, 1]);
+      sn.geometry(geo, mul(T(0, s.h * .55, 0), new THREE.Matrix4().makeScale(s.len / 2 * .8, s.h * .5, s.w / 2 * .75)));
+    }
+  }
+  return stacks.length;
+}

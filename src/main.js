@@ -4,6 +4,7 @@ import { createTerrain } from './terrain.js';
 import { createPaths } from './paths.js';
 import { createBuildings, mainStreetLayout } from './buildings.js';
 import { groundShapes, maskBounds, rasterizeMask } from './village/kit/groundMask.js';
+import { landCover, LAND_RES } from './village/kit/landCover.js';
 import { createForest } from './forest.js';
 import { createAtmosphere } from './atmosphere.js';
 import { createWalkControls } from './controls.js';
@@ -65,11 +66,14 @@ async function start() {
   const street = mainStreetLayout(osm.features, meta);
   const shapes = groundShapes(street.main.plots, street.lines);
   const groundMask = rasterizeMask(shapes, maskBounds(shapes));
-  const terrain = createTerrain(meta, dem, nearHeights, farHeights, { textures, lightDirection: keyLightDirection(params.tod), groundMask }); scene.add(terrain.mesh);
+  // Fields, hay strips and tracks around the street (second mask, coarser).
+  const land = landCover(street.main.plots, street.lines);
+  const landMask = rasterizeMask(land.shapes, maskBounds(land.shapes), LAND_RES);
+  const terrain = createTerrain(meta, dem, nearHeights, farHeights, { textures, lightDirection: keyLightDirection(params.tod), groundMask, landMask }); scene.add(terrain.mesh);
   const ground = terrain.getGroundHeight;
   const paths = createPaths(osm.features, meta, ground, { textures }); scene.add(paths.group);
-  const houses = createBuildings(osm.features, gba.features, meta, ground, { street }); scene.add(houses.group);
-  scene.add(createForest(osm.features, meta, ground, paths.exclusions, houses.rects, { plots: houses.plots, trees: houses.gardenBirches }));
+  const houses = createBuildings(osm.features, gba.features, meta, ground, { street, land }); scene.add(houses.group);
+  scene.add(createForest(osm.features, meta, ground, paths.exclusions, houses.rects, { plots: houses.plots, trees: houses.gardenBirches, fieldTrees: houses.fieldTrees }));
   const family = createFamilyMarker(houses.family);
   const atmosphere = createAtmosphere(scene, camera, { quality: params.quality, tod: params.tod, environment });
   renderer.toneMappingExposure = atmosphere.exposure;
