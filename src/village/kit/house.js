@@ -9,7 +9,7 @@ import { trimTemplates } from '../templates.js';
 import { lin, jitter } from '../materials.js';
 import { context, groundStats, wallFrames, T, RY, S, mul, basis } from '../house.js';
 import { season } from '../../season.js';
-import { resolveHouse, roofGeometry, ridgeToHouse, windowSlots, boardPolygons, hashString, annexFootprint } from './spec.js';
+import { resolveHouse, roofGeometry, ridgeToHouse, windowSlots, boardPolygons, hashString, annexFootprint, chimneyPositions } from './spec.js';
 
 const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
@@ -198,28 +198,30 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
       // and (fully carved style) a pierced apron under the sill.
       const C = T0.carved, crownC = lin(nal.crown ?? nal.color);
       const ci = { kokoshnik: 0, pediment: 1, trapezoid: 2 }[nal.shape] ?? (nal.style === 'carved' ? 0 : crown % 3);
-      const k = (ww + .5) / 1.08;
+      // Crowns scaled to the street imagery: about the casing width and a low profile (the
+      // earlier 1.4 m lace read oversized next to the photos).
+      const k = (ww + .3) / 1.08, ky = k * (ci === 0 ? .58 : .62);
       const cr = ctx.b('painted', at(x, y0 + wh + .232, z + .045), 'detail');
       cr.setColor(crownC);
-      cr.geometry(C.crowns[ci], S(k, k * (ci === 0 ? .82 : .9), 1));
+      cr.geometry(C.crowns[ci], S(k, ky, 1));
       // Contrasting board behind the pierced rosette (the "filigree insert" of the photos).
       const sh = W.shutters;
       if (sh && sh.type === 'wooden') {
         const ins = ctx.b('painted', at(x, y0 + wh + .232, z + .018), 'detail');
         ins.setColor(lin(sh.color));
-        ins.box(k * .5, k * (ci === 0 ? .3 : .24), .012, 0, k * (ci === 0 ? .22 : .16), 0);
+        ins.box(k * .44, ky * (ci === 0 ? .34 : .28), .012, 0, ky * (ci === 0 ? .27 : .2), 0);
       }
       const dr = ctx.b('painted', at(x, y0 + wh + .178, z + .1), 'detail');
       dr.setColor(crownC);
-      const nd = 3;
-      for (let i = 0; i < nd; i++) dr.geometry(C.drop, T(-(ww + .36) / 2 + (ww + .36) * (i + .5) / nd, 0, 0));
+      const nd = 2;
+      for (let i = 0; i < nd; i++) dr.geometry(C.drop, mul(T(-(ww + .2) / 2 + (ww + .2) * (i + .5) / nd, 0, 0), S(.75, .75, 1)));
       const sd = ctx.b('painted', at(x, y0 - .02, z + .032), 'detail');
       sd.setColor(brighten(nalC, 1.06));
       for (const s of [-1, 1]) sd.geometry(C.side, mul(T(s * (ww / 2 + .06), 0, 0), S(1, wh + .14, 1)));
       if (nal.style === 'carved') {
         const ap = ctx.b('painted', at(x, y0 - .12, z + .01), 'detail');
         ap.setColor(nalC);
-        ap.geometry(C.apron, S(ww + .36, 1.15, 1));
+        ap.geometry(C.apron, S(ww + .24, .62, 1));
       }
     }
   } else {
@@ -496,10 +498,61 @@ function dormer(ctx, spec, rg, dm, deco, random) {
   void deco;
 }
 
+// Height of the roof surface above the floor at house-local (x, z) for gable-type roofs
+// (ridge frame: distance across the ridge), clamped to the eave.
+function roofYAt(spec, rg, x, z) {
+  const across = spec.roof.ridge === 'perpendicular' ? x : z;
+  const t = Math.tan(spec.roof.pitchDeg * Math.PI / 180);
+  return Math.max(rg.eaveY ?? rg.y0, rg.ridgeY - Math.abs(across) * t) + .05;
+}
+
+// Thin metal flue (печная труба из нержавейки): a pipe out of the slope a metre or so above
+// the ridge line, a pipe collar, a conical rain hat on three legs, and on tall pipes a guy wire
+// down to the roof.
+function metalFlue(ctx, spec, rg, at, random) {
+  const { x, z } = at, ys = roofYAt(spec, rg, x, z), top = Math.max(ys + .9, rg.ridgeY + .45) + random() * .35;
+  const r = .065 + random() * .02, len = top - ys + .1;
+  const steel = random() < .7, tone = steel ? [1.9, 1.9, 1.95] : [.55, .55, .55];
+  const p = ctx.b('darkMetal', mul(T(x, ys - .1, z), new THREE.Matrix4().makeRotationZ(Math.PI / 2)));
+  p.setColor(tone);
+  p.log(0, len, 0, 0, r, r, { segments: 8, caps: [false, true] });
+  const c = ctx.b('darkMetal', mul(T(x, ys - .02, z), new THREE.Matrix4().makeRotationZ(Math.PI / 2)), 'detail');
+  c.setColor(tone.map(v => v * .8));
+  c.log(0, .12, 0, 0, r * 2.2, r * 2.2, { segments: 8, caps: [false, true] });
+  // Rain hat: a flat cone of 8 facets.
+  const hat = ctx.b('darkMetal', T(x, top + .14, z));
+  hat.setColor(tone.map(v => v * 1.05));
+  const R = r * 2.6, hh = .1;
+  for (let i = 0; i < 8; i++) {
+    const a0 = i / 8 * Math.PI * 2, a1 = (i + 1) / 8 * Math.PI * 2;
+    const A = [Math.cos(a0) * R, 0, Math.sin(a0) * R], Bv = [Math.cos(a1) * R, 0, Math.sin(a1) * R];
+    hat.triangle([[0, hh, 0], Bv, A], [[.5, 1], [1, 0], [0, 0]]);
+    hat.triangle([[0, -.005, 0], A, Bv], [[.5, 1], [0, 0], [1, 0]], .6);
+  }
+  const legs = ctx.b('darkMetal', T(x, top, z), 'detail');
+  legs.setColor(tone);
+  for (let i = 0; i < 3; i++) { const a = i / 3 * Math.PI * 2; legs.box(.015, .16, .015, Math.cos(a) * r, .07, Math.sin(a) * r); }
+  if (top - ys > 1.2) {
+    // Guy wire from two thirds up the pipe down the slope toward the ridge.
+    const gy = ys + (top - ys) * .66, dir = spec.roof.ridge === 'perpendicular' ? [0, 0, -1] : [-1, 0, 0];
+    const fx = x + dir[0] * 1.3, fz = z + dir[2] * 1.3, fy = roofYAt(spec, rg, fx, fz);
+    const dx = fx - x, dy = fy - gy, dz = fz - z, L = Math.hypot(dx, dy, dz);
+    const m = new THREE.Matrix4().lookAt(new THREE.Vector3(0, 0, 0), new THREE.Vector3(dx, dy, dz), new THREE.Vector3(0, 1, 0));
+    const w = ctx.b('darkMetal', mul(T(x + dx / 2, gy + dy / 2, z + dz / 2), m), 'detail');
+    w.setColor([.7, .7, .7]);
+    w.box(.008, .008, L);
+  }
+  return new THREE.Vector3(x, top + .3, z).applyMatrix4(ctx.M).toArray();
+}
+
 function chimney(ctx, spec, rg, random) {
-  const { L } = rg;
-  const pos = ridgeToHouse(spec.roof.ridge, [-L * .18 + (random() - .5) * L * .1, 0, .45]);
-  const x = pos[0], z = pos[2], y0 = spec.wallH - .3, top = rg.ridgeY + .6 + random() * .2;
+  const spots = chimneyPositions(spec, rg.L, random);
+  if (spec.chimneyType === 'metal-pipe') return spots.map(at => metalFlue(ctx, spec, rg, at, random))[0];
+  return spots.map(at => brickChimney(ctx, spec, rg, at, random))[0];
+}
+
+function brickChimney(ctx, spec, rg, at, random) {
+  const x = at.x, z = at.z, y0 = spec.wallH - .3, top = rg.ridgeY + .6 + random() * .2;
   const b = ctx.b('brick');
   b.setColor(jitter(lin('#8f4f3c'), random, .08));
   b.box(.52, top - y0, .52, x, (top + y0) / 2, z, { uo: random() * 2, vo: random() * 2 });
@@ -531,15 +584,22 @@ function annex(ctx, spec, a, deco, random, gsMin) {
     const faces = [[[cx, cz + d / 2], [1, 0], [0, 1], w], [[cx, cz - d / 2], [-1, 0], [0, -1], w], [[cx + w / 2, cz], [0, -1], [1, 0], d], [[cx - w / 2, cz], [0, 1], [-1, 0], d]];
     for (const [[fx, fz], [ux, uz], [nx, nz], L] of faces) {
       if (nx === -outward[0] && nz === -outward[1]) continue; // the face against the house
-      const n = Math.max(2, Math.round(L / .55));
+      // Glazed gallery (застеклённая веранда): a run of sashes, each split into small panes by
+      // thin glazing bars (three rows, the top row shorter), posts between the sashes.
+      const n = Math.max(2, Math.round(L / .62));
       gl.setColor([0, random(), 0]);
       const p = (s, y, o = 0) => [fx + ux * s + nx * o, y, fz + uz * s + nz * o];
       gl.quad([p(-L / 2, .92, -.03), p(L / 2, .92, -.03), p(L / 2, H - .3, -.03), p(-L / 2, H - .3, -.03)], [[0, 0], [1, 0], [1, 1], [0, 1]]);
       const bars = ctx.b('painted', mul(T(fx, 0, fz), RY(Math.atan2(nx, nz))));
       bars.setColor(deco.glazing);
-      for (let i = 0; i <= n; i++) bars.box(.05, H - 1.2, .05, -L / 2 + L * i / n, .9 + (H - 1.2) / 2, 0);
-      bars.box(L, .05, .05, 0, 1.5, 0);
+      const gh = H - 1.22;
+      for (let i = 0; i <= n; i++) bars.box(i % n ? .06 : .09, gh, .06, -L / 2 + L * i / n, .92 + gh / 2, 0);
+      const fine = ctx.b('painted', mul(T(fx, 0, fz), RY(Math.atan2(nx, nz))), 'detail');
+      fine.setColor(deco.glazing);
+      for (let i = 0; i < n; i++) fine.box(.025, gh, .03, -L / 2 + L * (i + .5) / n, .92 + gh / 2, 0);
+      for (const f of [.42, .74]) bars.box(L, .035, .04, 0, .92 + gh * f, 0);
       bars.box(L, .06, .08, 0, .92, .01);
+      bars.box(L, .06, .06, 0, H - .3, .01);
     }
   }
   // Shed roof falling away from the house.
@@ -750,38 +810,61 @@ export function buildKitOutbuilding(B, ground, r) {
   const gs = groundStats(pre, ground, r.w, r.d);
   const base = gs.max + .1;
   const ctx = context(B, r.x, r.z, base, r.angle);
-  const { w, d } = r, H = r.kind === 'barn' ? 3 : r.kind === 'garage' ? 2.5 : 2.2;
-  // Garages: weathered board walls, the observed colour is the doors.
-  const wallHex = r.kind === 'garage' && !isRawWood(r.color) ? '#7a6a55' : r.color;
-  const tint = woodTint(wallHex), mat = woodMat(wallHex);
+  // outbuilding.material (round 4): low metal / siding / log garages in the observed wall
+  // colour with doors in doorColor; without it, weathered boards and the colour is the doors.
+  const om = r.material ?? null;
+  const { w, d } = r, H = r.kind === 'barn' ? 3 : r.kind === 'garage' ? (om === 'metal' || om === 'siding' ? 2.25 : 2.5) : 2.2;
+  const wallHex = om ? r.color : r.kind === 'garage' && !isRawWood(r.color) ? '#7a6a55' : r.color;
+  const tint = woodTint(wallHex), mat = om === 'metal' ? 'paintedMetal' : om === 'siding' ? 'siding' : om === 'log' ? 'logs' : woodMat(wallHex);
   const pl = ctx.b('concrete');
   pl.setColor([1, 1, 1]);
   pl.box(w + .04, .06 - (gs.min - base) + .2, d + .04, 0, (gs.min - base - .2 + .06) / 2, 0, { faces: ['px', 'nx', 'pz', 'nz', 'py'] });
   const core = ctx.b(mat);
-  core.setColor(tint.map(v => v * .5));
+  core.setColor(om === 'metal' || om === 'siding' ? lin(wallHex) : tint.map(v => v * .5));
   core.box(w, H, d, 0, H / 2, 0, { faces: ['px', 'nx', 'pz', 'nz'] });
-  // Vertical boards with small gaps and uneven tops.
-  for (const [, f] of Object.entries(wallFrames(w, d))) {
-    const b = ctx.b(mat, f.m);
-    for (let x = -f.L / 2; x < f.L / 2 - .02; x += .17) {
-      const bw = Math.min(.155, f.L / 2 - x);
-      b.setColor(jitter(tint, random, .09));
-      b.box(bw, H, .025, x + bw / 2, H / 2, .014, { uo: random() * 4 });
+  if (om === 'metal') {
+    // Ribbed sheet: thin vertical ribs proud of the painted core.
+    for (const [, f] of Object.entries(wallFrames(w, d))) {
+      const b = ctx.b('paintedMetal', f.m);
+      b.setColor(lin(wallHex).map(v => v * 1.06));
+      for (let x = -f.L / 2 + .12; x < f.L / 2 - .05; x += .24) b.box(.035, H - .02, .02, x, H / 2, .012, { faces: ['pz', 'px', 'nx'] });
+    }
+  } else if (!om || om === 'boards') {
+    // Vertical boards with small gaps and uneven tops.
+    for (const [, f] of Object.entries(wallFrames(w, d))) {
+      const b = ctx.b(mat, f.m);
+      for (let x = -f.L / 2; x < f.L / 2 - .02; x += .17) {
+        const bw = Math.min(.155, f.L / 2 - x);
+        b.setColor(jitter(tint, random, .09));
+        b.box(bw, H, .025, x + bw / 2, H / 2, .014, { uo: random() * 4 });
+      }
     }
   }
   const frames = wallFrames(w, d);
-  const doorC = lin(r.kind === 'garage' ? r.color : '#5b4a3a').map(v => v * .9);
+  const doorHex = r.doorColor ?? (om ? '#6d5a44' : r.kind === 'garage' ? r.color : '#5b4a3a');
+  const doorC = lin(doorHex).map(v => v * .9);
   if (r.kind === 'garage' || r.kind === 'barn') {
-    const gw = Math.min(w - .5, 2.8), gh = H - .3;
+    const gw = Math.min(w - .5, om ? 2.6 : 2.8), gh = H - (om ? .2 : .3);
     const g = ctx.b('painted', frames.front.m);
     g.setColor(doorC);
     for (const s of [-1, 1]) g.box(gw / 2 - .02, gh, .05, s * gw / 4, gh / 2, .05);
+    if (om) {
+      // Steel door frame, a seam and two stiffening bars on each leaf, hasp in the middle.
+      const fr = ctx.b('painted', frames.front.m, 'detail');
+      fr.setColor(doorC.map(v => v * .72));
+      fr.box(gw + .12, .07, .06, 0, gh + .035, .06); fr.box(.07, gh, .06, -gw / 2 - .03, gh / 2, .06); fr.box(.07, gh, .06, gw / 2 + .03, gh / 2, .06);
+      fr.box(.03, gh, .065, 0, gh / 2, .06);
+      for (const s of [-1, 1]) for (const y of [gh * .3, gh * .72]) fr.box(gw / 2 - .16, .045, .06, s * gw / 4, y, .07);
+      const hk = ctx.b('darkMetal', frames.front.m, 'detail');
+      hk.setColor([1.2, 1.2, 1.2]);
+      hk.box(.18, .06, .03, 0, gh * .5, .1);
+    }
   } else {
     const g = ctx.b(mat, frames.front.m);
     g.setColor(doorC);
     g.box(.85, 1.85, .05, (random() - .5) * Math.max(0, w - 1.4), .93, .05);
   }
-  const roofMat = random() < .5 ? 'roof-slate' : 'roof-corrugated', roofC = lin(random() < .5 ? '#a9aaa6' : '#b9b8b2');
+  const roofMat = om === 'metal' ? 'roof-corrugated' : random() < .5 ? 'roof-slate' : 'roof-corrugated', rc = random() < .5 ? '#a9aaa6' : '#b9b8b2', roofC = lin(r.roofColor ?? rc);
   const spec = { w, d, wallH: H, roof: { shape: r.roof === 'gable' ? 'gable' : 'shed', ridge: w >= d ? 'parallel' : 'perpendicular', pitchDeg: r.roof === 'gable' ? 26 : 12, material: roofMat.slice(5), color: '#000000', overhang: .3 } };
   const rg = roofGeometry(spec);
   const map = q => ridgeToHouse(spec.roof.ridge, q);
@@ -807,7 +890,7 @@ export function buildKitOutbuilding(B, ground, r) {
     const N = gw.axis === 'x' ? map([gw.outward, 0, 0]) : map([0, 0, gw.outward]);
     const toW = (c, y) => (gw.axis === 'x' ? map([gw.at + gw.outward * .02, y, c]) : map([c, y, gw.at + gw.outward * .02]));
     const b = ctx.b(mat);
-    b.setColor(tint);
+    b.setColor(om === 'metal' || om === 'siding' ? lin(wallHex) : tint);
     fan(b, gw.poly.map(([c, y]) => toW(c, y)), gw.poly.map(([c, y]) => [c, y]), N);
   }
   return { base, height: rg.ridgeY };
