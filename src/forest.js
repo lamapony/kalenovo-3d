@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu';
 import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import {
   texture, uv, vec2, vec3, float, mix, smoothstep, positionGeometry, positionWorld, normalWorld, mx_noise_float,
-  attribute, color, hash, instanceIndex, normalMap, normalView, abs, step, max, cameraViewMatrix, vec4,
+  attribute, color, hash, instanceIndex, normalMap, normalView, normalViewGeometry, abs, step, max, cameraViewMatrix, vec4,
 } from 'three/tsl';
 import { polygons, toLocal, segmentDistanceSq, randomGenerator } from './geo.js';
 import { inBuilding } from './buildings.js';
@@ -44,7 +44,74 @@ function limb(a, b, r0, r1, segments = 5) {
   return g;
 }
 
-// Scots pine: tall bare trunk, crown of irregular needle clumps in the top third.
+// Cluster of needle cards around a branch end at c, branch heading a (radians): n quads of
+// ~size m, rotated about the branch axis (mostly flat), with uv for the needle texture and
+// normals bent away from the cluster centre. top: the leader, cards stand more upright.
+function needleCluster(random, c, a, size, n, top = false) {
+  const pos = [], nor = [], uvs = [], idx = [];
+  const dir = new THREE.Vector3(Math.cos(a), 0, Math.sin(a)), side = new THREE.Vector3(-Math.sin(a), 0, Math.cos(a));
+  const centre = new THREE.Vector3(...c), q = new THREE.Quaternion(), v = new THREE.Vector3(), nrm = new THREE.Vector3();
+  for (let i = 0; i < n; i++) {
+    const roll = top ? (i / n) * Math.PI + random() * .3 : (random() - .5) * 1.4 + (i % 3 === 2 ? Math.PI / 2 : 0);
+    const yaw = (random() - .5) * 1.3, droop = -.12 - random() * .25;
+    const len = size * (.8 + random() * .45), wid = size * (.55 + random() * .3);
+    const d = dir.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw).applyAxisAngle(side, droop);
+    const o = centre.clone().addScaledVector(d, (random() - .4) * size * .5).add(new THREE.Vector3(0, (random() - .5) * size * .25, 0));
+    q.setFromAxisAngle(d, roll);
+    const w = side.clone().applyQuaternion(q);
+    const base = pos.length / 3;
+    for (const [u, vv] of [[0, 0], [1, 0], [1, 1], [0, 1]]) {
+      v.copy(o).addScaledVector(d, (u - .35) * len).addScaledVector(w, (vv - .5) * wid);
+      if (top) v.y += (u - .3) * len * .6;
+      nrm.subVectors(v, centre).multiplyScalar(1 / size).add(new THREE.Vector3(0, .9, 0)).normalize();
+      pos.push(v.x, v.y, v.z); nor.push(nrm.x, nrm.y, nrm.z); uvs.push(u, vv);
+    }
+    idx.push(base, base + 1, base + 2, base, base + 2, base + 3);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  g.setIndex(idx);
+  return g.toNonIndexed();
+}
+
+// Needle tuft texture (drawn once on a canvas): a twig along u with paired needle strokes
+// fanning forward, denser and longer in the middle, side shoots; alpha = needles.
+let needleTex = null;
+function needleTexture() {
+  if (needleTex) return needleTex;
+  const S = 256, cv = document.createElement('canvas');
+  cv.width = cv.height = S;
+  const g = cv.getContext('2d'), random = randomGenerator(911);
+  g.clearRect(0, 0, S, S);
+  g.lineCap = 'round';
+  const twig = (x0, y0, x1, y1, reach, count) => {
+    g.strokeStyle = '#5a3f2a'; g.lineWidth = 3; g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke();
+    const dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L;
+    for (let i = 0; i < count; i++) {
+      const t = random(), px = x0 + dx * t, py = y0 + dy * t, env = Math.sin(Math.PI * Math.min(1, t * 1.15));
+      for (const s of [-1, 1]) {
+        const ang = s * (.5 + random() * .7), r = reach * (.45 + .55 * env) * (.7 + random() * .5);
+        const ca = Math.cos(ang), sa = Math.sin(ang), ex = px + (ux * ca - uy * sa) * r, ey = py + (uy * ca + ux * sa) * r;
+        const l = 70 + random() * 70;
+        g.strokeStyle = `rgb(${l * .55 | 0},${l | 0},${l * .45 | 0})`; g.lineWidth = 1.6 + random() * 1.2;
+        g.beginPath(); g.moveTo(px, py); g.lineTo(ex, ey); g.stroke();
+      }
+    }
+  };
+  twig(10, S / 2, S - 20, S / 2 + 6, 70, 260);
+  for (const [t, s] of [[.35, -1], [.5, 1], [.65, -1], [.75, 1]]) {
+    const x = 10 + (S - 30) * t, y = S / 2 + 6 * t;
+    twig(x, y, x + 60, y + s * 70, 34, 70);
+  }
+  needleTex = new THREE.CanvasTexture(cv);
+  needleTex.colorSpace = THREE.SRGBColorSpace;
+  needleTex.anisotropy = 4;
+  return needleTex;
+}
+
+// Scots pine: tall bare trunk, crown of needle-card clusters in the top third.
 function pineVariant(seed) {
   const random = randomGenerator(seed);
   const H = 13 + random() * 3;
@@ -57,9 +124,11 @@ function pineVariant(seed) {
   const limbs = [], clumps = [];
   const crownBase = H * (.52 + random() * .1);
   const axis = y => Math.sin(y / H * 2.4) * bend;
-  // Branch whorls (Scots pine): every ~0.8 m a whorl of 3-5 branches, each ending in a flat,
-  // drooping needle pad (a squashed, elongated low-poly blob), so the crown reads as layered
-  // tiers with sky between them from the side and as a star of pads from above.
+  // Branch whorls (Scots pine): every ~0.8 m a whorl of 3-5 branches; each branch ends in a
+  // cluster of alpha-tested needle cards (tufts on a twig, see needleTexture) fanned around the
+  // branch, mostly near-horizontal so the crown reads as layered tufts from the side and as a
+  // star of tufts from above. Card normals are bent outward from the cluster centre (soft,
+  // volumetric lighting instead of flat cards).
   const whorls = 6 + Math.floor(random() * 3);
   for (let i = 0; i < whorls; i++) {
     const t = i / (whorls - 1), y = crownBase + t * (H - crownBase - .6) + (random() - .5) * .3;
@@ -69,20 +138,15 @@ function pineVariant(seed) {
       const a = spin + k / nb * Math.PI * 2 + (random() - .5) * .6;
       const reach = (1 - t * .65) * (1.1 + random() * 1.3);
       const ca = Math.cos(a), sa = Math.sin(a);
-      const len = .9 + reach * .55, wid = .55 + random() * .3 + (1 - t) * .3;
-      let c = new THREE.IcosahedronGeometry(1, 0);
-      c.scale(len, .26 + random() * .16, wid);
-      c = jitterGeometry(c, random, .14);
-      c.rotateZ(-.1 - random() * .22); // tips droop
-      c.rotateX((random() - .5) * .35);
-      c.rotateY(-a);
-      c.translate(axis(y) + ca * (reach * .6 + .2), y - reach * .12, sa * (reach * .6 + .2));
-      clumps.push(stripTo(c, ['position', 'normal']));
-      if (reach > .6) limbs.push(stripTo(limb(new THREE.Vector3(axis(y), y - .25, 0), new THREE.Vector3(axis(y) + ca * reach * .7, y - reach * .1, sa * reach * .7), .06, .025, 4), ['position', 'normal', 'uv']));
+      const cx = axis(y) + ca * (reach * .6 + .2), cy = y - reach * .12, cz = sa * (reach * .6 + .2);
+      const size = .95 + reach * .45 + (1 - t) * .3;
+      clumps.push(needleCluster(random, [cx, cy, cz], a, size, 8 + Math.floor(random() * 3)));
+      // A second, smaller tuft cluster halfway along long branches fills the tier.
+      if (reach > 1.1) clumps.push(needleCluster(random, [axis(y) + ca * reach * .3, y - reach * .05, sa * reach * .3], a + (random() - .5) * .8, size * .7, 5));
+      if (reach > .6) limbs.push(stripTo(limb(new THREE.Vector3(axis(y), y - .25, 0), new THREE.Vector3(axis(y) + ca * reach * .8, y - reach * .1, sa * reach * .8), .06, .025, 4), ['position', 'normal', 'uv']));
     }
   }
-  let top = new THREE.ConeGeometry(.55, 1.6, 6); top = jitterGeometry(top, random, .15);
-  top.translate(axis(H), H - .1, 0); clumps.push(stripTo(top, ['position', 'normal']));
+  clumps.push(needleCluster(random, [axis(H), H - .45, 0], random() * 6.28, 1.1, 7, true));
   const bark = mergeGeometries([stripTo(trunk, ['position', 'normal', 'uv']), ...limbs]);
   const crown = mergeGeometries(clumps);
   // Far version: trunk + two cones, vertex-coloured, one draw.
@@ -209,12 +273,18 @@ function materials() {
   pineBark.normalNode = normalMap(texture(barkSet.normal, buv));
   pineBark.name = 'pine bark';
 
-  const needles = new THREE.MeshStandardNodeMaterial({ roughness: .95 });
+  // Needle cards: alpha-tested tuft texture, tinted per height and instance; back faces keep
+  // the outward bent normal (no flip), so both sides of a card light like the crown.
+  const needles = new THREE.MeshStandardNodeMaterial({ roughness: .9, side: THREE.DoubleSide, alphaTest: .45 });
+  const tex = texture(needleTexture(), uv());
   const nn = mx_noise_float(positionGeometry.mul(1.7)).mul(.5).add(.5);
-  const needleCol = mix(color('#22391f'), color('#4b6a39'), nn.mul(.75).add(smoothstep(4, 14, positionGeometry.y).mul(.25))).mul(variation);
+  const tint = mix(vec3(.75, .85, .8), vec3(1.15, 1.1, .85), nn.mul(.6).add(smoothstep(4, 14, positionGeometry.y).mul(.4))).mul(variation);
+  const needleCol = tex.rgb.mul(tint).mul(.85);
   const snowK = smoothstep(.35, .7, normalWorld.y.add(mx_noise_float(positionWorld.mul(.9)).mul(.35)));
-  needles.colorNode = season.summer ? needleCol : mix(needleCol, color(SNOW_COLOR), snowK.mul(.92));
-  needles.roughnessNode = mix(float(.95), float(.8), snowK);
+  needles.colorNode = season.summer ? needleCol : mix(needleCol, color(SNOW_COLOR), snowK.mul(.85));
+  needles.opacityNode = tex.a;
+  needles.normalNode = normalViewGeometry;
+  needles.roughnessNode = mix(float(.9), float(.8), snowK);
   needles.name = 'pine needles + snow';
 
   // Birch bark: chalk-white with black lenticels and a dark cracked base; thin twigs dark.
