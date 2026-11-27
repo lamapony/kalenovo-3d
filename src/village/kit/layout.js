@@ -116,7 +116,7 @@ export function layoutMainStreet(passports, meta, lines) {
     const runs = [];
     const run = (x0, z0, x1, z1, type, color, color2, height, role) => {
       if (Math.hypot(x1 - x0, z1 - z0) < .4) return;
-      runs.push({ x0, z0, x1, z1, type, color, color2, height, role, gates: [], pattern: type === fence?.type ? fence?.pattern : undefined });
+      runs.push({ x0, z0, x1, z1, type, color, color2, height, role, gates: [], pattern: type === fence?.type ? fence?.pattern : undefined, pillars: role === 'yard' ? fence?.pillarColor : undefined });
     };
     if (fence && plan) {
       const solid = SOLID_TYPES.has(fence.type);
@@ -215,7 +215,7 @@ export function layoutMainStreet(passports, meta, lines) {
     // World segments.
     for (const r of runs) {
       const a = frame.world(r.x0, r.z0), b = frame.world(r.x1, r.z1), len = Math.hypot(b[0] - a[0], b[1] - a[1]);
-      const f = { a, b, t0: 0, t1: len, pattern: r.pattern, type: r.type, color: r.color, color2: r.color2, height: r.height, role: r.role, gates: r.gates, owner: p.id };
+      const f = { a, b, t0: 0, t1: len, pattern: r.pattern, type: r.type, color: r.color, color2: r.color2, height: r.height, role: r.role, gates: r.gates, owner: p.id, pillars: r.pillars };
       plot.fences.push(f);
       let spans = [[0, len]];
       for (const g of r.gates) {
@@ -263,4 +263,17 @@ export function layoutMainStreet(passports, meta, lines) {
 // Front fence line must keep clear of the road: distance from the street centreline.
 export function fenceClearOfRoad(plot, lines) {
   return plot.fences.filter(f => f.role !== 'side').every(f => [f.a, f.b].every(([x, z]) => nearestOnLines(x, z, lines).distance >= ROAD_CLEAR - 1.5));
+}
+
+// Brick pillar positions (chainage along a fence run): one each side of every gate leaf group
+// and about every `step` metres along the solid spans; near-duplicates merged.
+export function pillarStations(spans, gates, step = 3) {
+  const ts = [];
+  for (const g of gates) ts.push(g.t - g.width / 2 - .22, g.t + g.width / 2 + .22);
+  const free = t => ts.every(q => Math.abs(q - t) > .6);
+  for (const [s0, s1] of spans) {
+    const n = Math.max(1, Math.round((s1 - s0) / step));
+    for (let i = 0; i <= n; i++) { const t = s0 + (s1 - s0) * i / n; if (free(t)) ts.push(t); }
+  }
+  return ts.sort((a, b) => a - b);
 }

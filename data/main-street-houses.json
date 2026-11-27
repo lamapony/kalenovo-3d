@@ -2420,6 +2420,7 @@
     },
     "yardType": "profiled",
     "yardColor": "#652329",
+    "pillarColor": "#d2a06c",
     "gateSide": "right",
     "gardenM": 5.8,
     "yardLengthM": 11

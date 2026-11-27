@@ -128,6 +128,12 @@ function boardWalls(ctx, spec, openings, random, H) {
     }
   }
   cornerBoards(ctx, spec.w + .06, spec.d + .06, H, brighten(tint, 1.08), mat);
+  // Clapboard is framed: a frieze board under the eaves and a water-table board with a drip
+  // over the plinth, both standing proud of the laps (logs have neither).
+  const fr = ctx.b(mat);
+  fr.setColor(brighten(tint, 1.08));
+  fr.box(spec.w + .1, .17, spec.d + .1, 0, H - .085, 0, { faces: ['px', 'nx', 'pz', 'nz'] });
+  fr.box(spec.w + .14, .13, spec.d + .14, 0, .065, 0, { faces: ['px', 'nx', 'pz', 'nz', 'py'] });
   return { H, surf: .03 };
 }
 
@@ -176,22 +182,44 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
   if (ww > .8) sb.box(.04, wh * .32, .03, -ww * .18, wh * .84, .004);
   const z = surf + .016;
   if (nal) {
+    // Casing boards stand 4-5 cm proud of the wall; a projecting cornice shelf (полочка) with a
+    // moulding under it, and a thick sill board with a drip strip, so they cast real shadows.
     const o = ctx.b('painted', at(x, y0, z));
     o.setColor(nalC);
-    o.box(.12, wh + .2, .035, -ww / 2 - .06, wh / 2 + .02, 0);
-    o.box(.12, wh + .2, .035, ww / 2 + .06, wh / 2 + .02, 0);
-    o.box(ww + .38, .13, .045, 0, wh + .14, .006);
-    o.box(ww + .42, .05, .12, 0, -.05, .04);
+    o.box(.12, wh + .16, .045, -ww / 2 - .06, wh / 2, .004);
+    o.box(.12, wh + .16, .045, ww / 2 + .06, wh / 2, .004);
+    o.box(ww + .3, .12, .05, 0, wh + .12, .008);
+    o.box(ww + .5, .055, .15, 0, wh + .205, .055);
+    o.box(ww + .4, .03, .09, 0, wh + .165, .036);
+    o.box(ww + .46, .055, .16, 0, -.035, .06);
+    o.box(ww + .3, .06, .03, 0, -.09, .012);
     if (nal.style !== 'plain') {
-      const sk = ctx.b('painted', at(x, y0 - .075, z), 'detail');
-      sk.setColor(nalC);
-      sk.geometry(T0.skirt, S(ww + .3, 1.1, 1));
-      const cr = ctx.b('painted', at(x, y0 + wh + .2, z + .004), 'detail');
-      cr.setColor(lin(nal.crown ?? nal.color));
-      if (nal.style === 'carved') cr.geometry(T0.crests[2], S((ww + .38) / 1.12, .75, 1));
-      else {
-        const ci = { kokoshnik: 0, pediment: 1, trapezoid: 3 }[nal.shape] ?? [0, 1, 3][crown % 3];
-        cr.geometry(T0.crests[ci], S((ww + .4) / 1.12, ci === 3 ? 1.3 : 1.15, 1));
+      // Fretwork: pierced crown on the shelf, drops under it, cut side boards over the casing,
+      // and (fully carved style) a pierced apron under the sill.
+      const C = T0.carved, crownC = lin(nal.crown ?? nal.color);
+      const ci = { kokoshnik: 0, pediment: 1, trapezoid: 2 }[nal.shape] ?? (nal.style === 'carved' ? 0 : crown % 3);
+      const k = (ww + .5) / 1.08;
+      const cr = ctx.b('painted', at(x, y0 + wh + .232, z + .045), 'detail');
+      cr.setColor(crownC);
+      cr.geometry(C.crowns[ci], S(k, k * (ci === 0 ? .82 : .9), 1));
+      // Contrasting board behind the pierced rosette (the "filigree insert" of the photos).
+      const sh = W.shutters;
+      if (sh && sh.type === 'wooden') {
+        const ins = ctx.b('painted', at(x, y0 + wh + .232, z + .018), 'detail');
+        ins.setColor(lin(sh.color));
+        ins.box(k * .5, k * (ci === 0 ? .3 : .24), .012, 0, k * (ci === 0 ? .22 : .16), 0);
+      }
+      const dr = ctx.b('painted', at(x, y0 + wh + .178, z + .1), 'detail');
+      dr.setColor(crownC);
+      const nd = ww > .8 ? 5 : 3;
+      for (let i = 0; i < nd; i++) dr.geometry(C.drop, T(-(ww + .36) / 2 + (ww + .36) * (i + .5) / nd, 0, 0));
+      const sd = ctx.b('painted', at(x, y0 - .02, z + .032), 'detail');
+      sd.setColor(brighten(nalC, 1.06));
+      for (const s of [-1, 1]) sd.geometry(C.side, mul(T(s * (ww / 2 + .06), 0, 0), S(1, wh + .14, 1)));
+      if (nal.style === 'carved') {
+        const ap = ctx.b('painted', at(x, y0 - .12, z + .01), 'detail');
+        ap.setColor(nalC);
+        ap.geometry(C.apron, S(ww + .36, 1.15, 1));
       }
     }
   } else {
@@ -213,12 +241,24 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
     for (const side of [-1, 1]) {
       const cx = closed ? side * ww / 4 : side * (ww / 2 + .13 + pw / 2);
       leaf.box(pw - .01, ph, .035, cx, wh / 2, 0);
-      // Two raised panels per leaf (filёнки), upper one taller.
+      // Two raised panels per leaf (filёнки), upper one taller, a raised field with a diamond
+      // in each, and two strap hinges on the outer edge.
       for (const [py0, py1] of [[.08, wh * .4], [wh * .46, wh - .08]]) {
         const pwid = pw - .14, phh = py1 - py0, cy = (py0 + py1) / 2;
         dd.box(pwid, .025, .012, cx, py0, 0); dd.box(pwid, .025, .012, cx, py1, 0);
         dd.box(.025, phh, .012, cx - pwid / 2, cy, 0); dd.box(.025, phh, .012, cx + pwid / 2, cy, 0);
       }
+      // Raised diamond fields, a shade lighter than the leaf.
+      const df = ctx.b('painted', at(x, y0, zz + .02), 'detail');
+      df.setColor(brighten(shC, 1.12, .01));
+      for (const [py0, py1] of [[.08, wh * .4], [wh * .46, wh - .08]]) {
+        const pwid = pw - .14, phh = py1 - py0;
+        df.geometry(T0.diamond, mul(T(cx, (py0 + py1) / 2, 0), S(Math.min(pwid * .55, phh * .45), Math.min(phh * .55, pwid * .9), 1)));
+      }
+      const hg = ctx.b('darkMetal', at(x, y0, zz + .02), 'detail');
+      hg.setColor([1.2, 1.2, 1.2]);
+      const hx = closed ? side * (ww / 2 - .12) : side * (ww / 2 + .2);
+      for (const hy of [wh * .18, wh * .82]) hg.box(.2, .035, .01, hx, hy, 0);
     }
   } else if (sh && shutters && sh.type === 'roller') {
     const rc = lin(sh.color);
@@ -358,12 +398,40 @@ function buildGables(ctx, spec, rg, deco, surfOff, random) {
       const pattern = r.gableFinish === 'log' ? 'horizontal' : (street ? r.gableBoards : (r.gableBoards === 'sunburst' ? 'vertical' : r.gableBoards));
       const boards = boardPolygons(gw.poly, { pattern, board: r.gableFinish === 'log' ? .2 : .135 });
       const b = ctx.b(mat);
-      for (const { poly, index, angle } of boards) {
-        b.setColor(jitter(gTint, random, .06));
-        const off = surfOff + (index % 2 ? .014 : .006);
+      for (const { poly, index, angle, disc } of boards) {
+        b.setColor(disc ? brighten(gTint, 1.25) : jitter(gTint, random, .06));
+        const off = surfOff + (disc ? .03 : index % 2 ? .014 : .006);
         const ca = Math.cos(angle), sa = Math.sin(angle);
         // uv: v along the board (wood grain), u across it.
         fan(b, poly.map(([c, y]) => toWorld(c, y, off)), poly.map(([c, y]) => [-c * sa + y * ca + index * .37, c * ca + y * sa]), N);
+      }
+      // Trim boards framing the sheathing: along both rakes inside the gable, a base board,
+      // and a centre board where diagonal boards meet.
+      const tr = ctx.b('painted');
+      tr.setColor(deco.trim);
+      const cen = gw.poly.reduce((a, q) => [a[0] + q[0] / gw.poly.length, a[1] + q[1] / gw.poly.length], [0, 0]);
+      for (let i = 0; i < gw.poly.length; i++) {
+        const A = gw.poly[i], Bp = gw.poly[(i + 1) % gw.poly.length];
+        const dx = Bp[0] - A[0], dy = Bp[1] - A[1], L = Math.hypot(dx, dy);
+        if (L < .3) continue;
+        let nx = -dy / L, ny = dx / L;
+        if ((cen[0] - A[0]) * nx + (cen[1] - A[1]) * ny < 0) { nx = -nx; ny = -ny; }
+        const wd = Math.abs(dy) < 1e-3 ? .12 : .14, o2 = surfOff + .03;
+        const q = [A, Bp, [Bp[0] + nx * wd, Bp[1] + ny * wd], [A[0] + nx * wd, A[1] + ny * wd]];
+        fan(tr, q.map(([c, y]) => toWorld(c, y, o2)), q.map(([c, y]) => [c, y]), N);
+      }
+      if (pattern === 'chevron') {
+        const top = Math.max(...gw.poly.map(q => q[1])), y0 = Math.min(...gw.poly.map(q => q[1]));
+        const q = [[-.06, y0], [.06, y0], [.06, top - .1], [-.06, top - .1]];
+        fan(tr, q.map(([c, y]) => toWorld(c, y, surfOff + .03)), q.map(([c, y]) => [c, y]), N);
+      }
+      // Towel board (полотенце) hanging under the apex of a carved street gable.
+      if (street && deco.carvedRakes && rg.shape !== 'shed') {
+        const top = Math.max(...gw.poly.map(q => q[1]));
+        const T0 = trimTemplates();
+        const tw = ctx.b('painted', basis(V3(toWorld(0, top - .06, surfOff + .045)), V3([N[2], 0, -N[0]]), new THREE.Vector3(0, 1, 0)), 'detail');
+        tw.setColor(deco.rake);
+        tw.geometry(T0.towel, S(1.3, 1.3, 1));
       }
     }
     // Cornice shelf at the gable base (street gable and every gable of a log house).
@@ -596,30 +664,80 @@ export function buildKitHouse(B, ground, plot) {
 
 function pick(random, list) { return list[Math.floor(random() * list.length) % list.length]; }
 
-// Small porch (крыльцо): platform, steps and a canopy on two posts in front of the door.
+// Porch (крыльцо): a plank deck at floor level on a boarded skirt, solid steps down to the
+// ground in front, a balustrade (flat balusters, handrail) on the deck sides and down the
+// stairs, and on roofed porches a small gable canopy on two turned posts with a boarded pediment.
 function porch(ctx, ground, spec, frameM, wallName, doorX, surf, deco, random) {
   const at = (lx, ly, lz) => mul(frameM, T(lx, ly, lz));
-  const b = ctx.b('logs', at(doorX, 0, surf));
-  b.setColor(lin('#6a5844'));
-  b.box(1.5, .1, 1.2, 0, -.06, .6, { uo: random() });
-  for (let i = 1; i <= 3; i++) b.box(1.3, .08, .3, 0, -.06 - i * .17, 1.2 + i * .28 - .14);
-  // Railing on both sides of the steps and platform (painted like the trim).
+  const Wd = 1.7, D = 1.35, tread = .28;
+  const foot = new THREE.Vector3(doorX, 0, surf + D + .6).applyMatrix4(mul(ctx.M, frameM));
+  const rise = Math.min(1.4, Math.max(.2, foot.y - ground(foot.x, foot.z)));
+  const n = Math.max(2, Math.round(rise / .18));
+  const wood = ctx.b('logs', at(doorX, 0, surf));
+  const deck = lin('#6f5c47');
+  wood.setColor(deck);
+  wood.box(Wd, .07, D, 0, -.035, D / 2, { uo: random() });
+  wood.setColor(deck.map(v => v * .8));
+  wood.box(Wd - .04, rise + .2, .03, 0, -(rise + .2) / 2 - .07, D - .03, { faces: ['pz'] });
+  for (const sx of [-1, 1]) wood.box(.03, rise + .2, D, sx * (Wd / 2 - .03), -(rise + .2) / 2 - .07, D / 2, { faces: [sx > 0 ? 'px' : 'nx'] });
+  const sw = 1.2;
+  for (let k = 1; k < n; k++) {
+    const top = -rise * k / n, z0 = D + (k - 1) * tread;
+    wood.setColor(jitter(deck, random, .06));
+    wood.box(sw, .05, tread + .03, 0, top - .025, z0 + tread / 2 + .015, { uo: random() * 3 });
+    wood.setColor(deck.map(v => v * .7));
+    wood.box(sw - .02, rise / n, .025, 0, top + rise / n / 2 - .05, z0 + .012, { faces: ['pz'] });
+    wood.box(sw, top + rise + .1, tread, 0, (top - rise - .1) / 2 - .05, z0 + tread / 2, { faces: ['px', 'nx'] });
+  }
+  // Balustrade: flat sawn balusters between a bottom rail and a handrail.
   const rl = ctx.b('painted', at(doorX, 0, surf));
   rl.setColor(deco.trim);
+  const runZ = (n - 1) * tread;
   for (const sx of [-1, 1]) {
-    rl.box(.06, .06, 1.25, sx * .72, .88, .62);
-    for (let k = 0; k < 6; k++) rl.box(.04, .88, .04, sx * .72, .44, .05 + k * .23);
+    const x = sx * (Wd / 2 - .05);
+    rl.box(.07, .05, D - .1, x, .9, D / 2 - .05); rl.box(.05, .05, D - .1, x, .08, D / 2 - .05);
+    for (let z = .12; z < D - .1; z += .13) rl.box(.025, .8, .09, x, .48, z);
+    rl.box(.1, 1.0, .1, x, .45, D - .05);
+    if (runZ > .2) {
+      // Sloped handrail and balusters down the stairs, outside the treads.
+      const xs = sx * (sw / 2 + .05), ang = Math.atan2(rise * (n - 1) / n, runZ), len = Math.hypot(runZ, rise * (n - 1) / n);
+      const hr = ctx.b('painted', mul(at(doorX + xs, .9, surf + D), new THREE.Matrix4().makeRotationX(ang)));
+      hr.setColor(deco.trim);
+      hr.box(.06, .05, len, 0, 0, len / 2);
+      for (let k = 1; k < n; k++) rl.box(.025, .8, .09, xs, -rise * k / n + .45, D + (k - .5) * tread);
+      rl.box(.09, 1.0, .09, xs, -rise * (n - 1) / n + .45 - .05, D + runZ - .05);
+    }
   }
-  rl.box(1.5, .06, .06, 0, .88, 1.23);
   if (spec.porch.roofed) {
+    const H = 2.35, pz = D - .08, rw = Wd + .45, pitch = .62, rs = rw / 2 / Math.cos(pitch);
     const t = ctx.b('painted', at(doorX, 0, surf));
     t.setColor(deco.trim);
-    for (const sx of [-1, 1]) t.box(.1, 2.3, .1, sx * .7, 1.1, 1.15);
-    const r = ctx.b(`roof-${spec.roof.material}`, mul(at(doorX, 2.45, surf + .65), new THREE.Matrix4().makeRotationX(.35)));
-    r.setColor(lin(spec.roof.color));
-    r.box(1.8, .05, 1.5, 0, 0, 0);
+    for (const sx of [-1, 1]) {
+      const x = sx * (Wd / 2 - .05);
+      t.box(.11, H, .11, x, H / 2 - .02, pz);
+      t.box(.16, .08, .16, x, H - .1, pz); t.box(.15, .06, .15, x, .95, pz);
+      t.box(.07, .07, pz + .1, x, H - .02, pz / 2);
+    }
+    t.box(Wd + .1, .14, .1, 0, H - .02, pz);
+    const ry = H + .06, apex = ry + Math.tan(pitch) * rw / 2, len = D + .45;
+    const roofM = `roof-${spec.roof.material}`;
+    for (const sx of [-1, 1]) {
+      const r = ctx.b(roofM, mul(at(doorX + sx * rw / 4, (ry + apex) / 2, surf + len / 2), new THREE.Matrix4().makeRotationZ(-sx * pitch)));
+      r.setColor(lin(spec.roof.color));
+      r.box(rs + .04, .04, len, 0, 0, 0, { faces: ['py', 'ny', 'pz', 'px', 'nx'] });
+    }
+    // Boarded pediment (фронтон) under the canopy, with a carved board on decorated houses.
+    const pd = ctx.b(woodMat(spec.roof.gableColor), at(doorX, 0, surf + pz + .06));
+    pd.setColor(woodTint(spec.roof.gableColor));
+    fan(pd, [[-Wd / 2 - .1, ry, 0], [Wd / 2 + .1, ry, 0], [0, apex - .06, 0]], [[0, 0], [1, 0], [.5, 1]], [0, 0, 1]);
+    if (!season.summer) {
+      for (const sx of [-1, 1]) {
+        const sn = ctx.b('snow', mul(at(doorX + sx * rw / 4, (ry + apex) / 2 + .07, surf + len / 2), new THREE.Matrix4().makeRotationZ(-sx * pitch)));
+        sn.setColor([1, 1, 1]); sn.box(rs - .05, .08, len - .06);
+      }
+    }
   }
-  void ground; void wallName;
+  void wallName;
 }
 
 // --------------------------------------------------------- outbuildings ----

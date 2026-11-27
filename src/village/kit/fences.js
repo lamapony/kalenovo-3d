@@ -3,10 +3,11 @@
 // chain-link mesh, metal rails, decorative concrete panels; double/swing gates and wickets,
 // optionally roofed. Merged into the shared TiledBuilders; every piece follows the ground.
 import * as THREE from 'three/webgpu';
-import { jitter } from '../materials.js';
+import { jitter, lin } from '../materials.js';
 import { randomGenerator } from '../../geo.js';
 import { isRawWood, woodTint } from './house.js';
 import { season } from '../../season.js';
+import { pillarStations } from './layout.js';
 
 const UP = new THREE.Vector3(0, 1, 0);
 let picketGeo = null;
@@ -42,9 +43,27 @@ export function buildKitFences(B, ground, plots) {
       const color = woodTint(f.color), h = f.height;
       for (const [s0, s1] of spans) pieces += fenceSpan(B, ground, f, { s0, s1, P, M, X, Z, plotSide, color, h, random });
       for (const g of f.gates) gate(B, ground, f, g, { P, M, plotSide, random });
+      if (f.pillars) pieces += brickPillars(B, f, { len, spans, P, M, h: f.height, tint: lin(f.pillarColor) });
     }
   }
   return { pieces };
+}
+
+// Brick pillars (кирпичные столбы) on yard fences: one each side of every gate leaf group and
+// about every 3 m along the solid spans, a stepped cap on top.
+function brickPillars(B, f, { len, spans, P, M, h, tint }) {
+  const ts = pillarStations(spans, f.gates).filter(t => t > -.3 && t < len + .3);
+  const ph = Math.min(2.6, h + .3);
+  for (const t of ts) {
+    // Painted / rendered brick: the observed colour on the plaster noise material.
+    const [x, z] = P(t), b = B.get('concrete', x, z);
+    b.setMatrix(M(t)); b.setColor(tint.map(v => v / .58));
+    b.box(.38, ph + .3, .38, 0, (ph - .3) / 2, 0, { uo: t * .7 });
+    const c = b;
+    c.setColor(tint.map(v => v * 1.2 / .58));
+    c.box(.46, .06, .46, 0, ph + .03, 0); c.box(.3, .08, .3, 0, ph + .1, 0);
+  }
+  return ts.length;
 }
 
 function posts(B, f, { s0, s1, P, M, step = 2.4, size = .1, key = 'logs', tint, h, steel = false }) {

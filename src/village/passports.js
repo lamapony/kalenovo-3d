@@ -25,7 +25,7 @@ export const ENUMS = {
   porchSide: ['front', 'left', 'right'],
   fence: ['picket', 'plank', 'profiled', 'stripe', 'lattice', 'mesh', 'metal-rail', 'concrete', 'none'],
   // Optional phase B refinements (kit details checked against the photos).
-  gableBoards: ['vertical', 'horizontal', 'sunburst'],
+  gableBoards: ['vertical', 'horizontal', 'sunburst', 'chevron'],
   annexSide: ['left', 'right', 'yard'],
   fencePattern: ['vertical', 'horizontal'],
   gateSide: ['left', 'right'],
@@ -159,6 +159,7 @@ export function validatePassport(p) {
     opt(f.gardenM, v => num(v, 'fence.gardenM', 0, 12));
     opt(f.yardLengthM, v => num(v, 'fence.yardLengthM', 1, 30));
     opt(f.drive, v => oneOf(v, ['gravel', 'paving'], 'fence.drive'));
+    opt(f.pillarColor, v => hex(v, 'fence.pillarColor'));
     opt(f.gate, g => {
       oneOf(g.type, ENUMS.gate, 'gate.type');
       hex(g.color, 'gate.color');

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {
   resolveHouse, roofGeometry, windowSlots, wallHeight, ridgeToHouse, clipPolygon, polygonArea, boardPolygons, MANSARD_UPPER_PITCH, PLATE_LIFT,
 } from '../src/village/kit/spec.js';
-import { layoutMainStreet, fencePlan, chainage, frameOf, GATE_WIDTH } from '../src/village/kit/layout.js';
+import { layoutMainStreet, fencePlan, chainage, frameOf, GATE_WIDTH, pillarStations } from '../src/village/kit/layout.js';
 import { loadPassports, streetLines, passportLocal } from '../src/village/passports.js';
 import { collectFootprints, wayLines, planVillage, rectsOverlap, inRect } from '../src/village/plan.js';
 
@@ -102,12 +102,32 @@ test('window slots stay inside the wall, apart, and avoid doors', () => {
 test('board polygons tile the gable without gaps', () => {
   const tri = [[-3, 0], [3, 0], [0, 2.2]];
   const area = Math.abs(polygonArea(tri));
-  for (const pattern of ['vertical', 'horizontal', 'sunburst']) {
-    const boards = boardPolygons(tri, { pattern, board: .14 });
+  for (const pattern of ['vertical', 'horizontal', 'chevron', 'sunburst']) {
+    const boards = boardPolygons(tri, { pattern, board: .14 }).filter(b => !b.disc);
     const sum = boards.reduce((s, b) => s + Math.abs(polygonArea(b.poly)), 0);
     assert.ok(Math.abs(sum - area) < 1e-6, `${pattern}: ${sum} vs ${area}`);
   }
   assert.deepEqual(clipPolygon([[0, 0], [2, 0], [2, 2], [0, 2]], 1, 0, 1).length, 4);
+});
+
+test('sunburst gable: radial rays from the base centre plus a half-sun disc', () => {
+  const tri = [[-3, 0], [3, 0], [0, 2.2]];
+  const boards = boardPolygons(tri, { pattern: 'sunburst', rayDeg: 15 });
+  const rays = boards.filter(b => !b.disc);
+  assert.equal(rays.length, 12);
+  // Every ray is a wedge whose vertices include the foot point (0, 0).
+  for (const r of rays) assert.ok(r.poly.some(([x, y]) => Math.hypot(x, y) < 1e-9));
+  const disc = boards.find(b => b.disc);
+  assert.ok(disc && disc.poly.every(([x, y]) => y >= -1e-9 && Math.hypot(x, y) <= .55 + 1e-9));
+});
+
+test('brick pillars flank every gate and space the spans', () => {
+  const gates = [{ t: 5, width: 3 }];
+  const ts = pillarStations([[0, 3.3], [6.7, 13]], gates);
+  assert.ok(ts.some(t => Math.abs(t - 3.28) < 1e-9) && ts.some(t => Math.abs(t - 6.72) < 1e-9));
+  for (let i = 1; i < ts.length; i++) assert.ok(ts[i] - ts[i - 1] > .6);
+  assert.ok(ts[0] === 0 && ts[ts.length - 1] === 13);
+  assert.ok(!ts.some(t => t > 3.5 && t < 6.5), 'no pillar inside the gate opening');
 });
 
 test('fence plan: palisade gardens, flush and front fences', () => {

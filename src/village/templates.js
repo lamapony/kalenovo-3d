@@ -59,7 +59,60 @@ export function trimTemplates() {
   const di = new THREE.Shape();
   di.moveTo(0, -.5); di.lineTo(.5, 0); di.lineTo(0, .5); di.lineTo(-.5, 0); di.closePath();
 
+  // --- Carved наличник parts (fretwork: pierced holes, cut profiles, drops). Symmetric about
+  // x = 0 so they never need a mirrored (negative-scale) stamp.
+  // 8. Tall pierced kokoshnik crown: ogee shoulders, a finial ball, a sun rosette (centre hole
+  // and a ring of drilled petals) and teardrop / diamond fretwork in the shoulders. Width 1.08.
+  const rk2 = new THREE.Shape();
+  rk2.moveTo(-.54, 0); rk2.lineTo(.54, 0); rk2.lineTo(.54, .06);
+  rk2.bezierCurveTo(.5, .24, .26, .24, .14, .44); rk2.lineTo(.05, .52);
+  rk2.absarc(0, .58, .055, -Math.PI / 2 + .9, Math.PI * 1.5 - .9, false);
+  rk2.lineTo(-.05, .52); rk2.lineTo(-.14, .44); rk2.bezierCurveTo(-.26, .24, -.5, .24, -.54, .06); rk2.closePath();
+  rk2.holes.push(circleHole(0, .27, .062));
+  for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; rk2.holes.push(circleHole(Math.cos(a) * .12, .27 + Math.sin(a) * .12, .018)); }
+  for (const s of [-1, 1]) {
+    rk2.holes.push(polyHole([[s * .3, .05], [s * .35, .1], [s * .3, .17], [s * .25, .1]]));
+    rk2.holes.push(circleHole(s * .43, .08, .022));
+    rk2.holes.push(polyHole([[s * .17, .06], [s * .2, .1], [s * .17, .13], [s * .14, .1]]));
+  }
+  // 9. Pierced pediment crown: triangle with a stepped top, a row of diamonds and a rosette.
+  const rp2 = new THREE.Shape();
+  rp2.moveTo(-.56, 0); rp2.lineTo(.56, 0); rp2.lineTo(.56, .06); rp2.lineTo(.08, .36); rp2.lineTo(.05, .43);
+  rp2.absarc(0, .47, .045, -Math.PI / 2 + .8, Math.PI * 1.5 - .8, false); rp2.lineTo(-.08, .36); rp2.lineTo(-.56, .06); rp2.closePath();
+  rp2.holes.push(circleHole(0, .2, .05));
+  for (const s of [-1, 1]) for (const x of [.2, .36]) rp2.holes.push(polyHole([[s * x, .05], [s * (x + .04), .095], [s * x, .14 - x * .12], [s * (x - .04), .095]]));
+  // 10. Pierced trapezoid crown with a raised middle and drilled dots.
+  const rt2 = new THREE.Shape();
+  rt2.moveTo(-.56, 0); rt2.lineTo(.56, 0); rt2.lineTo(.56, .06); rt2.lineTo(.44, .22); rt2.lineTo(.14, .24); rt2.lineTo(.05, .36);
+  rt2.absarc(0, .4, .045, -Math.PI / 2 + .8, Math.PI * 1.5 - .8, false); rt2.lineTo(-.14, .24); rt2.lineTo(-.44, .22); rt2.lineTo(-.56, .06); rt2.closePath();
+  rt2.holes.push(circleHole(0, .17, .045));
+  for (const s of [-1, 1]) { rt2.holes.push(polyHole([[s * .22, .06], [s * .3, .06], [s * .3, .16], [s * .22, .16]])); rt2.holes.push(circleHole(s * .42, .1, .022)); }
+  // 11. Side board (unit height, 0.16 wide): cut profile on both edges (foot, two bites, an
+  // ear at the top) and three pierced diamonds; stamped scaled to the window height.
+  const sbd = new THREE.Shape(), hw = .06;
+  sbd.moveTo(-.085, 0); sbd.lineTo(.085, 0); sbd.lineTo(.085, .05); sbd.lineTo(hw, .08);
+  for (const y of [.36, .64]) { sbd.lineTo(hw, y - .05); sbd.quadraticCurveTo(hw - .035, y, hw, y + .05); }
+  sbd.lineTo(hw, .9); sbd.lineTo(.1, .95); sbd.lineTo(.1, 1); sbd.lineTo(-.1, 1); sbd.lineTo(-.1, .95); sbd.lineTo(-hw, .9);
+  for (const y of [.64, .36]) { sbd.lineTo(-hw, y + .05); sbd.quadraticCurveTo(-hw + .035, y, -hw, y - .05); }
+  sbd.lineTo(-hw, .08); sbd.lineTo(-.085, .05); sbd.closePath();
+  for (const y of [.22, .5, .78]) sbd.holes.push(polyHole([[0, y - .045], [.022, y], [0, y + .045], [-.022, y]]));
+  // 12. Apron under the sill (подзор): width 1, scalloped lower edge with a central pendant,
+  // a row of drilled dots.
+  const ap = new THREE.Shape();
+  ap.moveTo(-.5, 0); ap.lineTo(.5, 0); ap.lineTo(.5, -.08);
+  for (let i = 0; i < 2; i++) { const cx = .4 - i * .2; ap.absarc(cx, -.08, .1, 0, Math.PI, true); }
+  ap.lineTo(.1, -.14); ap.lineTo(.04, -.2); ap.absarc(0, -.24, .045, Math.PI / 2 - .7, Math.PI / 2 + .7 - Math.PI * 2, true); ap.lineTo(-.1, -.14);
+  ap.lineTo(-.1, -.08);
+  for (let i = 0; i < 2; i++) { const cx = -.2 - i * .2; ap.absarc(cx, -.08, .1, 0, Math.PI, true); }
+  ap.lineTo(-.5, 0); ap.closePath();
+  for (const x of [-.4, -.2, .2, .4]) ap.holes.push(circleHole(x, -.045, .018));
+  ap.holes.push(polyHole([[0, -.02], [.035, -.06], [0, -.1], [-.035, -.06]]));
+  // 13. Drop (капелька): a small turned pendant hung under the crown shelf.
+  const dr = new THREE.Shape();
+  dr.moveTo(-.018, 0); dr.lineTo(.018, 0); dr.lineTo(.018, -.04); dr.absarc(0, -.07, .032, Math.PI / 2 - 1, Math.PI / 2 + 1 - Math.PI * 2, true); dr.lineTo(-.018, -.04); dr.closePath();
+
   cache = {
+    carved: { crowns: [extrude(rk2, .04, 4), extrude(rp2, .04, 3), extrude(rt2, .04, 3)], side: extrude(sbd, .03, 2), apron: extrude(ap, .03, 3), drop: extrude(dr, .03, 3) },
     crests: [extrude(kok, .036), extrude(ped, .036), extrude(wav, .036), extrude(tra, .04)],
     skirt: extrude(sk, .03),
     rake: extrude(rk, .035, 4),

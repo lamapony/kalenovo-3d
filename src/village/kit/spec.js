@@ -277,8 +277,11 @@ export function polygonArea(poly) {
 // Boards covering a 2D polygon: bands of width `board` in direction `angle` (radians from the
 // x axis; 0 = horizontal boards, PI/2 = vertical). 'sunburst' splits at x = cx into two halves
 // of diagonal boards meeting in a chevron. Returns polygons (each a board) with an index.
-export function boardPolygons(poly, { pattern = 'vertical', board = .14, cx = 0 } = {}) {
-  const halves = pattern === 'sunburst' ? [[-1, Math.PI * .25], [1, Math.PI * .75]] : [[0, pattern === 'horizontal' ? 0 : Math.PI / 2]];
+// 'sunburst' is a true radial fan (солнце): tapered rays from a point on the gable base at
+// x = cx, every ~`rayDeg` degrees, plus a half-sun disc (index -1) over their foot.
+export function boardPolygons(poly, { pattern = 'vertical', board = .14, cx = 0, rayDeg = 11 } = {}) {
+  if (pattern === 'sunburst') return sunburstBoards(poly, cx, rayDeg);
+  const halves = pattern === 'chevron' ? [[-1, Math.PI * .25], [1, Math.PI * .75]] : [[0, pattern === 'horizontal' ? 0 : Math.PI / 2]];
   const boards = [];
   for (const [side, angle] of halves) {
     let base = poly;
@@ -295,6 +298,23 @@ export function boardPolygons(poly, { pattern = 'vertical', board = .14, cx = 0 
       if (b.length >= 3 && Math.abs(polygonArea(b)) > 1e-4) boards.push({ poly: b, index: i + (side > 0 ? 1000 : 0), angle });
     }
   }
+  return boards;
+}
+
+function sunburstBoards(poly, cx, rayDeg) {
+  const y0 = Math.min(...poly.map(p => p[1]));
+  const n = Math.max(6, Math.round(180 / rayDeg)), boards = [];
+  for (let i = 0; i < n; i++) {
+    const a0 = Math.PI * i / n, a1 = Math.PI * (i + 1) / n;
+    // Wedge between the rays at a0 and a1 around (cx, y0): left of ray a0, right of ray a1.
+    let b = clipPolygon(poly, Math.sin(a0), -Math.cos(a0), Math.sin(a0) * cx - Math.cos(a0) * y0);
+    b = clipPolygon(b, -Math.sin(a1), Math.cos(a1), -Math.sin(a1) * cx + Math.cos(a1) * y0);
+    if (b.length >= 3 && Math.abs(polygonArea(b)) > 1e-4) boards.push({ poly: b, index: i, angle: (a0 + a1) / 2 });
+  }
+  const span = Math.max(...poly.map(p => p[0])) - Math.min(...poly.map(p => p[0]));
+  const r = Math.min(.55, span * .09), disc = [];
+  for (let i = 0; i <= 10; i++) { const a = Math.PI * i / 10; disc.push([cx + Math.cos(a) * r, y0 + Math.sin(a) * r]); }
+  boards.push({ poly: disc, index: -1, angle: Math.PI / 2, disc: true });
   return boards;
 }
 
