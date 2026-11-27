@@ -9183,6 +9183,177 @@
    "fence": null,
    "outbuildings": [],
    "notes": "grey roof, long side to the street"
+  },
+  {
+   "id": "tolstikhina-n-v029r",
+   "refs": [
+    "east/029"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.755855,
+   "lon": 107.1145732,
+   "side": "N",
+   "setbackM": 13.6,
+   "facadeYawDeg": -26.7,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 7.8,
+    "depthM": 6.5,
+    "chimney": true,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": "",
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#45372b",
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 28,
+     "material": "corrugated",
+     "color": "#85837d",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#4a3c2f"
+    },
+    "windows": {
+     "street": 2,
+     "side": 1,
+     "frameColor": "#d9d6cc",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#d9d6cc"
+     },
+     "shutters": null
+    }
+   },
+   "fence": {
+    "type": "plank",
+    "color": "#6d6255",
+    "heightM": 1.8,
+    "lengthM": 8,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "added from vision review; dark log house right of the brown plank house, partly privacy-blurred"
+  },
+  {
+   "id": "tolstikhina-s-v042l",
+   "refs": [
+    "east/042"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7564924,
+   "lon": 107.1113581,
+   "side": "S",
+   "setbackM": 16.5,
+   "facadeYawDeg": 153.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 6.5,
+    "depthM": 6,
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": "",
+    "floors": 1,
+    "wall": {
+     "material": "log",
+     "color": "#4a3b2d",
+     "cornerJoint": "saddle"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "parallel",
+     "pitchDeg": 25,
+     "material": "corrugated",
+     "color": "#9a9a94",
+     "overhangM": 0.4,
+     "gableFinish": "planks",
+     "gableColor": "#4f4134"
+    },
+    "windows": {
+     "street": 2,
+     "side": 1,
+     "frameColor": "#cfcbc0",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#cfcbc0"
+     },
+     "shutters": null
+    }
+   },
+   "fence": {
+    "type": "picket",
+    "color": "#4f9a96",
+    "heightM": 1.1,
+    "lengthM": 6,
+    "gate": null
+   },
+   "outbuildings": [],
+   "notes": "added from vision review; cut off at the left edge of the frame, teal picket in front"
+  },
+  {
+   "id": "tolstikhina-s-v008c",
+   "refs": [
+    "west/008"
+   ],
+   "source": "street",
+   "confidence": "low",
+   "lat": 51.7578072,
+   "lon": 107.1064979,
+   "side": "S",
+   "setbackM": 31.2,
+   "facadeYawDeg": 154.3,
+   "footprintIndex": null,
+   "mergedFootprint": false,
+   "house": {
+    "widthM": 4,
+    "depthM": 5,
+    "chimney": false,
+    "porch": null,
+    "veranda": false,
+    "basementM": 0.3,
+    "notes": "",
+    "floors": 1,
+    "wall": {
+     "material": "planks",
+     "color": "#8fb3c9",
+     "cornerJoint": "boxed"
+    },
+    "roof": {
+     "shape": "gable",
+     "ridge": "perpendicular",
+     "pitchDeg": 35,
+     "material": "profiled",
+     "color": "#4f86b5",
+     "overhangM": 0.3,
+     "gableFinish": "planks",
+     "gableColor": "#8fb3c9"
+    },
+    "windows": {
+     "street": 1,
+     "side": 1,
+     "frameColor": "#e2e2dc",
+     "nalichnik": {
+      "style": "plain",
+      "color": "#e2e2dc"
+     },
+     "shutters": null
+    }
+   },
+   "fence": null,
+   "outbuildings": [],
+   "notes": "added from vision review; small light-blue plank building set far back behind the green gate"
   }
  ]
 }
