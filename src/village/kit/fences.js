@@ -8,16 +8,23 @@ import { randomGenerator } from '../../geo.js';
 import { isRawWood, woodTint } from './house.js';
 import { season } from '../../season.js';
 import { pillarStations } from './layout.js';
+import { picketHeightFactor, picketLean, diamondStations, gateOverlay } from './fencePatterns.js';
 
 const UP = new THREE.Vector3(0, 1, 0);
-let picketGeo = null;
-function picket() {
-  if (picketGeo) return picketGeo;
+const picketGeos = {};
+// Unit-height picket (scaled to the fence height): pointed, flat or rounded top.
+function picket(top = 'pointed') {
+  const key = top === 'fan' ? 'rounded' : top;
+  if (picketGeos[key]) return picketGeos[key];
   const w = .085, s = new THREE.Shape();
-  s.moveTo(-w / 2, 0); s.lineTo(w / 2, 0); s.lineTo(w / 2, .92); s.lineTo(0, 1); s.lineTo(-w / 2, .92); s.closePath();
-  picketGeo = new THREE.ExtrudeGeometry(s, { depth: .02, bevelEnabled: false });
-  picketGeo.translate(0, 0, -.01);
-  return picketGeo;
+  s.moveTo(-w / 2, 0); s.lineTo(w / 2, 0);
+  if (key === 'flat') { s.lineTo(w / 2, 1); s.lineTo(-w / 2, 1); } else if (key === 'rounded') {
+    s.lineTo(w / 2, .96); s.absarc(0, .96, w / 2, 0, Math.PI, false);
+  } else { s.lineTo(w / 2, .92); s.lineTo(0, 1); s.lineTo(-w / 2, .92); }
+  s.closePath();
+  const g = new THREE.ExtrudeGeometry(s, { depth: .02, bevelEnabled: false, curveSegments: 3 });
+  g.translate(0, 0, -.01);
+  return (picketGeos[key] = g);
 }
 const woodKey = hex => (isRawWood(hex) ? 'logs' : 'painted');
 
@@ -124,12 +131,15 @@ function fenceSpan(B, ground, f, o) {
   if (f.type === 'picket' || f.type === 'stripe' || f.type === 'plank') {
     const painted = !isRawWood(f.color) || f.type === 'stripe';
     const key = f.type === 'stripe' ? 'painted' : woodKey(f.color);
-    const pitch = f.type === 'picket' ? .15 : f.type === 'stripe' ? .125 : .165;
     const bw = f.type === 'picket' ? .085 : f.type === 'stripe' ? .1 : .15;
-    rails(B, f, { s0, s1, P, M, plotSide, key, tint: color.map(v => v * .85), heights: [.3, h - .3] });
+    const pitch = f.gapM ? bw + f.gapM : f.type === 'picket' ? .15 : f.type === 'stripe' ? .125 : .165;
+    const top = f.type === 'picket' ? (f.picketTop ?? 'pointed') : null, fan = top === 'fan';
+    rails(B, f, { s0, s1, P, M, plotSide, key, tint: color.map(v => v * .85), heights: fan ? [.25, h * .55] : [.3, h - .3] });
     // Painted stripe palisades carry a flat cap board along the top.
     if (f.type === 'stripe') rails(B, f, { s0, s1, P, M, plotSide: 0, key, tint: color, heights: [h + .07], size: [.04, .14] });
-    count += posts(B, f, { s0, s1, P, M, key, tint: color.map(v => v * .8), h, size: f.type === 'plank' ? .14 : .1 });
+    const postTint = f.postColor ? woodTint(f.postColor) : color.map(v => v * .8);
+    count += posts(B, f, { s0, s1, P, M, key: f.postColor ? woodKey(f.postColor) : key, tint: postTint, h: fan ? h * 1.02 : h, size: f.type === 'plank' ? .14 : f.postColor ? .12 : .1 });
+    if (f.diamonds && f.type === 'picket') count += diamondInserts(B, f, { s0, s1, P, M, plotSide, h, tint: woodTint(f.diamonds) });
     if (f.type === 'plank' && f.pattern === 'horizontal') {
       // Horizontal slabs (горбыль) between the posts, uneven widths, ends overlapping the posts.
       const m = Math.max(1, Math.ceil(L / 2.4));
@@ -144,6 +154,22 @@ function fenceSpan(B, ground, f, o) {
       }
       return count;
     }
+    if (fan) {
+      // Fan palisade (веер): per post section the pickets splay from the bottom middle and
+      // their tops dip towards the middle of the section.
+      const sections = Math.max(1, Math.ceil(L / 2.4));
+      for (let i = 0; i < sections; i++) {
+        const a = s0 + L * i / sections, c = s0 + L * (i + 1) / sections, m = Math.max(3, Math.round((c - a - .12) / pitch));
+        for (let k = 0; k < m; k++) {
+          const t = a + .06 + (k + .5) * (c - a - .12) / m, [x, z] = P(t), b = B.get(key, x, z);
+          const hh = h * picketHeightFactor('fan', k, m) * (.98 + random() * .04), lean = picketLean('fan', k, m);
+          b.setMatrix(M(t, .05)); b.setColor(jitter(color, random, .04));
+          b.geometry(picket('fan'), new THREE.Matrix4().makeRotationZ(lean).multiply(new THREE.Matrix4().makeScale(1, hh, 1)));
+          count++;
+        }
+      }
+      return count;
+    }
     const n = Math.max(1, Math.round(L / pitch));
     for (let k = 0; k < n; k++) {
       const t = s0 + (k + .5) * L / n, [x, z] = P(t);
@@ -152,7 +178,7 @@ function fenceSpan(B, ground, f, o) {
       const hh = f.type === 'plank' ? h * (.95 + random() * .1) : f.type === 'picket' ? h * (.98 + random() * .04) : h;
       b.setMatrix(M(t, .05));
       b.setColor(jitter(c2, random, painted ? .04 : .12));
-      if (f.type === 'picket') b.geometry(picket(), new THREE.Matrix4().makeScale(1, hh, 1));
+      if (f.type === 'picket') b.geometry(picket(top), new THREE.Matrix4().makeScale(1, hh, 1));
       else b.box(f.type === 'plank' ? bw * (.8 + random() * .4) : bw, hh, .025, 0, hh / 2, 0, { uo: random() * 5 });
       count++;
     }
@@ -228,6 +254,26 @@ function fenceSpan(B, ground, f, o) {
   return count;
 }
 
+// Pale diamond (rhombus) inserts nailed over the pickets on the street side, one per post
+// section, with a short rail through the middle as in the street imagery.
+function diamondInserts(B, f, { s0, s1, P, M, plotSide, h, tint }) {
+  let n = 0;
+  const key = isRawWood(f.diamonds) ? 'logs' : 'painted', zf = -plotSide * .035, cy = h * .5;
+  for (const { t, w } of diamondStations(s0, s1)) {
+    const [x, z] = P(t), b = B.get(key, x, z), hy = Math.min(h * .3, w * .32);
+    const corners = [[0, -hy], [w / 2, 0], [0, hy], [-w / 2, 0]];
+    b.setColor(tint);
+    for (let i = 0; i < 4; i++) {
+      const [ax, ay] = corners[i], [bx, by] = corners[(i + 1) % 4], len = Math.hypot(bx - ax, by - ay) + .05;
+      b.setMatrix(M(t, .05).multiply(new THREE.Matrix4().makeTranslation((ax + bx) / 2, cy + (ay + by) / 2, zf)).multiply(new THREE.Matrix4().makeRotationZ(Math.atan2(by - ay, bx - ax))));
+      b.box(len, .06, .02);
+    }
+    b.setMatrix(M(t, .05)); b.box(w * 1.25, .05, .02, 0, cy, zf * .7);
+    n += 5;
+  }
+  return n;
+}
+
 function gate(B, ground, f, g, { P, M, plotSide, random }) {
   const [x, z] = P(g.t), color = woodTint(g.color);
   const profiled = f.type === 'profiled';
@@ -249,6 +295,16 @@ function gate(B, ground, f, g, { P, M, plotSide, random }) {
       const diag = Math.hypot(lw - .1, h - .85), ang = Math.atan2(h - .85, lw - .1);
       b.setMatrix(base.clone().multiply(new THREE.Matrix4().makeTranslation(lx, h / 2 - .02, plotSide * .03)).multiply(new THREE.Matrix4().makeRotationZ(ang)));
       b.box(diag, .09, .03);
+      // Street-side board pattern (gate.pattern): chevron, X braces or a diamond frame.
+      if (g.pattern && g.pattern !== 'vertical') {
+        const pc = g.patternColor ? woodTint(g.patternColor) : color.map(v => v * 1.18 + .01);
+        const ob = B.get(g.patternColor ? woodKey(g.patternColor) : key, x, z);
+        ob.setColor(pc);
+        for (const o of gateOverlay(g.pattern, lw, h - .1)) {
+          ob.setMatrix(base.clone().multiply(new THREE.Matrix4().makeTranslation(lx + o.x, o.y, -plotSide * .03)).multiply(new THREE.Matrix4().makeRotationZ(o.angle)));
+          ob.box(o.len, o.frame ? .08 : .1, .025);
+        }
+      }
     }
   }
   const pk = profiled ? 'darkMetal' : woodKey(g.color);
