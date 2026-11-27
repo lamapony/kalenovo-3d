@@ -168,6 +168,10 @@ export function validatePassport(p) {
   });
   if (p.house === null && p.fence === null) err('passport needs a house or a fence');
 
+  opt(p.cars, cars => {
+    if (!Array.isArray(cars)) return err('cars must be an array');
+    for (const c of cars) { oneOf(c.kind, ['car', 'truck'], 'car.kind'); hex(c.color, 'car.color'); opt(c.yawDeg, v => num(v, 'car.yawDeg', -60, 60)); }
+  });
   if (!Array.isArray(p.outbuildings)) err('outbuildings must be an array');
   else for (const o of p.outbuildings) {
     oneOf(o.kind, ENUMS.outbuilding, 'outbuilding.kind');

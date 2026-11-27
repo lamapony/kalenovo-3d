@@ -1542,7 +1542,14 @@
     "yardColor": "#c3c0b6"
    },
    "outbuildings": [],
-   "notes": "blue-painted log walls; roof colour differs between the two shots (pale grey vs orange-brown)"
+   "notes": "blue-painted log walls; roof colour differs between the two shots (pale grey vs orange-brown)",
+   "cars": [
+    {
+     "kind": "car",
+     "color": "#b4b7b9",
+     "yawDeg": 18
+    }
+   ]
   },
   {
    "id": "tolstikhina-s-2317",
@@ -3868,7 +3875,14 @@
     }
    },
    "outbuildings": [],
-   "notes": "attic window in the gable; part of the roof re-covered in grey sheet"
+   "notes": "attic window in the gable; part of the roof re-covered in grey sheet",
+   "cars": [
+    {
+     "kind": "truck",
+     "color": "#4f5a3a",
+     "yawDeg": -6
+    }
+   ]
   },
   {
    "id": "tolstikhina-n-1914",

@@ -224,6 +224,9 @@ export function layoutMainStreet(passports, meta, lines) {
       }
       for (const [u, v] of spans) colliders.push({ a: [a[0] + (b[0] - a[0]) * u / len, a[1] + (b[1] - a[1]) * u / len], b: [a[0] + (b[0] - a[0]) * v / len, a[1] + (b[1] - a[1]) * v / len] });
     }
+    // Parked vehicles seen in the street imagery: nose to the yard gate, on the verge.
+    plot.cars = carPlacements(p, runs, Math.max(zFront, zFacade)).map((c, k) => ({ ...c, ...localRect(frame, c.lx - c.w / 2, c.lx + c.w / 2, c.lz - c.l / 2, c.lz + c.l / 2, { kind: 'car', vehicle: c.kind, id: `${p.id}-car${k}` }), angle: frame.angle + Math.PI + (c.yawDeg * Math.PI) / 180 }));
+    rects.push(...plot.cars);
     // Reserved: the whole plot from the street-side fence line to the back of the yard.
     plot.rect = localRect(frame, s0, s1, zBack, Math.max(zFront, zFacade) + .8);
     // Generic content also keeps out of the strip between the plot and the road.
@@ -276,4 +279,16 @@ export function pillarStations(spans, gates, step = 3) {
     for (let i = 0; i <= n; i++) { const t = s0 + (s1 - s0) * i / n; if (free(t)) ts.push(t); }
   }
   return ts.sort((a, b) => a - b);
+}
+
+// Vehicles from passport.cars ({ kind: 'car' | 'truck', color, yawDeg }): centred on the first
+// vehicle gate (else the plot centre), nose toward the yard, rear toward the street, half a
+// metre outside the fence line. Local frame; w/l are the footprint across/along the vehicle.
+export const CAR_SIZE = { car: [1.75, 4.4], truck: [2.35, 6.4] };
+export function carPlacements(p, runs, zLine) {
+  const gate = runs.flatMap(r => r.gates).find(g => g.type !== 'wicket' && g.lx !== undefined);
+  return (p.cars || []).map((c, k) => {
+    const [w, l] = CAR_SIZE[c.kind] ?? CAR_SIZE.car;
+    return { kind: c.kind, color: c.color, yawDeg: c.yawDeg ?? 0, w, l, lx: (gate ? gate.lx : 0) + k * (w + .8), lz: zLine + .5 + l / 2 };
+  });
 }

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {
   resolveHouse, roofGeometry, windowSlots, wallHeight, ridgeToHouse, clipPolygon, polygonArea, boardPolygons, MANSARD_UPPER_PITCH, PLATE_LIFT,
 } from '../src/village/kit/spec.js';
-import { layoutMainStreet, fencePlan, chainage, frameOf, GATE_WIDTH, pillarStations } from '../src/village/kit/layout.js';
+import { layoutMainStreet, fencePlan, chainage, frameOf, GATE_WIDTH, pillarStations, carPlacements } from '../src/village/kit/layout.js';
 import { loadPassports, streetLines, passportLocal } from '../src/village/passports.js';
 import { collectFootprints, wayLines, planVillage, rectsOverlap, inRect } from '../src/village/plan.js';
 
@@ -282,4 +282,15 @@ test('main street ground shapes: drives at gates, yards beside houses, soil unde
   const bed = main.plots.flatMap(p => p.yard).find(y => y.kind === 'beds');
   assert.ok(sampleMask(m, bed.x, bed.z)[2] > .9, 'soil under a bed');
   assert.ok(m.width <= 4096 && m.height <= 4096);
+});
+
+test('parked vehicles: at the vehicle gate, outside the fence line, nose to the yard', () => {
+  const runs = [{ gates: [{ type: 'wicket', lx: 1, lz: 3 }, { type: 'double', lx: 4.5, lz: 3 }] }];
+  const [car, truck] = carPlacements({ cars: [{ kind: 'car', color: '#aaaaaa' }, { kind: 'truck', color: '#4f5a3a', yawDeg: 10 }] }, runs, 3);
+  assert.equal(car.lx, 4.5);
+  assert.ok(car.lz - car.l / 2 >= 3.5 - 1e-9, 'whole car outside the fence line');
+  assert.ok(truck.l > car.l && truck.yawDeg === 10 && truck.lx > car.lx);
+  assert.deepEqual(carPlacements({}, runs, 3), []);
+  const cars = doc.houses.filter(p => p.cars).flatMap(p => p.cars.map(c => ({ ...c, id: p.id })));
+  assert.ok(cars.length >= 2 && cars.every(c => ['car', 'truck'].includes(c.kind)));
 });

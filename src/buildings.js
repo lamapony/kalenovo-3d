@@ -12,6 +12,7 @@ import { buildKitHouse, buildKitOutbuilding } from './village/kit/house.js';
 import { buildKitFences } from './village/kit/fences.js';
 import { createKitMaterials } from './village/kit/materials.js';
 import { buildYards } from './village/kit/yardBuild.js';
+import { buildCars } from './village/kit/cars.js';
 import passportDoc from '../data/main-street-houses.json';
 
 export { fitRectangle };
@@ -73,6 +74,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
   const yards = buildYards(B, ground, main.plots);
   if (!options.noYardSmoke) chimneys.push(...yards.chimneys);
   const kitFences = buildKitFences(B, ground, main.plots);
+  const cars = buildCars(B, ground, main.plots);
 
   const group = new THREE.Group();
   const tiles = new Map();
@@ -114,7 +116,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
   group.name = `Village: ${plan.plots.length} generic + ${mainHouses} passport houses`;
   const stats = {
     houses: plan.plots.length, passportHouses: mainHouses, passportPlots: main.plots.length, rects: plan.rects.length + mainRects.length,
-    pickets: fences.pickets, kitFencePieces: kitFences.pieces, poles, chimneys: chimneys.length, triangles, drawCalls, ms: Math.round(performance.now() - t0),
+    pickets: fences.pickets, kitFencePieces: kitFences.pieces, cars, poles, chimneys: chimneys.length, triangles, drawCalls, ms: Math.round(performance.now() - t0),
   };
   console.info('Kalenovo village', stats);
   return {
