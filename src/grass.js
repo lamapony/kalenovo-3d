@@ -32,15 +32,60 @@ function tuftGeometry(seed) {
   return g;
 }
 
-function grassMaterial() {
+// Summer steppe weeds (vertex-coloured): a tall grass clump with seed heads, and мордовник
+// (blue globe thistle): stiff stems with spiny leaves and steel-blue globe heads.
+function weedGeometry(seed, thistle) {
+  const random = randomGenerator(seed), pos = [], nor = [], col = [], idx = [];
+  const blade = (dx, dz, h, w, lean, c0, c1) => {
+    const px = -dz, pz = dx, base = pos.length / 3;
+    for (const [t, ww] of [[0, w], [.55, w * .7], [1, w * .25]]) {
+      const off = lean * h * t * t, y = h * t;
+      pos.push(dx * off + px * ww, y, dz * off + pz * ww, dx * off - px * ww, y, dz * off - pz * ww);
+      nor.push(0, 1, 0, 0, 1, 0);
+      const c = c0.map((v, k) => v + (c1[k] - v) * t); col.push(...c, ...c);
+    }
+    idx.push(base, base + 1, base + 3, base, base + 3, base + 2, base + 2, base + 3, base + 5, base + 2, base + 5, base + 4);
+  };
+  if (!thistle) {
+    const n = 9 + Math.floor(random() * 5);
+    for (let b = 0; b < n; b++) {
+      const a = random() * Math.PI * 2, h = .55 + random() * .55;
+      blade(Math.cos(a), Math.sin(a), h, .012 + random() * .01, .1 + random() * .3, [.16, .2, .07], random() < .4 ? [.62, .56, .3] : [.36, .44, .16]);
+    }
+  } else {
+    const stems = 3 + Math.floor(random() * 3);
+    for (let k = 0; k < stems; k++) {
+      const a = random() * Math.PI * 2, h = .55 + random() * .4, lx = Math.cos(a) * .08, lz = Math.sin(a) * .08;
+      blade(Math.cos(a), Math.sin(a), h, .008, .05, [.3, .36, .3], [.45, .5, .45]);
+      // Spiny leaves near the base.
+      for (let l = 0; l < 3; l++) { const b = a + (l - 1) * 1.4; blade(Math.cos(b), Math.sin(b), .22 + random() * .1, .035, .9, [.25, .32, .24], [.5, .56, .48]); }
+      // Globe head: a low-poly ball of blue.
+      const g = new THREE.IcosahedronGeometry(.035 + random() * .012, 1), gp = g.attributes.position, base = pos.length / 3;
+      const hx = lx * h * .6, hz = lz * h * .6;
+      for (let i = 0; i < gp.count; i++) {
+        const x = gp.getX(i), y = gp.getY(i), z = gp.getZ(i), l = Math.hypot(x, y, z);
+        pos.push(hx + x, h + y, hz + z); nor.push(x / l, y / l, z / l); col.push(.22, .33, .62);
+      }
+      for (let i = 0; i < gp.count; i++) idx.push(base + i);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  geo.setIndex(idx);
+  return geo;
+}
+
+function grassMaterial(weeds = false) {
   const m = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 1 });
   const h = positionGeometry.y;
   const variation = hash(instanceIndex).mul(.35).add(.8);
-  m.colorNode = (season.summer ? mix(color('#2c3a16'), color('#8a9a4a'), smoothstep(0, .45, h)) : mix(color('#4d4130'), color('#cdb67f'), smoothstep(0, .45, h))).mul(variation);
+  m.colorNode = weeds ? attribute('color', 'vec3').mul(variation) : (season.summer ? mix(color('#2c3a16'), color('#8a9a4a'), smoothstep(0, .45, h)) : mix(color('#4d4130'), color('#cdb67f'), smoothstep(0, .45, h))).mul(variation);
   const phase = attribute('phase', 'float');
   const gust = sin(time.mul(.55).add(phase.mul(.35))).mul(.5).add(.5);
   const sway = sin(time.mul(1.9).add(phase)).mul(.06).add(gust.mul(.09));
-  const bend = h.mul(h).mul(4);
+  const bend = h.mul(h).mul(weeds ? 1.2 : 4);
   m.positionNode = positionLocal.add(vec3(sway.mul(bend), float(0), cos(time.mul(1.3).add(phase.mul(1.7))).mul(.03).mul(bend)));
   m.name = 'dry grass (wind)';
   return m;
@@ -50,6 +95,9 @@ export function createGrass({ plots, buildings, ground, lines = [], nearPath }) 
   const random = randomGenerator(4401), items = [];
   const blocked = (x, z) => buildings.some(r => Math.abs(r.x - x) < 14 && Math.abs(r.z - z) < 14 && inRect(x, z, r, .15));
   const push = (x, z, s = 1) => { items.push({ x, z, y: ground(x, z), s: s * (.7 + random() * .6), a: random() * 6.28 }); };
+  // Summer: tall steppe grass and мордовник along fences, verges and field edges.
+  const weeds = [];
+  const pushWeed = (x, z, thistleChance = .25) => { if (season.summer && !blocked(x, z)) weeds.push({ x, z, y: ground(x, z), s: .8 + random() * .5, a: random() * 6.28, thistle: random() < thistleChance }); };
   // Along fences, both sides, skipping gates.
   for (const plot of plots) for (const f of plot.fences) {
     const dx = f.b[0] - f.a[0], dz = f.b[1] - f.a[1], len = Math.hypot(dx, dz) || 1, nx = -dz / len, nz = dx / len;
@@ -59,6 +107,7 @@ export function createGrass({ plots, buildings, ground, lines = [], nearPath }) 
       const [x, z] = fencePoint(f, d), side = random() < .5 ? -1 : 1, off = .12 + random() * .45;
       const px = x + nx * off * side, pz = z + nz * off * side;
       if (!blocked(px, pz)) push(px, pz);
+      if (random() < .45) pushWeed(px + nx * .25 * side, pz + nz * .25 * side, .3);
     }
   }
   // Roadsides: on and just beyond the snow berms.
@@ -72,7 +121,17 @@ export function createGrass({ plots, buildings, ground, lines = [], nearPath }) 
         const side = random() < .5 ? -1 : 1, off = line.width / 2 + .9 + random() * 2.6;
         const x = ax + (bx - ax) * d / len + nx * off * side, z = az + (bz - az) * d / len + nz * off * side;
         if (!blocked(x, z)) push(x, z, 1.1);
+        if (random() < .5) pushWeed(x + nx * side * (1 + random() * 3), z + nz * side * (1 + random() * 3), .2);
       }
+    }
+  }
+  // Tall grass and мордовник patches in the field behind the main-street plots.
+  for (const plot of plots) {
+    if (!season.summer || !plot.passport || !plot.frame || plot.zBack === undefined) continue;
+    for (let lx = plot.s0; lx < plot.s1; lx += 3 + random() * 5) {
+      if (random() > .5) continue;
+      const lz = plot.zBack - 1 - random() * 22, [cx, cz] = plot.frame.world(lx, lz);
+      for (let k = 0; k < 4 + random() * 8; k++) pushWeed(cx + (random() - .5) * 3.5, cz + (random() - .5) * 3.5, .18);
     }
   }
   // Around plinths and outbuilding corners.
@@ -88,20 +147,24 @@ export function createGrass({ plots, buildings, ground, lines = [], nearPath }) 
     }
   }
   const chunks = new Map();
-  for (const it of items) {
+  for (const it of weeds) it.weed = true;
+  for (const it of [...items, ...weeds]) {
     const key = `${Math.floor(it.x / CHUNK)},${Math.floor(it.z / CHUNK)}`;
     let l = chunks.get(key); if (!l) chunks.set(key, l = []); l.push(it);
   }
   const material = grassMaterial(), variants = [11, 23, 37].map(tuftGeometry);
+  const weedMat = grassMaterial(true), tall = [51, 63].map(sd => weedGeometry(sd, false)), thistles = [71, 83].map(sd => weedGeometry(sd, true));
   const group = new THREE.Group(), dummy = new THREE.Object3D();
   for (const [key, list] of chunks) {
     const [cx, cz] = key.split(',').map(Number), centre = new THREE.Vector3((cx + .5) * CHUNK, 0, (cz + .5) * CHUNK);
     const holder = new THREE.Group();
-    variants.forEach((geo, vi) => {
-      const sub = list.filter((_, i) => i % variants.length === vi);
+    const tufts = list.filter(it => !it.weed), tallList = list.filter(it => it.weed && !it.thistle), thistleList = list.filter(it => it.thistle);
+    const sets = [[variants, tufts, material], [tall, tallList, weedMat], [thistles, thistleList, weedMat]];
+    for (const [vars, items2, mat] of sets) vars.forEach((geo, vi) => {
+      const sub = items2.filter((_, i) => i % vars.length === vi);
       if (!sub.length) return;
       const g = geo.clone(), phase = new Float32Array(sub.length);
-      const mesh = new THREE.InstancedMesh(g, material, sub.length);
+      const mesh = new THREE.InstancedMesh(g, mat, sub.length);
       sub.forEach((it, i) => {
         dummy.position.set(it.x - centre.x, it.y - .04, it.z - centre.z); dummy.rotation.set(0, it.a, 0); dummy.scale.setScalar(it.s); dummy.updateMatrix();
         mesh.setMatrixAt(i, dummy.matrix); phase[i] = it.x * .21 + it.z * .13 + (i % 7) * .4;
@@ -114,6 +177,6 @@ export function createGrass({ plots, buildings, ground, lines = [], nearPath }) 
     lod.addLevel(holder, 0); lod.addLevel(new THREE.Object3D(), VISIBLE);
     group.add(lod);
   }
-  group.name = `${items.length} dry grass tufts`;
+  group.name = `${items.length} grass tufts, ${weeds.length} tall weeds / мордовник`;
   return group;
 }
