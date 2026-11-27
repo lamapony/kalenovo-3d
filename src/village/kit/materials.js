@@ -170,6 +170,12 @@ export function createKitMaterials() {
 // Yard content reuses the shared materials (concrete noise for soil, crops, foliage and
 // greenhouse covers; rough wood for firewood): no extra draw calls.
 function yardMaterials() {
-  return {};
+  // Greenhouse film / polycarbonate: translucent, double-sided, no depth write so the beds
+  // inside show through; a little noise varies the milkiness.
+  const gh = new THREE.MeshStandardNodeMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide, roughness: .35, metalness: 0 });
+  gh.colorNode = vertexColor();
+  gh.opacityNode = clamp(float(.34).add(mx_noise_float(positionWorld.mul(1.7)).mul(.07)), .2, .6);
+  gh.name = 'greenhouse cover';
+  return { greenhouseCover: gh };
 }
 

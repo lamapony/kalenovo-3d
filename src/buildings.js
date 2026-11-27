@@ -82,7 +82,7 @@ export function createBuildings(osm, gba, meta, ground, options = {}) {
     const material = mats[builder.materialKey];
     if (!material) throw new Error(`Unknown village material ${builder.materialKey}`);
     const mesh = new THREE.Mesh(builder.build(), material);
-    mesh.castShadow = !['glass', 'kitGlass', 'cover', 'foliage', 'woodpile'].includes(builder.materialKey);
+    mesh.castShadow = !['glass', 'kitGlass', 'cover', 'foliage', 'woodpile', 'greenhouseCover'].includes(builder.materialKey);
     mesh.receiveShadow = true;
     mesh.name = `${builder.materialKey} ${builder.tile} ${builder.lod}`;
     triangles += mesh.geometry.index.count / 3; drawCalls++;

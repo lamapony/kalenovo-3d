@@ -71,9 +71,9 @@ function greenhouse(B, ground, r) {
   const { ctx } = placeCtx(B, ground, r, 0);
   const film = !!r.local.film, len = r.d, half = r.w / 2, h = film ? 1.9 : 2.2;
   const M = new THREE.Matrix4().makeRotationY(Math.PI / 2); // tunnel axis along local z
-  // Milky polycarbonate / film on the shared noise material (opaque: no transparent pass).
-  const cover = ctx.b('concrete', M);
-  cover.setColor((film ? lin('#e4e6e2') : lin('#cfd9d6')).map(v => v / .57));
+  // Film / polycarbonate: one shared translucent material (no shadows, no depth write).
+  const cover = ctx.b('greenhouseCover', M);
+  cover.setColor(film ? lin('#eef0ea') : lin('#dce8e4'));
   cover.log(-len / 2, len / 2, 0, 0, h, half, { segments: 12, arc: [0, Math.PI], caps: [false, false] });
   // End walls: half-discs as triangle fans.
   for (const x of [-len / 2, len / 2]) {
