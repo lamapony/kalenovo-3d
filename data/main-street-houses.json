@@ -297,7 +297,8 @@
      "nalichnik": {
       "style": "carved-crown",
       "color": "#1c5a7c",
-      "crownShape": "kokoshnik"
+      "crownShape": "kokoshnik",
+      "type": "east-004"
      },
      "shutters": {
       "type": "wooden",
@@ -417,12 +418,15 @@
      "frameColor": "#bebaac",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#e8e4dc",
-      "crownShape": "trapezoid"
+      "color": "#2f5fb0",
+      "crownShape": "trapezoid",
+      "type": "east-003",
+      "crownColor": "#2f5fb0",
+      "insertColor": "#e8e8e4"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#3b5f8c"
+      "color": "#2f5fb0"
      }
     },
     "chimney": false,
@@ -550,13 +554,15 @@
      "frameColor": "#bfbeb5",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#c9ccc6",
-      "crownColor": "#2b7593",
-      "crownShape": "pediment"
+      "color": "#2f84b6",
+      "crownColor": "#dfe1dc",
+      "crownShape": "pediment",
+      "type": "east-005",
+      "insertColor": "#2f84b6"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#2b7593",
+      "color": "#2f84b6",
       "closed": true
      }
     },
@@ -901,7 +907,8 @@
       "style": "carved-crown",
       "color": "#c8c0ae",
       "crownColor": "#1a5a55",
-      "crownShape": "pediment"
+      "crownShape": "pediment",
+      "type": "east-016"
      },
      "shutters": {
       "type": "wooden",
@@ -958,11 +965,14 @@
      "frameColor": "#b9bab4",
      "nalichnik": {
       "style": "carved",
-      "color": "#7b949e"
+      "color": "#9cc0d8",
+      "type": "east-007",
+      "crownColor": "#9cc0d8",
+      "insertColor": "#eeeeea"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#7b949e"
+      "color": "#9cc0d8"
      }
     },
     "chimney": true,
@@ -1021,7 +1031,7 @@
      "gableColor": "#4a422e"
     },
     "windows": {
-     "street": 0,
+     "street": 2,
      "side": 2,
      "frameColor": "#c8c0ae",
      "nalichnik": null,
@@ -1161,7 +1171,8 @@
      "frameColor": "#b8bab8",
      "nalichnik": {
       "style": "carved",
-      "color": "#8b8789"
+      "color": "#8b8789",
+      "type": "east-007"
      },
      "shutters": {
       "type": "wooden",
@@ -1388,11 +1399,15 @@
      "frameColor": "#c7c1b2",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#2a5248"
+      "color": "#2a7466",
+      "type": "east-012",
+      "crownColor": "#2a7466",
+      "insertColor": "#e6e6e0"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#2a5248"
+      "color": "#2a7466",
+      "panelColor": "#e6e6e0"
      }
     },
     "chimney": true,
@@ -1457,7 +1472,7 @@
      "gableColor": "#45382c"
     },
     "windows": {
-     "street": 0,
+     "street": 2,
      "side": 1,
      "frameColor": "#bfb7a5",
      "nalichnik": null,
@@ -1523,7 +1538,8 @@
      "frameColor": "#cac5ba",
      "nalichnik": {
       "style": "carved",
-      "color": "#1a4060"
+      "color": "#1a4060",
+      "type": "east-030"
      },
      "shutters": {
       "type": "wooden",
@@ -1600,7 +1616,8 @@
      "frameColor": "#c9c5bc",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#839a9b"
+      "color": "#839a9b",
+      "type": "east-003"
      },
      "shutters": {
       "type": "wooden",
@@ -1796,11 +1813,15 @@
      "frameColor": "#d8cbba",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#1a5421"
+      "color": "#1d6a26",
+      "type": "east-016",
+      "crownColor": "#1d6a26",
+      "insertColor": "#e6e6e0"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#1a4e20"
+      "color": "#1d6a26",
+      "panelColor": "#e6e6e0"
      }
     },
     "chimney": false,
@@ -1879,7 +1900,8 @@
      "frameColor": "#beb9af",
      "nalichnik": {
       "style": "carved",
-      "color": "#2d6b57"
+      "color": "#2d6b57",
+      "type": "east-012"
      },
      "shutters": {
       "type": "wooden",
@@ -1912,7 +1934,7 @@
      "color": "#165035",
      "roofed": false,
      "wicket": false,
-     "pattern": "x",
+     "pattern": "frame",
      "patternColor": "#e3e3dc"
     },
     "gateSide": "left",
@@ -1971,7 +1993,8 @@
      "frameColor": "#c2bba9",
      "nalichnik": {
       "style": "carved",
-      "color": "#346b67"
+      "color": "#346b67",
+      "type": "east-016"
      },
      "shutters": {
       "type": "wooden",
@@ -2044,7 +2067,7 @@
      "gableColor": "#2f5148"
     },
     "windows": {
-     "street": 0,
+     "street": 3,
      "side": 1,
      "frameColor": "#c2b8a8",
      "nalichnik": {
@@ -2152,7 +2175,8 @@
      "frameColor": "#bebdbb",
      "nalichnik": {
       "style": "carved",
-      "color": "#286466"
+      "color": "#286466",
+      "type": "east-016"
      },
      "shutters": {
       "type": "wooden",
@@ -2285,13 +2309,14 @@
      "trimColor": "#e4e0d8"
     },
     "windows": {
-     "street": 0,
+     "street": 3,
      "side": 2,
      "frameColor": "#bab7b0",
      "nalichnik": {
       "style": "carved-crown",
       "color": "#efece4",
-      "crownShape": "pediment"
+      "crownShape": "pediment",
+      "type": "east-012"
      },
      "shutters": {
       "type": "none",
@@ -2441,12 +2466,16 @@
      "frameColor": "#c9c5b4",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#e2e4df",
-      "crownShape": "pediment"
+      "color": "#2f8f78",
+      "crownShape": "pediment",
+      "type": "east-012",
+      "crownColor": "#2f8f78",
+      "insertColor": "#e6e8e4"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#2f7a66"
+      "color": "#2f8f78",
+      "panelColor": "#eef0ec"
      }
     },
     "chimney": false,
@@ -2462,7 +2491,7 @@
    "fence": {
     "type": "concrete",
     "color": "#d8703c",
-    "heightM": 1.5,
+    "heightM": 1.2,
     "lengthM": 22,
     "gate": {
      "type": "double",
@@ -2514,7 +2543,7 @@
      "gableColor": null
     },
     "windows": {
-     "street": 1,
+     "street": 2,
      "side": 2,
      "frameColor": "#c4bdae",
      "nalichnik": {
@@ -3319,11 +3348,16 @@
      "frameColor": "#bfc0ba",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#255e5c"
+      "color": "#24968d",
+      "type": "east-027",
+      "crownColor": "#24968d",
+      "insertColor": "#e8dcc4"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#ddd4c2"
+      "color": "#24968d",
+      "panelColor": "#e8d4b0",
+      "panels": "inset"
      }
     },
     "chimney": false,
@@ -3509,11 +3543,15 @@
      "frameColor": "#d5c9ba",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#d7caba"
+      "color": "#dcdcd6",
+      "type": "east-030",
+      "crownColor": "#dcdcd6",
+      "insertColor": "#56809a"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#698e99"
+      "color": "#7fb3d2",
+      "panelColor": "#e8e8e2"
      }
     },
     "chimney": false,
@@ -3652,7 +3690,8 @@
      "frameColor": "#c8c4b9",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#3e6e66"
+      "color": "#3e6e66",
+      "type": "east-030"
      },
      "shutters": {
       "type": "wooden",
@@ -3851,7 +3890,8 @@
      "frameColor": "#bcb6a7",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#38645a"
+      "color": "#38645a",
+      "type": "east-016"
      },
      "shutters": {
       "type": "wooden",
@@ -3925,7 +3965,8 @@
      "frameColor": "#bab8b2",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#2a6e74"
+      "color": "#2a6e74",
+      "type": "east-012"
      },
      "shutters": {
       "type": "wooden",
@@ -4069,7 +4110,8 @@
      "frameColor": "#ccc1b5",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#d4c7b6"
+      "color": "#d4c7b6",
+      "type": "east-004"
      },
      "shutters": {
       "type": "wooden",
@@ -4273,11 +4315,14 @@
      "frameColor": "#d4c9bb",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#d3c9b9"
+      "color": "#e2e2dc",
+      "type": "east-005",
+      "crownColor": "#1f6fb6",
+      "insertColor": "#e8ecee"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#0b64a2"
+      "color": "#1f6fb6"
      }
     },
     "chimney": false,
@@ -4396,7 +4441,8 @@
      "frameColor": "#b9b8b2",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#579499"
+      "color": "#579499",
+      "type": "east-030"
      },
      "shutters": {
       "type": "wooden",
@@ -4586,7 +4632,8 @@
      "frameColor": "#b8bab7",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#3f7063"
+      "color": "#3f7063",
+      "type": "east-027"
      },
      "shutters": {
       "type": "wooden",
@@ -4980,7 +5027,7 @@
      "gableColor": "#3f563f"
     },
     "windows": {
-     "street": 0,
+     "street": 2,
      "side": 1,
      "frameColor": "#dcd9d0",
      "nalichnik": null,
@@ -5053,11 +5100,15 @@
      "nalichnik": {
       "style": "carved",
       "color": "#25324f",
-      "crownShape": "pediment"
+      "crownShape": "pediment",
+      "type": "west-024",
+      "crownColor": "#25324f",
+      "insertColor": "#e0703a"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#25324f"
+      "color": "#25324f",
+      "panelColor": "#e0703a"
      }
     },
     "chimney": true,
@@ -5118,7 +5169,8 @@
      "nalichnik": {
       "style": "carved-crown",
       "color": "#277079",
-      "crownShape": "kokoshnik"
+      "crownShape": "kokoshnik",
+      "type": "east-030"
      },
      "shutters": {
       "type": "wooden",
@@ -5329,7 +5381,8 @@
      "frameColor": "#b9bbb6",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#b9bbb8"
+      "color": "#b9bbb8",
+      "type": "east-003"
      },
      "shutters": {
       "type": "none",
@@ -5512,7 +5565,8 @@
      "frameColor": "#bab9b5",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#518aa1"
+      "color": "#518aa1",
+      "type": "east-005"
      },
      "shutters": {
       "type": "wooden",
@@ -5782,7 +5836,8 @@
      "frameColor": "#bfb7a7",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#256391"
+      "color": "#256391",
+      "type": "east-005"
      },
      "shutters": {
       "type": "none",
@@ -5915,7 +5970,7 @@
      "gableColor": null
     },
     "windows": {
-     "street": 1,
+     "street": 2,
      "side": 1,
      "frameColor": "#c0c0bc",
      "nalichnik": {
@@ -6010,7 +6065,8 @@
      "frameColor": "#c0bcad",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#407969"
+      "color": "#407969",
+      "type": "east-003"
      },
      "shutters": {
       "type": "wooden",
@@ -6137,12 +6193,13 @@
      "gableColor": "#9f693d"
     },
     "windows": {
-     "street": 1,
+     "street": 2,
      "side": 2,
      "frameColor": "#babbb7",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#babbb8"
+      "color": "#babbb8",
+      "type": "east-030"
      },
      "shutters": {
       "type": "none",
@@ -6205,11 +6262,15 @@
      "frameColor": "#d9cbbe",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#3d6b84"
+      "color": "#3d7cc0",
+      "type": "east-030",
+      "crownColor": "#3d7cc0",
+      "insertColor": "#e6e8ea"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#3d6b84"
+      "color": "#3d7cc0",
+      "panelColor": "#e6e8ea"
      }
     },
     "chimney": false,
@@ -6262,7 +6323,8 @@
      "frameColor": "#bfc0bb",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#4b7c62"
+      "color": "#4b7c62",
+      "type": "east-003"
      },
      "shutters": {
       "type": "wooden",
@@ -6599,7 +6661,8 @@
      "frameColor": "#c5bcad",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#5b798b"
+      "color": "#5b798b",
+      "type": "east-005"
      },
      "shutters": {
       "type": "wooden",
@@ -6872,7 +6935,8 @@
      "frameColor": "#c5c1b7",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#46637c"
+      "color": "#46637c",
+      "type": "east-003"
      },
      "shutters": {
       "type": "wooden",
@@ -6951,7 +7015,8 @@
       "style": "carved-crown",
       "color": "#255835",
       "crownColor": "#d0a03c",
-      "crownShape": "kokoshnik"
+      "crownShape": "kokoshnik",
+      "type": "east-027"
      },
      "shutters": {
       "type": "wooden",
@@ -7239,7 +7304,8 @@
      "nalichnik": {
       "style": "carved-crown",
       "color": "#3a7a98",
-      "crownShape": "pediment"
+      "crownShape": "pediment",
+      "type": "east-005"
      },
      "shutters": {
       "type": "wooden",
@@ -7302,13 +7368,16 @@
      "frameColor": "#bcbcb6",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#e2b430",
-      "crownColor": "#d4a531",
-      "crownShape": "pediment"
+      "color": "#e8e8e2",
+      "crownColor": "#e2b430",
+      "crownShape": "pediment",
+      "type": "west-024",
+      "insertColor": "#f0efe8"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#d9a52c"
+      "color": "#e2b430",
+      "panelColor": "#e2703a"
      }
     },
     "chimney": true,
@@ -7406,7 +7475,10 @@
      "nalichnik": {
       "style": "carved-crown",
       "color": "#2f6db0",
-      "crownShape": "pediment"
+      "crownShape": "pediment",
+      "type": "east-005",
+      "crownColor": "#e4e6e2",
+      "insertColor": "#2f6db0"
      },
      "shutters": {
       "type": "wooden",
@@ -7598,8 +7670,11 @@
      "frameColor": "#d5cabb",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#2f6da8",
-      "crownShape": "kokoshnik"
+      "color": "#2f72b0",
+      "crownShape": "kokoshnik",
+      "type": "east-005",
+      "crownColor": "#2f72b0",
+      "insertColor": "#e8ecec"
      },
      "shutters": {
       "type": "wooden",
@@ -7677,7 +7752,8 @@
      "nalichnik": {
       "style": "carved-crown",
       "color": "#6a9aaa",
-      "crownShape": "pediment"
+      "crownShape": "pediment",
+      "type": "east-030"
      },
      "shutters": {
       "type": "wooden",
@@ -7947,14 +8023,17 @@
      "frameColor": "#bab2ac",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#3a6560",
-      "crownColor": "#3a6560",
-      "crownShape": "pediment"
+      "color": "#3a6f9a",
+      "crownColor": "#3a6f9a",
+      "crownShape": "pediment",
+      "type": "east-030",
+      "insertColor": "#e6e8e8"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#3a6560",
-      "closed": false
+      "color": "#4f8fbf",
+      "closed": false,
+      "panelColor": "#e6e8e8"
      }
     },
     "chimney": true,
@@ -8130,9 +8209,11 @@
      "frameColor": "#bdbdba",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#dfe0dc",
-      "crownColor": "#5fa59a",
-      "crownShape": "pediment"
+      "color": "#e2e3df",
+      "crownColor": "#5fb0a6",
+      "crownShape": "pediment",
+      "type": "east-003",
+      "insertColor": "#eeeeea"
      },
      "shutters": {
       "type": "wooden",
@@ -9491,7 +9572,7 @@
      "gableColor": "#8fb3c9"
     },
     "windows": {
-     "street": 1,
+     "street": 2,
      "side": 1,
      "frameColor": "#e2e2dc",
      "nalichnik": {
