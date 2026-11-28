@@ -4,3 +4,5 @@ dist/
 *.log
 shot.png
 .scratch/
+__pycache__/
+*.pyc
