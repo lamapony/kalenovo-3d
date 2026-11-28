@@ -3,3 +3,6 @@ dist/
 .DS_Store
 *.log
 shot.png
+.scratch/
+__pycache__/
+*.pyc

@@ -1,112 +1,161 @@
-import * as THREE from 'three';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { polygons, toLocal, randomGenerator } from './geo.js';
+import * as THREE from 'three/webgpu';
+import { collectFootprints, wayLines, planVillage, fitRectangle, inRect, fenceColliders } from './village/plan.js';
+import { TiledBuilders } from './village/builder.js';
+import { createVillageMaterials } from './village/materials.js';
+import { buildHouse, buildOutbuilding } from './village/house.js';
+import { createFences } from './fences.js';
+import { buildPoles } from './village/poles.js';
+import { createSmoke } from './village/smoke.js';
+import { loadPassports, streetLines } from './village/passports.js';
+import { layoutMainStreet } from './village/kit/layout.js';
+import { buildKitHouse, buildKitOutbuilding } from './village/kit/house.js';
+import { buildKitFences } from './village/kit/fences.js';
+import { createKitMaterials } from './village/kit/materials.js';
+import { buildYards } from './village/kit/yardBuild.js';
+import { buildCars } from './village/kit/cars.js';
+import { clearFences, FIELD_FENCE_COLOR } from './village/kit/landCover.js';
+import { buildStacks } from './village/kit/yardBuild.js';
+import passportDoc from '../data/main-street-houses.json';
 
-// Minimum-area enclosing rectangle among all footprint edge orientations.
-export function fitRectangle(ring) {
-  let best;
-  for (let i = 1; i < ring.length; i++) {
-    const a = Math.atan2(ring[i][1] - ring[i - 1][1], ring[i][0] - ring[i - 1][0]);
-    const c = Math.cos(a), s = Math.sin(a);
-    let minU = Infinity, maxU = -Infinity, minV = Infinity, maxV = -Infinity;
-    for (const [x, z] of ring) {
-      const u = x * c + z * s, v = -x * s + z * c;
-      minU = Math.min(minU, u); maxU = Math.max(maxU, u); minV = Math.min(minV, v); maxV = Math.max(maxV, v);
-    }
-    const w = maxU - minU, d = maxV - minV;
-    if (!best || w * d < best.area) {
-      const u = (maxU + minU) / 2, v = (maxV + minV) / 2;
-      best = { x: u * c - v * s, z: u * s + v * c, w, d, angle: a, area: w * d };
-    }
-  }
-  if (best && best.w < best.d) { [best.w, best.d] = [best.d, best.w]; best.angle += Math.PI / 2; }
-  return best;
-}
+export { fitRectangle };
+// Kept for controls.js / forest.js: point-in-rotated-rectangle test with margin.
+export function inBuilding(x, z, rect, margin = 0) { return inRect(x, z, rect, margin); }
 
-export function inBuilding(x, z, rect, margin = 0) {
-  const c = Math.cos(rect.angle), s = Math.sin(rect.angle), dx = x - rect.x, dz = z - rect.z;
-  return Math.abs(dx * c + dz * s) < rect.w / 2 + margin && Math.abs(-dx * s + dz * c) < rect.d / 2 + margin;
-}
+const TILE = 220, DETAIL_DISTANCE = 220;
 
-function overlaps(a, b) {
-  const corners = r => {
-    const c = Math.cos(r.angle), s = Math.sin(r.angle);
-    return [[-1,-1],[-1,1],[1,1],[1,-1]].map(([u,v]) => [r.x + u*r.w/2*c-v*r.d/2*s, r.z+u*r.w/2*s+v*r.d/2*c]);
-  };
-  const ac = corners(a), bc = corners(b);
-  for (const r of [a,b]) for (const angle of [r.angle, r.angle + Math.PI/2]) {
-    const project = p => p[0]*Math.cos(angle)+p[1]*Math.sin(angle);
-    const ap = ac.map(project), bp = bc.map(project);
-    if (Math.max(...ap) <= Math.min(...bp) || Math.max(...bp) <= Math.min(...ap)) return false;
-  }
-  return true;
-}
-
-export function createBuildings(osm, gba, meta, ground) {
-  const group = new THREE.Group(), rects = [], batches = new Map(), random = randomGenerator(83);
-  const walls = ['#877563', '#8c9992', '#a1aaa0', '#8c9ca3', '#a18a7f', '#747e70'].map(color => new THREE.MeshStandardMaterial({ color, roughness: .96 }));
-  const snow = new THREE.MeshStandardMaterial({ color: '#e5e9e2', roughness: .92 });
-  const timber = new THREE.MeshStandardMaterial({ color: '#5e6255', roughness: 1 });
-  const foundation = new THREE.MeshStandardMaterial({ color: '#858b83', roughness: 1 });
-  const windows = new THREE.MeshStandardMaterial({ color: '#dcb782', emissive: '#ffbf6c', emissiveIntensity: .85, roughness: .4 });
-  function add(geometry, material, matrix) {
-    geometry.applyMatrix4(matrix);
-    if (!batches.has(material)) batches.set(material, []);
-    batches.get(material).push(geometry);
-  }
-  const transform = new THREE.Object3D();
-  function box(w, h, d, x, y, z, material, matrix) {
-    const geometry = new THREE.BoxGeometry(w, h, d); geometry.translate(x, y, z); add(geometry, material, matrix);
-  }
-  const sources = [...osm.filter(f => f.properties.layer === 'building'), ...gba];
-  for (const feature of sources) for (const poly of polygons(feature.geometry)) {
-    const ring = poly[0].map(p => toLocal(...p, meta)), rect = fitRectangle(ring);
-    if (!rect || rect.w < 1.8 || rect.d < 1.8 || Math.abs(rect.x) + rect.w > meta.halfSizeM || Math.abs(rect.z) + rect.w > meta.halfSizeM) continue;
-    // OSM has precedence; overlapping GBA detections must not double up houses.
-    if (rects.some(r => overlaps(r, rect))) continue;
-    const samples = ring.map(([x,z]) => ground(x,z));
-    const base = Math.max(...samples) + .06;
-    const bottom = Math.min(...samples) - .25;
-    const height = THREE.MathUtils.clamp(Number(feature.properties.height_est) || 3.2, 2.8, 4);
-    rect.base = base; rect.height = height; rects.push(rect);
-    transform.position.set(rect.x, base, rect.z); transform.rotation.set(0, -rect.angle, 0); transform.updateMatrix();
-    const matrix = transform.matrix.clone(), wall = walls[Math.floor(random() * walls.length)];
-    box(rect.w, base-bottom+.12, rect.d, 0, (bottom-base)/2, 0, foundation, matrix);
-    box(rect.w, height, rect.d, 0, height/2, 0, wall, matrix);
-    const roofRise = Math.min(2.7, rect.d * .38), halfW = rect.w/2+.45, halfD = rect.d/2+.45;
-    // A closed triangular prism: ridge follows the longer footprint axis.
-    const vertices = [
-      -halfW,height,-halfD, halfW,height,-halfD, halfW,height+roofRise,0,
-      -halfW,height,-halfD, halfW,height+roofRise,0, -halfW,height+roofRise,0,
-      -halfW,height+roofRise,0, halfW,height+roofRise,0, halfW,height,halfD,
-      -halfW,height+roofRise,0, halfW,height,halfD, -halfW,height,halfD,
-      -halfW,height,-halfD, -halfW,height+roofRise,0, -halfW,height,halfD,
-      halfW,height,halfD, halfW,height+roofRise,0, halfW,height,-halfD,
-    ];
-    const roof = new THREE.BufferGeometry(); roof.setAttribute('position', new THREE.Float32BufferAttribute(vertices,3)); roof.computeVertexNormals();
-    // Double-sided material also makes all eaves visible at walking height.
-    add(roof, snow, matrix);
-    for (const side of [-1,1]) {
-      const count = Math.max(1, Math.floor(rect.w/3.5));
-      for (let j=0; j<count; j++) {
-        const x = (j-(count-1)/2)*Math.min(3.4, rect.w/(count+1));
-        box(1.14,1.28,.12,x,1.65,side*(rect.d/2+.045),timber,matrix);
-        box(.85,.96,.14,x,1.65,side*(rect.d/2+.065),windows,matrix);
-        box(.055,.98,.17,x,1.65,side*(rect.d/2+.075),timber,matrix);
-        box(.9,.055,.17,x,1.65,side*(rect.d/2+.075),timber,matrix);
+// Point-blocked test against many rotated rects through a 24 m grid (fields reach far).
+function rectIndex(rects, margin) {
+  const cell = 24, grid = new Map();
+  for (const r of rects) {
+    const rad = Math.hypot(r.w, r.d) / 2 + margin;
+    for (let i = Math.floor((r.x - rad) / cell); i <= Math.floor((r.x + rad) / cell); i++)
+      for (let j = Math.floor((r.z - rad) / cell); j <= Math.floor((r.z + rad) / cell); j++) {
+        const k = `${i},${j}`; if (!grid.has(k)) grid.set(k, []); grid.get(k).push(r);
       }
-      box(rect.w+.15,.14,.14,0,.42,side*(rect.d/2+.035),timber,matrix);
+  }
+  return (x, z) => (grid.get(`${Math.floor(x / cell)},${Math.floor(z / cell)}`) || []).some(r => inRect(x, z, r, margin));
+}
+export const FAMILY_HOUSE_ID = 'tolstikhina-45';
+
+// Village: улица Толстихина from house passports (data/main-street-houses.json, built with the
+// kit in src/village/kit/), everything else procedural from OSM + GBA footprints, which are
+// split into plots along the street; each generic plot gets a log or plank house, outbuildings
+// and a fence with gates. Generic content never enters a passport plot.
+// Returns rects (houses, annexes, outbuildings) for collisions, plots for vegetation, fence
+// colliders, and the family house (label anchor).
+// Main-street layout from the passports (pure): computed before the terrain so the ground
+// mask (yards, drives, beds) can follow it.
+export function mainStreetLayout(osm, meta) {
+  const passports = loadPassports(passportDoc);
+  const lines = streetLines(osm, meta, passportDoc.street);
+  return { passports, lines, main: layoutMainStreet(passports, meta, lines) };
+}
+
+export function createBuildings(osm, gba, meta, ground, options = {}) {
+  const t0 = performance.now();
+  const lines = wayLines(osm, meta);
+  const { passports, main } = options.street ?? mainStreetLayout(osm, meta);
+  const skipGba = new Set(passports.map(p => p.footprintIndex).filter(i => i !== null));
+  const plan = planVillage({
+    footprints: collectFootprints(osm, gba, meta), lines, halfSize: meta.halfSizeM, seed: options.seed ?? 83,
+    reserved: main.reserved, skipGba, reservedFences: main.colliders,
+  });
+  const { mats, lights } = createVillageMaterials();
+  const kit = createKitMaterials();
+  Object.assign(mats, kit.mats);
+  const B = new TiledBuilders(TILE);
+
+  const chimneys = [];
+  const place = (target, r) => { target.base = r.base; target.height = r.height; if (r.smoke && r.chimneyTop) chimneys.push(r.chimneyTop); };
+  for (const plot of plan.plots) {
+    place(plot.house, buildHouse(B, ground, plot.house));
+    for (const ob of plot.outbuildings) place(ob, buildOutbuilding(B, ground, ob));
+  }
+  for (const ob of plan.standalone) place(ob, buildOutbuilding(B, ground, ob));
+  const fences = createFences(plan.plots, ground, B, { tileSize: TILE });
+  const poleBuild = options.poles === false ? { count: 0, wires: [] } : buildPoles(B, lines, plan, ground), poles = poleBuild.count;
+
+  // Main street from passports.
+  const mainRects = [...main.rects];
+  let family = null;
+  for (const plot of main.plots) {
+    if (!plot.house) continue;
+    const r = buildKitHouse(B, ground, plot);
+    place(plot.house, r);
+    mainRects.push(...r.extraRects);
+    if (plot.id === FAMILY_HOUSE_ID) family = { rect: plot.house, top: r.top, label: 'Толстихина, 45' };
+  }
+  for (const ob of main.outbuildings) place(ob, buildKitOutbuilding(B, ground, ob));
+  const yards = buildYards(B, ground, main.plots);
+  if (!options.noYardSmoke) chimneys.push(...yards.chimneys);
+  const kitFences = buildKitFences(B, ground, main.plots);
+  const cars = buildCars(B, ground, main.plots);
+
+  // Land cover around the street (landCover.js): pole fences on the strip boundaries, hay
+  // stacks, field trees; kept clear of every house, outbuilding and yard item.
+  let fieldTrees = [], fieldFences = 0, stacks = 0;
+  if (options.land) {
+    const blocked = rectIndex([...plan.rects, ...mainRects], 1.5);
+    const segs = clearFences(options.land.fences, blocked);
+    const fieldPlots = segs.map((s, i) => ({ seed: 0x7f4a7c15 ^ i, frame: { x: s.a[0], z: s.a[1] }, fences: [{ ...s, type: 'poles', color: FIELD_FENCE_COLOR, height: 1.25, role: 'field', gates: [] }] }));
+    fieldFences = buildKitFences(B, ground, fieldPlots).pieces;
+    stacks = buildStacks(B, ground, options.land.stacks.filter(t => !blocked(t.x, t.z)));
+    fieldTrees = options.land.trees.filter(t => !blocked(t.x, t.z));
+  }
+
+  const group = new THREE.Group();
+  const tiles = new Map();
+  let triangles = 0, drawCalls = 0;
+  for (const builder of B.entries()) {
+    if (builder.empty) continue;
+    const material = mats[builder.materialKey];
+    if (!material) throw new Error(`Unknown village material ${builder.materialKey}`);
+    const mesh = new THREE.Mesh(builder.build(), material);
+    mesh.castShadow = !['glass', 'kitGlass', 'cover', 'foliage', 'woodpile', 'greenhouseCover'].includes(builder.materialKey);
+    mesh.receiveShadow = true;
+    mesh.name = `${builder.materialKey} ${builder.tile} ${builder.lod}`;
+    triangles += mesh.geometry.index.count / 3; drawCalls++;
+    let tile = tiles.get(builder.tile);
+    if (!tile) {
+      const [tx, tz] = builder.tile.split(',').map(Number);
+      const centre = new THREE.Vector3((tx + .5) * TILE, 0, (tz + .5) * TILE);
+      // 'detail' meshes (carvings, log corner overhangs) only near; 'far' stand-ins only beyond.
+      const root = new THREE.Group(), lod = new THREE.LOD(), detail = new THREE.Group(), far = new THREE.Group();
+      lod.position.copy(centre); detail.position.copy(centre).negate(); far.position.copy(centre).negate();
+      lod.addLevel(detail, 0); lod.addLevel(far, DETAIL_DISTANCE);
+      root.add(lod); root.name = `village tile ${builder.tile}`; group.add(root);
+      tiles.set(builder.tile, tile = { root, detail, far });
     }
-    box(.18,height+.15,.18,-rect.w/2+.08,height/2,rect.d/2+.03,timber,matrix);
-    box(.14,2.15,1.18,rect.w/2+.04,1.075,0,timber,matrix);
-    box(.17,1.92,.91,rect.w/2+.06,.96,0,wall,matrix);
-    if (random() > .35) box(.55,1.6,.55,rect.w*.27,height+roofRise*.65,0,timber,matrix);
+    (builder.lod === 'detail' ? tile.detail : builder.lod === 'far' ? tile.far : tile.root).add(mesh);
   }
-  snow.side = THREE.DoubleSide;
-  for (const [material, geometries] of batches) {
-    const merged = mergeGeometries(geometries); geometries.forEach(g => g.dispose());
-    const mesh = new THREE.Mesh(merged, material); mesh.castShadow = material !== windows; mesh.receiveShadow = true; group.add(mesh);
+  group.add(fences.group);
+  if (poleBuild.wires.length) {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(poleBuild.wires, 3));
+    const wireMat = new THREE.LineBasicNodeMaterial({ color: '#2a2b2d' });
+    const wires = new THREE.LineSegments(g, wireMat);
+    wires.name = 'power line wires';
+    group.add(wires);
   }
-  group.name = 'Village houses: deduplicated OSM and GBA';
-  return { group, rects, setLights(on) { windows.emissiveIntensity = on ? .85 : 0; windows.color.set(on ? '#dcb782' : '#526365'); } };
+  const smoke = createSmoke(chimneys);
+  group.add(smoke.object);
+  const mainHouses = main.plots.filter(p => p.house).length;
+  group.name = `Village: ${plan.plots.length} generic + ${mainHouses} passport houses`;
+  const stats = {
+    houses: plan.plots.length, passportHouses: mainHouses, passportPlots: main.plots.length, rects: plan.rects.length + mainRects.length,
+    pickets: fences.pickets, kitFencePieces: kitFences.pieces, fieldFences, stacks, cars, poles, chimneys: chimneys.length, triangles, drawCalls, ms: Math.round(performance.now() - t0),
+  };
+  console.info('Kalenovo village', stats);
+  return {
+    group,
+    rects: [...plan.rects, ...mainRects],
+    plots: [...plan.plots, ...main.plots],
+    fenceColliders: [...fenceColliders(plan.plots), ...main.colliders],
+    family,
+    gardenBirches: yards.birches,
+    fieldTrees,
+    stats,
+    smoke,
+    setLights(on) { lights.value = on ? 1 : 0; kit.lights.value = on ? 1 : 0; },
+  };
 }

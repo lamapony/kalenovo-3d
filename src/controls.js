@@ -1,16 +1,24 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { inBuilding } from './buildings.js';
+import { segmentDistanceSq } from './geo.js';
 
-export function createWalkControls(camera, canvas, meta, ground, buildings, onReset) {
+export function createWalkControls(camera, canvas, meta, ground, buildings, { onReset, inspect, fences = [] } = {}) {
   const keys=new Set(), euler=new THREE.Euler(0,0,0,'YXZ');
   const spawn=meta.defaultSpawn, limit=meta.halfSizeM-12;
-  let dragging=false, pointerId=null, yaw=0, pitch=0;
+  let dragging=false, pointerId=null, yaw=0, pitch=0, eye=1.7;
   function applyLook(){ euler.set(pitch,yaw,0); camera.quaternion.setFromEuler(euler); }
   function reset(){
     keys.clear();
-    camera.position.set(spawn.x,ground(spawn.x,spawn.z)+1.7,spawn.z);
-    // The DEM rises to the southwest: frame the village against Malan-Khada.
-    yaw=2.15; pitch=.025; applyLook(); onReset?.();
+    if(inspect){
+      // ?cam= inspection view (debugging and screenshots only).
+      eye=inspect.height; camera.position.set(inspect.x,ground(inspect.x,inspect.z)+eye,inspect.z);
+      yaw=THREE.MathUtils.degToRad(inspect.yaw); pitch=THREE.MathUtils.degToRad(inspect.pitch); applyLook(); onReset?.();
+      return;
+    }
+    camera.position.set(spawn.x,ground(spawn.x,spawn.z)+eye,spawn.z);
+    // Look west along the street: the DEM hills rise beyond its end and to the
+    // south-west (straight south-west, yaw 2.15, the nearest house hides them).
+    yaw=1.75; pitch=.05; applyLook(); onReset?.();
   }
   function look(dx,dy){ yaw-=dx*.0022; pitch=THREE.MathUtils.clamp(pitch-dy*.0022,-Math.PI/2+.04,Math.PI/2-.04); applyLook(); }
   canvas.addEventListener('pointerdown',event=>{
@@ -41,7 +49,23 @@ export function createWalkControls(camera, canvas, meta, ground, buildings, onRe
   document.addEventListener('keyup',event=>keys.delete(event.code));
   window.addEventListener('blur',()=>{keys.clear();dragging=false;});
   document.addEventListener('visibilitychange',()=>keys.clear());
-  function blocked(x,z){return buildings.some(r=>inBuilding(x,z,r,.45));}
+  // Fence segments in a 6 m grid; a step is blocked when it gets closer than
+  // FENCE_R to a fence, so the player can never get stuck inside one.
+  const FENCE_R=.35, cell=6, fenceGrid=new Map();
+  for(const f of fences){
+    for(let gx=Math.floor((Math.min(f.a[0],f.b[0])-1)/cell);gx<=Math.floor((Math.max(f.a[0],f.b[0])+1)/cell);gx++)
+      for(let gz=Math.floor((Math.min(f.a[1],f.b[1])-1)/cell);gz<=Math.floor((Math.max(f.a[1],f.b[1])+1)/cell);gz++){
+        const k=`${gx},${gz}`; if(!fenceGrid.has(k)) fenceGrid.set(k,[]); fenceGrid.get(k).push(f);
+      }
+  }
+  function fenceBlocked(x,z,ox,oz){
+    for(const f of fenceGrid.get(`${Math.floor(x/cell)},${Math.floor(z/cell)}`)||[]){
+      const d=segmentDistanceSq(x,z,f.a,f.b);
+      if(d<FENCE_R*FENCE_R && d<segmentDistanceSq(ox,oz,f.a,f.b)) return true;
+    }
+    return false;
+  }
+  function blocked(x,z){return buildings.some(r=>inBuilding(x,z,r,.45)) || fenceBlocked(x,z,camera.position.x,camera.position.z);}
   reset();
   return {
     reset,
@@ -71,7 +95,7 @@ export function createWalkControls(camera, canvas, meta, ground, buildings, onRe
           if(!blocked(camera.position.x,z)) camera.position.z=z;
         }
       }
-      camera.position.y=ground(camera.position.x,camera.position.z)+1.7;
+      camera.position.y=ground(camera.position.x,camera.position.z)+eye;
     }
   };
 }
