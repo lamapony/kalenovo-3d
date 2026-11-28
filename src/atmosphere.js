@@ -74,6 +74,12 @@ export function prepareEnvironment(texture) {
     const m = Math.max(data[i], data[i + 1], data[i + 2]);
     if (m > HDRI_SUN_CLAMP) { const k = HDRI_SUN_CLAMP / m; data[i] *= k; data[i + 1] *= k; data[i + 2] *= k; }
   }
+  // Repack as half float after the clamp: WebGL2 cannot linearly filter
+  // 32-bit float without OES_texture_float_linear, half float it always can.
+  const half = new Uint16Array(data.length);
+  for (let i = 0; i < data.length; i++) half[i] = THREE.DataUtils.toHalfFloat(data[i]);
+  texture.image.data = half;
+  texture.type = THREE.HalfFloatType;
   texture.mapping = THREE.EquirectangularReflectionMapping;
   texture.needsUpdate = true;
   return texture;

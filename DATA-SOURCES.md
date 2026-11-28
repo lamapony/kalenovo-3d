@@ -46,8 +46,10 @@ contributors, licensed under the Open Database License (ODbL).
 ## Building footprints: GlobalBuildingAtlas
 
 `buildings-gba.geojson`. GlobalBuildingAtlas (Technical University of Munich),
-CC BY-NC 4.0 (non-commercial use). OSM buildings take precedence where both
-overlap.
+CC BY-NC 4.0 (non-commercial use, https://creativecommons.org/licenses/by-nc/4.0/).
+Dataset: https://github.com/zhu-xlab/GlobalBuildingAtlas. OSM buildings take
+precedence where both overlap. The GeoJSON carries the same notice in its
+top-level `attribution` and `license` members.
 
 ## Sun position
 

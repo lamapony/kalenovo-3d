@@ -111,7 +111,11 @@ async function start() {
     camera.aspect = canvas.clientWidth / canvas.clientHeight; camera.updateProjectionMatrix();
   };
   window.addEventListener('resize', resize); resize();
-  renderer.onDeviceLost = () => {
+  // Chain three's own handler: it sets the device-lost flag that stops rendering.
+  const defaultDeviceLost = renderer.onDeviceLost.bind(renderer);
+  renderer.onDeviceLost = info => {
+    defaultDeviceLost(info);
+    renderer.setAnimationLoop(null);
     status.hidden = false; status.textContent = 'Графика приостановлена. Обновите страницу, чтобы вернуться к прогулке.';
   };
   const label = document.querySelector('#marker'), projected = new THREE.Vector3();
