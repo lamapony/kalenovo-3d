@@ -37,8 +37,12 @@ export const ENUMS = {
   chimneyType: ['brick', 'metal-pipe'],
   verandaSide: ['left', 'right'],
   picketTop: ['pointed', 'flat', 'rounded', 'fan'],
-  gatePattern: ['vertical', 'chevron', 'x', 'diamond'],
+  gatePattern: ['vertical', 'chevron', 'x', 'diamond', 'frame', 'rails'],
   outbuildingMaterial: ['boards', 'metal', 'siding', 'log'],
+  // Round 4b: наличник library (src/village/kit/nalichniki.js) and shutter panels.
+  nalichnikType: ['east-003', 'east-004', 'east-005', 'east-007', 'east-012', 'east-016', 'east-027', 'east-030', 'west-024'],
+  shutterPanels: ['raised', 'outlined', 'inset', 'plain'],
+  gateMaterial: ['metal', 'wood'],
 };
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -131,10 +135,11 @@ export function validatePassport(p) {
         hex(w?.frameColor, 'windows.frameColor');
         opt(w?.heightM, v => num(v, 'windows.heightM', .5, 2.6));
         opt(w?.widthM, v => num(v, 'windows.widthM', .4, 2));
-        opt(w?.nalichnik, n => { oneOf(n.style, ENUMS.nalichnik, 'nalichnik.style'); hex(n.color, 'nalichnik.color'); opt(n.crownColor, v => hex(v, 'nalichnik.crownColor')); opt(n.crownShape, v => oneOf(v, ENUMS.crownShape, 'nalichnik.crownShape')); });
+        opt(w?.nalichnik, n => { oneOf(n.style, ENUMS.nalichnik, 'nalichnik.style'); hex(n.color, 'nalichnik.color'); opt(n.crownColor, v => hex(v, 'nalichnik.crownColor')); opt(n.crownShape, v => oneOf(v, ENUMS.crownShape, 'nalichnik.crownShape')); opt(n.type, v => oneOf(v, ENUMS.nalichnikType, 'nalichnik.type')); opt(n.insertColor, v => hex(v, 'nalichnik.insertColor')); });
         opt(w?.shutters, s => {
           oneOf(s.type, ENUMS.shutters, 'shutters.type'); hex(s.color, 'shutters.color');
           opt(s.closed, v => { if (typeof v !== 'boolean') err('shutters.closed must be boolean'); });
+          opt(s.panels, v => oneOf(v, ENUMS.shutterPanels, 'shutters.panels')); opt(s.panelColor, v => hex(v, 'shutters.panelColor'));
         });
       }
       for (const k of ['chimney', 'veranda']) if (!(sat && h[k] === null) && typeof h[k] !== 'boolean') err(`house.${k} must be boolean`);
@@ -175,11 +180,13 @@ export function validatePassport(p) {
       if (typeof g.roofed !== 'boolean' || typeof g.wicket !== 'boolean') err('gate.roofed/wicket must be boolean');
       opt(g.pattern, v => oneOf(v, ENUMS.gatePattern, 'gate.pattern'));
       opt(g.patternColor, v => hex(v, 'gate.patternColor'));
+      opt(g.material, v => oneOf(v, ENUMS.gateMaterial, 'gate.material'));
     });
     opt(f.picketTop, v => oneOf(v, ENUMS.picketTop, 'fence.picketTop'));
     opt(f.picketGapM, v => num(v, 'fence.picketGapM', .01, .3));
     opt(f.diamonds, v => hex(v, 'fence.diamonds'));
     opt(f.postColor, v => hex(v, 'fence.postColor'));
+    opt(f.hidesFacade, v => { if (typeof v !== 'boolean') err('fence.hidesFacade must be boolean'); });
     opt(f.extra, list => {
       if (!Array.isArray(list)) return err('fence.extra must be an array');
       for (const x of list) {

@@ -9,6 +9,7 @@ import { trimTemplates } from '../templates.js';
 import { lin, jitter } from '../materials.js';
 import { context, groundStats, wallFrames, T, RY, S, mul, basis } from '../house.js';
 import { season } from '../../season.js';
+import { nalichnikType, nalichnikParts, NALICHNIK_TYPES } from './nalichniki.js';
 import { resolveHouse, roofGeometry, ridgeToHouse, windowSlots, boardPolygons, hashString, annexFootprint, chimneyPositions } from './spec.js';
 
 const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -181,7 +182,9 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
   sb.box(ww, .05, .035, 0, wh * .68, .004);
   if (ww > .8) sb.box(.04, wh * .32, .03, -ww * .18, wh * .84, .004);
   const z = surf + .016;
-  if (nal) {
+  const typed = nal && nalichnikType(nal, spec.id);
+  if (typed) typedNalichnik(ctx, at, x, y0, z, ww, wh, nal, typed);
+  else if (nal) {
     // Casing boards stand 4-5 cm proud of the wall; a projecting cornice shelf (полочка) with a
     // moulding under it, and a thick sill board with a drip strip, so they cast real shadows.
     const o = ctx.b('painted', at(x, y0, z));
@@ -232,7 +235,38 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
     o.box(ww + .12, .06, .02, 0, wh + .03, 0); o.box(ww + .16, .04, .08, 0, -.02, .03);
   }
   const sh = W.shutters;
-  if (sh && shutters && sh.type === 'wooden') {
+  const panels = sh?.panels ?? (typed ? NALICHNIK_TYPES[typed].panels : 'raised');
+  if (sh && shutters && sh.type === 'wooden' && panels !== 'raised') {
+    // Shutters of the typed наличники: plain boarded leaves, leaves with three outlined
+    // panels (white or a second colour), or leaves with three filled inset panels.
+    const shC = lin(sh.color), closed = sh.closed, pw = closed ? ww / 2 : ww / 2 + .02, ph = closed ? wh : wh + .06;
+    const pc = lin(sh.panelColor ?? (panels === 'inset' ? '#e6d4b4' : '#e6e5df'));
+    const zz = closed ? surf + .004 : z - .004;
+    const leaf = ctx.b('painted', at(x, y0, zz));
+    const dd = ctx.b('painted', at(x, y0, zz + .02), 'detail');
+    leaf.setColor(shC); dd.setColor(pc);
+    for (const side of [-1, 1]) {
+      const cx = closed ? side * ww / 4 : side * (ww / 2 + (typed ? .1 : .13) + pw / 2 + .005);
+      leaf.box(pw - .01, ph, .035, cx, wh / 2, 0);
+      if (panels === 'plain') {
+        const seam = ctx.b('painted', at(x, y0, zz + .019), 'detail');
+        seam.setColor(brighten(shC, .7));
+        seam.box(.012, ph - .04, .004, cx, wh / 2, 0);
+        for (const hy of [ph * .2, ph * .8]) seam.box(pw - .06, .04, .006, cx, hy, 0);
+        continue;
+      }
+      const m = .055, pwid = pw - 2 * m, rows = [[.06, .3], [.36, .64], [.7, .94]];
+      for (const [a, b] of rows) {
+        const py0 = ph * a, py1 = ph * b, cy = (py0 + py1) / 2, hh = py1 - py0;
+        if (panels === 'inset') dd.box(pwid, hh, .006, cx, cy, 0);
+        else {
+          const t = .028;
+          dd.box(pwid, t, .006, cx, py0, 0); dd.box(pwid, t, .006, cx, py1, 0);
+          dd.box(t, hh, .006, cx - pwid / 2, cy, 0); dd.box(t, hh, .006, cx + pwid / 2, cy, 0);
+        }
+      }
+    }
+  } else if (sh && shutters && sh.type === 'wooden') {
     const shC = lin(sh.color), molding = sh.closed ? brighten(shC, .72) : nal && Math.abs(nalC[0] - shC[0]) + Math.abs(nalC[2] - shC[2]) > .08 ? nalC : brighten(shC, 1.4, .02);
     const closed = sh.closed, pw = closed ? ww / 2 : ww / 2 + .03, ph = closed ? wh : wh + .06;
     const zz = closed ? surf + .004 : z - .004;
@@ -241,7 +275,7 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
     const dd = ctx.b('painted', at(x, y0, zz + .022), 'detail');
     dd.setColor(molding);
     for (const side of [-1, 1]) {
-      const cx = closed ? side * ww / 4 : side * (ww / 2 + .13 + pw / 2);
+      const cx = closed ? side * ww / 4 : side * (ww / 2 + (typed ? .1 : .13) + pw / 2);
       leaf.box(pw - .01, ph, .035, cx, wh / 2, 0);
       // Two raised panels per leaf (filёнки), upper one taller, a raised field with a diamond
       // in each, and two strap hinges on the outer edge.
@@ -272,6 +306,44 @@ function kitWindow(ctx, frameM, x, y0, ww, wh, spec, { surf, log = false, lit = 
       const r = ctx.b('roller', at(x, y0, surf + .045));
       r.setColor(rc);
       r.box(ww + .06, wh, .02, 0, wh / 2, 0);
+    }
+  }
+}
+
+// Prism from a convex 2D polygon (window-local x, y) standing `d` proud of z.
+function prism(b, pts, z, d) {
+  const front = pts.map(([px, py]) => [px, py, z + d]);
+  fan(b, front, pts.map(([px, py]) => [px, py]), [0, 0, 1]);
+  const cx = pts.reduce((a, p) => a + p[0], 0) / pts.length, cy = pts.reduce((a, p) => a + p[1], 0) / pts.length;
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i], q = pts[(i + 1) % pts.length];
+    fan(b, [[p[0], p[1], z], [q[0], q[1], z], [q[0], q[1], z + d], [p[0], p[1], z + d]], [[0, 0], [1, 0], [1, .05], [0, .05]], [(p[0] + q[0]) / 2 - cx, (p[1] + q[1]) / 2 - cy, 0], .85);
+  }
+}
+
+// Insert colour: the passport insertColor, else white on dark crowns and a deep shade of the
+// crown on light ones (the white-crowned east-030 type then gets its blue filigree shadow).
+function insertTint(nal) {
+  if (nal.insert) return lin(nal.insert);
+  const c = lin(nal.crown ?? nal.color), l = .2126 * c[0] + .7152 * c[1] + .0722 * c[2];
+  return l < .35 ? lin('#e7e6e0') : c.map(v => v * .35);
+}
+
+// A typed наличник (nalichniki.js) on the window at (x, y0) of a wall frame.
+function typedNalichnik(ctx, at, x, y0, z, ww, wh, nal, typeName) {
+  const T0 = trimTemplates(), C = T0.carved;
+  const tint = { frame: lin(nal.color), crown: lin(nal.crown ?? nal.color), insert: insertTint(nal) };
+  const { parts } = nalichnikParts(typeName, ww, wh);
+  for (const p of parts) {
+    const detail = p.role === 'insert' || p.kind === 'tpl';
+    const b = ctx.b('painted', at(x, y0, z + .004), detail ? 'detail' : 'near');
+    b.setColor(tint[p.role]);
+    if (p.kind === 'box') b.box(p.w, p.h, p.d, p.x, p.y + p.h / 2, p.z + p.d / 2);
+    else if (p.kind === 'poly') prism(b, p.pts, p.z, p.d);
+    else if (p.kind === 'tpl') {
+      const g = p.tpl === 'pediment' ? C.crowns[1] : p.tpl === 'kokoshnik' ? C.crowns[0] : C.apron;
+      const gw = p.tpl === 'pediment' ? 1.12 : p.tpl === 'kokoshnik' ? 1.08 : 1, gh = p.tpl === 'pediment' ? .51 : p.tpl === 'kokoshnik' ? .63 : 1;
+      b.geometry(g, mul(T(p.x, p.y, p.z), S(p.w / gw, p.h / gh, 1)));
     }
   }
 }

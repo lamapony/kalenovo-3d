@@ -78,9 +78,10 @@ export function resolveHouse(p) {
     id: p.id, w, d, floors, wall, wallH: wh.height, courses: wh.courses, coursePitch: wh.pitch,
     roof,
     windows: {
-      street: win.street, side: win.side, frame: win.frameColor,
-      nalichnik: nal.style === 'none' ? null : { style: nal.style, color: nal.color, crown: nal.crownColor ?? nal.color, shape: nal.crownShape ?? null },
-      shutters: sh ? { type: sh.type, color: sh.color, closed: !!sh.closed } : null,
+      // Owner: every house shows windows to the street (at least two on a 4 m+ front).
+      street: w >= 4 ? Math.max(2, win.street) : win.street, side: win.side, frame: win.frameColor,
+      nalichnik: nal.style === 'none' ? null : { style: nal.style, color: nal.color, crown: nal.crownColor ?? nal.color, shape: nal.crownShape ?? null, type: nal.type ?? null, insert: nal.insertColor ?? null },
+      shutters: sh ? { type: sh.type, color: sh.color, closed: !!sh.closed, panels: sh.panels ?? null, panelColor: sh.panelColor ?? null } : null,
       width: win.widthM ?? (material === 'log' ? .92 : 1.0), height: win.heightM ?? (material === 'log' ? 1.22 : 1.3), sill: material === 'log' ? .74 : .9,
     },
     chimney: h.chimney ?? random() < .6,
