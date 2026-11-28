@@ -37,7 +37,15 @@ export function diamondStations(s0, s1, step = 2.4) {
 export function gateOverlay(pattern, lw, h, board = .12) {
   const out = [];
   const m = .1, x0 = -lw / 2 + m, x1 = lw / 2 - m, y0 = .25, y1 = h - .25;
-  if (pattern === 'x') {
+  if (pattern === 'frame') {
+    // Welded inner frame and a middle rail (the plain metal gate of the street).
+    const fx0 = x0 + .04, fx1 = x1 - .04, fy0 = y0 - .05, fy1 = y1 + .05, ym = (fy0 + fy1) / 2;
+    out.push({ x: 0, y: fy0, len: fx1 - fx0, angle: 0, frame: true }, { x: 0, y: fy1, len: fx1 - fx0, angle: 0, frame: true });
+    out.push({ x: fx0, y: ym, len: fy1 - fy0, angle: Math.PI / 2, frame: true }, { x: fx1, y: ym, len: fy1 - fy0, angle: Math.PI / 2, frame: true });
+    out.push({ x: 0, y: ym, len: fx1 - fx0, angle: 0, frame: true });
+  } else if (pattern === 'rails') {
+    for (const f of [.3, .55, .8]) out.push({ x: 0, y: h * f, len: x1 - x0, angle: 0, frame: true });
+  } else if (pattern === 'x') {
     const dx = x1 - x0, dy = y1 - y0, len = Math.hypot(dx, dy), a = Math.atan2(dy, dx);
     out.push({ x: 0, y: (y0 + y1) / 2, len, angle: a }, { x: 0, y: (y0 + y1) / 2, len, angle: Math.PI - a });
     out.push({ x: 0, y: y0, len: dx, angle: 0, frame: true }, { x: 0, y: y1, len: dx, angle: 0, frame: true });

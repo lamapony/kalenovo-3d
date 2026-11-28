@@ -48,7 +48,18 @@ export function buildKitFences(B, ground, plots) {
         spans = spans.flatMap(([a, c]) => (g1 <= a || g0 >= c) ? [[a, c]] : [[a, g0], [g1, c]].filter(([p, q]) => q - p > .25));
       }
       const color = woodTint(f.color), h = f.height;
-      for (const [s0, s1] of spans) pieces += fenceSpan(B, ground, f, { s0, s1, P, M, X, Z, plotSide, color, h, random });
+      // Lowered stretches in front of a facade (layout.js lowSpans): split the spans there.
+      const cut = [];
+      for (const [s0, s1] of spans) {
+        let pts = [s0, s1];
+        for (const [a, b] of f.lowSpans || []) pts.push(a, b);
+        pts = [...new Set(pts.filter(t => t >= s0 && t <= s1))].sort((p, q) => p - q);
+        for (let i = 0; i < pts.length - 1; i++) {
+          const mid = (pts[i] + pts[i + 1]) / 2, low = (f.lowSpans || []).find(([a, b]) => mid > a && mid < b);
+          if (pts[i + 1] - pts[i] > .2) cut.push([pts[i], pts[i + 1], low ? low[2] : h]);
+        }
+      }
+      for (const [s0, s1, hh] of cut) pieces += fenceSpan(B, ground, f, { s0, s1, P, M, X, Z, plotSide, color, h: hh, random });
       for (const g of f.gates) gate(B, ground, f, g, { P, M, plotSide, random });
       if (f.pillars) pieces += brickPillars(B, f, { len, spans, P, M, h: f.height, tint: lin(f.pillarColor) });
     }
@@ -296,14 +307,37 @@ function diamondInserts(B, f, { s0, s1, P, M, plotSide, h, tint }) {
 
 function gate(B, ground, f, g, { P, M, plotSide, random }) {
   const [x, z] = P(g.t), color = woodTint(g.color);
+  // Owner's rule (round 4b): gates are metal unless the passport says wood: painted sheet (or
+  // profiled sheet in a profiled fence) in a tube frame, with welded rails / frames / motifs.
+  const metal = (g.material ?? 'metal') === 'metal';
   const profiled = f.type === 'profiled';
   const h = Math.max(f.height, g.type === 'wicket' ? f.height : Math.min(2.1, f.height + .1));
   const leaves = g.type === 'wicket' ? [[0, g.width - .06]] : [[-g.width / 4, g.width / 2 - .05], [g.width / 4, g.width / 2 - .05]];
-  const key = profiled ? 'paintedMetal' : woodKey(g.color);
+  const key = profiled || metal ? 'paintedMetal' : woodKey(g.color);
   const b = B.get(key, x, z);
   const base = M(g.t, .07);
   for (const [lx, lw] of leaves) {
     b.setMatrix(base); b.setColor(color);
+    if (metal) {
+      const mc = lin(g.color), hh = h - .1;
+      b.setColor(mc);
+      if (profiled) for (let k = 0; k < Math.round(lw / .115); k++) b.box(.06, hh, .02 + (k % 2) * .015, lx - lw / 2 + .06 + k * .115, hh / 2, 0);
+      else b.box(lw - .02, hh - .02, .015, lx, hh / 2, 0);
+      // Tube frame round the leaf, a little darker, standing proud on the street side.
+      const fr = B.get('paintedMetal', x, z);
+      fr.setMatrix(base); fr.setColor(mc.map(v => v * .78));
+      const zf = -plotSide * .02;
+      fr.box(lw, .05, .04, lx, .025, zf); fr.box(lw, .05, .04, lx, hh - .025, zf);
+      fr.box(.05, hh, .04, lx - lw / 2 + .025, hh / 2, zf); fr.box(.05, hh, .04, lx + lw / 2 - .025, hh / 2, zf);
+      const pat = g.pattern && g.pattern !== 'vertical' ? g.pattern : 'frame';
+      const pc = g.patternColor ? lin(g.patternColor) : mc.map(v => v * .78);
+      fr.setColor(pc);
+      for (const o of gateOverlay(pat, lw, hh)) {
+        fr.setMatrix(base.clone().multiply(new THREE.Matrix4().makeTranslation(lx + o.x, o.y, zf * 1.6)).multiply(new THREE.Matrix4().makeRotationZ(o.angle)));
+        fr.box(o.len, o.frame || pat === 'frame' || pat === 'rails' ? .04 : .08, .025);
+      }
+      continue;
+    }
     if (profiled) {
       for (let k = 0; k < Math.round(lw / .115); k++) b.box(.06, h - .1, .03 + (k % 2) * .02, lx - lw / 2 + .06 + k * .115, (h - .1) / 2, 0);
       b.box(lw, .05, .05, lx, h - .1, 0);
@@ -327,10 +361,11 @@ function gate(B, ground, f, g, { P, M, plotSide, random }) {
       }
     }
   }
-  const pk = profiled ? 'darkMetal' : woodKey(g.color);
+  const steel = (profiled || metal) && !g.roofed;
+  const pk = steel ? 'paintedMetal' : woodKey(g.color);
   const pb = B.get(pk, x, z);
-  pb.setMatrix(M(g.t)); pb.setColor(profiled ? [1.4, 1.4, 1.4] : color.map(v => v * .8));
-  const ps = profiled ? .08 : .15, ph = h + (g.roofed ? .5 : .15);
+  pb.setMatrix(M(g.t)); pb.setColor(steel ? lin(g.color).map(v => v * .7) : color.map(v => v * .8));
+  const ps = steel ? .08 : .15, ph = h + (g.roofed ? .5 : .15);
   for (const s of [-1, 1]) pb.box(ps, ph + .35, ps, s * (g.width / 2 + ps / 2), (ph - .35) / 2, 0);
   if (g.roofed) {
     pb.box(g.width + ps * 2 + .3, .16, .16, 0, ph, 0);

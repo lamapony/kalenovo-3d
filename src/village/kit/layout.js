@@ -15,6 +15,8 @@ export const OUTBUILDING_SIZE = { shed: [3, 3.4], garage: [3.6, 6], barn: [6, 7]
 export const GATE_WIDTH = { double: 3.2, swing: 2.8, sliding: 4 };
 export const WICKET_WIDTH = 1;
 const MAX_YARD = 14, BACK_DEPTH = 20, ROAD_CLEAR = 6.2;
+// Street fences in front of a facade: at most this tall when solid (lowered to FACADE_FENCE_LOW).
+export const FACADE_FENCE_MAX = 1.35, FACADE_FENCE_LOW = 1.2;
 // Weathered board colours for fences between and behind plots (grey timber, a few faded paints).
 export const BOARD_PALETTE = ['#6c6153', '#5f574d', '#776a5a', '#655c50', '#585f63', '#5f6b58', '#6e6658', '#4f6670'];
 
@@ -166,7 +168,7 @@ export function layoutMainStreet(passports, meta, lines) {
         const gw = GATE_WIDTH[fence.gate.type] ?? 3;
         const L = Math.hypot(yard.x1 - yard.x0, yard.z1 - yard.z0);
         const wants = [];
-        const pat = { pattern: fence.gate.pattern, patternColor: fence.gate.patternColor };
+        const pat = { pattern: fence.gate.pattern, patternColor: fence.gate.patternColor, material: fence.gate.material ?? 'metal' };
         if (fence.gate.wicket) wants.push({ type: 'wicket', width: WICKET_WIDTH, color: fence.gate.color, roofed: false, ...pat });
         wants.push({ type: fence.gate.type, width: gw, color: fence.gate.color, roofed: fence.gate.roofed, ...pat });
         let t = yard.gateStart ?? .35;
@@ -176,6 +178,18 @@ export function layoutMainStreet(passports, meta, lines) {
           yard.gates.push({ ...g, t: t + g.width / 2, lx: yard.x0 + (yard.x1 - yard.x0) * u, lz: yard.z0 + (yard.z1 - yard.z0) * u });
           t += g.width + .35;
         }
+      }
+    }
+    // Owner's rule (round 4b): street fences do not hide the facade. A solid fence that runs
+    // across the front of the house ('front' plan) drops to palisade height in front of it,
+    // unless the passport says the ref shows a tall fence hiding the house (fence.hidesFacade).
+    if (fence && plan?.kind === 'front' && h && !fence.hidesFacade) {
+      for (const r of runs) {
+        if (r.role !== 'yard' || Math.abs(r.z1 - r.z0) > .01 || !SOLID_TYPES.has(r.type) || r.height <= FACADE_FENCE_MAX) continue;
+        const dir = Math.sign(r.x1 - r.x0) || 1, t = xx => (xx - r.x0) * dir;
+        let a = Math.min(t(-w / 2 - .4), t(w / 2 + .4)), b = Math.max(t(-w / 2 - .4), t(w / 2 + .4));
+        for (const g of r.gates) { const g0 = g.t - g.width / 2 - .15, g1 = g.t + g.width / 2 + .15; if (g1 > a && g0 < b) { if (g.t > (a + b) / 2) b = Math.min(b, g0); else a = Math.max(a, g1); } }
+        if (b - a > .5) r.lowSpans = [[Math.max(0, a), b, FACADE_FENCE_LOW]];
       }
     }
     // Outbuildings from the passport offsets [along, back], pushed clear of the house.
@@ -222,7 +236,7 @@ export function layoutMainStreet(passports, meta, lines) {
     // World segments.
     for (const r of runs) {
       const a = frame.world(r.x0, r.z0), b = frame.world(r.x1, r.z1), len = Math.hypot(b[0] - a[0], b[1] - a[1]);
-      const f = { a, b, t0: 0, t1: len, pattern: r.pattern, type: r.type, color: r.color, color2: r.color2, height: r.height, role: r.role, gates: r.gates, owner: p.id, pillars: r.pillars, picketTop: r.picketTop, diamonds: r.diamonds, postColor: r.postColor, gapM: r.gapM };
+      const f = { a, b, t0: 0, t1: len, pattern: r.pattern, type: r.type, color: r.color, color2: r.color2, height: r.height, role: r.role, gates: r.gates, owner: p.id, pillars: r.pillars, picketTop: r.picketTop, diamonds: r.diamonds, postColor: r.postColor, gapM: r.gapM, lowSpans: r.lowSpans };
       plot.fences.push(f);
       let spans = [[0, len]];
       for (const g of r.gates) {
@@ -335,4 +349,39 @@ export function applyExtraRuns(runs, extras, { s0, s1, zLine }) {
     });
   }
   return runs;
+}
+
+// Sight lines from the street to each facade (round 4b check): from the nearest point of the
+// street centreline to the middle of the facade, any street fence it crosses must be see-through
+// (picket, lattice, mesh, metal rail) or no taller than FACADE_FENCE_MAX where it crosses, unless
+// that plot's passport marks fence.hidesFacade. Returns [{ id, by, type, height }] offenders.
+const SEE_THROUGH = new Set(['picket', 'lattice', 'mesh', 'metal-rail', 'poles']);
+export function facadeBlockers(main, lines) {
+  const out = [];
+  const fences = main.plots.flatMap(p => p.fences.filter(f => f.role !== 'side' && f.role !== 'back' && f.role !== 'return').map(f => ({ f, owner: p })));
+  for (const plot of main.plots) {
+    const p = plot.passport;
+    if (!p?.house || p.source === 'satellite') continue;
+    const [fx, fz] = plot.frame.world(0, plot.zFacade + .05), near = nearestOnLines(fx, fz, lines);
+    if (!near.point) continue;
+    const [cx, cz] = near.point;
+    for (const { f, owner } of fences) {
+      if (SEE_THROUGH.has(f.type) || owner.passport?.fence?.hidesFacade) continue;
+      const hit = segmentHit([cx, cz], [fx, fz], f.a, f.b);
+      if (hit === null) continue;
+      const len = Math.hypot(f.b[0] - f.a[0], f.b[1] - f.a[1]), t = hit * len;
+      if (f.gates.some(g => Math.abs(g.t - t) < g.width / 2)) continue; // seen over the gate leaves? gates are low-ish; skip
+      const low = (f.lowSpans || []).find(([a, b]) => t >= a && t <= b);
+      const height = low ? low[2] : f.height;
+      if (height > FACADE_FENCE_MAX) out.push({ id: p.id, by: owner.id, type: f.type, height });
+    }
+  }
+  return out;
+}
+// Parameter along c-d where segment a-b crosses it (0..1), else null.
+function segmentHit(a, b, c, d) {
+  const r = [b[0] - a[0], b[1] - a[1]], s = [d[0] - c[0], d[1] - c[1]], den = r[0] * s[1] - r[1] * s[0];
+  if (Math.abs(den) < 1e-9) return null;
+  const qp = [c[0] - a[0], c[1] - a[1]], t = (qp[0] * s[1] - qp[1] * s[0]) / den, u = (qp[0] * r[1] - qp[1] * r[0]) / den;
+  return t > .02 && t < .98 && u >= 0 && u <= 1 ? u : null;
 }
