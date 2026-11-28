@@ -313,7 +313,7 @@
    },
    "fence": {
     "type": "plank",
-    "color": "#644927",
+    "color": "#8a6840",
     "heightM": 1.8,
     "lengthM": 6,
     "gate": null
@@ -422,7 +422,7 @@
       "crownShape": "trapezoid",
       "type": "east-003",
       "crownColor": "#2f5fb0",
-      "insertColor": "#e8e8e4"
+      "insertColor": "#2f5fb0"
      },
      "shutters": {
       "type": "wooden",
@@ -555,10 +555,10 @@
      "nalichnik": {
       "style": "carved-crown",
       "color": "#2f84b6",
-      "crownColor": "#dfe1dc",
+      "crownColor": "#287591",
       "crownShape": "pediment",
       "type": "east-005",
-      "insertColor": "#2f84b6"
+      "insertColor": "#dfe1dc"
      },
      "shutters": {
       "type": "wooden",
@@ -615,7 +615,7 @@
     "floors": 1,
     "wall": {
      "material": "planks",
-     "color": "#3a5557",
+     "color": "#547a70",
      "cornerJoint": "boxed"
     },
     "roof": {
@@ -1176,7 +1176,8 @@
      },
      "shutters": {
       "type": "wooden",
-      "color": "#8a8688"
+      "color": "#8a8688",
+      "closed": true
      }
     },
     "chimney": true,
@@ -2198,7 +2199,8 @@
      "type": "double",
      "color": "#748070",
      "roofed": false,
-     "wicket": false
+     "wicket": false,
+     "pattern": "chevron"
     }
    },
    "outbuildings": [],
@@ -2466,10 +2468,10 @@
      "frameColor": "#c9c5b4",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#2f8f78",
+      "color": "#efece4",
       "crownShape": "pediment",
-      "type": "east-012",
-      "crownColor": "#2f8f78",
+      "type": "east-030",
+      "crownColor": "#efece4",
       "insertColor": "#e6e8e4"
      },
      "shutters": {
@@ -2722,7 +2724,7 @@
     "windows": {
      "street": 2,
      "side": 4,
-     "frameColor": "#bfb5a6",
+     "frameColor": "#e6e8e4",
      "nalichnik": {
       "style": "plain",
       "color": "#3c483c"
@@ -3337,7 +3339,7 @@
      "ridge": "parallel",
      "pitchDeg": 25,
      "material": "corrugated",
-     "color": "#a39588",
+     "color": "#c6c3bb",
      "overhangM": 0.4,
      "gableFinish": null,
      "gableColor": null
@@ -3695,7 +3697,7 @@
      },
      "shutters": {
       "type": "wooden",
-      "color": "#c8c4b9"
+      "color": "#5a7d6b"
      }
     },
     "chimney": false,
@@ -3762,7 +3764,8 @@
     },
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "picket",
@@ -3945,7 +3948,7 @@
     "floors": 1.5,
     "wall": {
      "material": "log",
-     "color": "#48798e",
+     "color": "#5a4636",
      "logDiameterCm": 24,
      "cornerJoint": "saddle"
     },
@@ -3981,7 +3984,7 @@
     "chimneyType": "metal-pipe"
    },
    "fence": {
-    "type": "picket",
+    "type": "plank",
     "color": "#e8e4d8",
     "heightM": 1.7,
     "lengthM": 2,
@@ -4101,7 +4104,7 @@
      "color": "#241a14",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#241a15",
+     "gableColor": "#847a6b",
      "gableBoards": "horizontal"
     },
     "windows": {
@@ -4115,7 +4118,8 @@
      },
      "shutters": {
       "type": "wooden",
-      "color": "#33637d"
+      "color": "#33637d",
+      "closed": true
      }
     },
     "chimney": false,
@@ -4306,7 +4310,7 @@
      "color": "#c3bbb1",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#143c24",
+     "gableColor": "#ac9c8d",
      "gableBoards": "chevron"
     },
     "windows": {
@@ -4315,7 +4319,7 @@
      "frameColor": "#d4c9bb",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#e2e2dc",
+      "color": "#1f6fb6",
       "type": "east-005",
       "crownColor": "#1f6fb6",
       "insertColor": "#e8ecee"
@@ -4432,7 +4436,7 @@
      "color": "#776043",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#33402b",
+     "gableColor": "#575a41",
      "gableBoards": "sunburst"
     },
     "windows": {
@@ -4669,7 +4673,7 @@
     "depthM": 5.5,
     "floors": 1,
     "wall": {
-     "material": "log",
+     "material": "planks",
      "color": "#3f2f23",
      "logDiameterCm": 24,
      "cornerJoint": "saddle"
@@ -5090,8 +5094,8 @@
      "material": "slate",
      "color": "#9d8f73",
      "overhangM": 0.4,
-     "gableFinish": "planks",
-     "gableColor": "#504332"
+     "gableFinish": "log",
+     "gableColor": "#b3a88c"
     },
     "windows": {
      "street": 3,
@@ -5169,12 +5173,13 @@
      "nalichnik": {
       "style": "carved-crown",
       "color": "#277079",
-      "crownShape": "kokoshnik",
+      "crownShape": "pediment",
       "type": "east-030"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#23595a"
+      "color": "#23595a",
+      "panels": "plain"
      }
     },
     "chimney": false,
@@ -5590,10 +5595,11 @@
     "lengthM": 3,
     "gate": {
      "type": "double",
-     "color": "#3f271b",
+     "color": "#7b5f3e",
      "roofed": false,
      "wicket": true
-    }
+    },
+    "gateSide": "right"
    },
    "outbuildings": [],
    "notes": "behind a tree; blue porch door; brown profiled gate"
@@ -5642,14 +5648,16 @@
      },
      "shutters": {
       "type": "wooden",
-      "color": "#318c80"
+      "color": "#318c80",
+      "closed": true
      }
     },
     "chimney": false,
     "porch": null,
     "veranda": false,
     "basementM": 0.4,
-    "notes": ""
+    "notes": "",
+    "plinthColor": "#e6e3dc"
    },
    "fence": {
     "type": "plank",
@@ -5846,7 +5854,7 @@
     },
     "chimney": true,
     "porch": null,
-    "veranda": true,
+    "veranda": false,
     "basementM": 0.3,
     "notes": "",
     "chimneyType": "metal-pipe"
@@ -5956,7 +5964,7 @@
     "floors": 1,
     "wall": {
      "material": "plaster",
-     "color": "#9a321f",
+     "color": "#b5ab9c",
      "cornerJoint": null
     },
     "roof": {
@@ -6254,7 +6262,8 @@
      "color": "#7f847e",
      "overhangM": 0.4,
      "gableFinish": "planks",
-     "gableColor": "#4a3c32"
+     "gableColor": "#4a3c32",
+     "trimColor": "#3d7cc0"
     },
     "windows": {
      "street": 3,
@@ -6277,7 +6286,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.5,
-    "notes": ""
+    "notes": "",
+    "plinthColor": "#d8d3c8"
    },
    "fence": null,
    "outbuildings": [],
@@ -6312,7 +6322,7 @@
      "ridge": "parallel",
      "pitchDeg": 28,
      "material": "corrugated",
-     "color": "#7d664e",
+     "color": "#a3988c",
      "overhangM": 0.4,
      "gableFinish": "planks",
      "gableColor": "#3f261a"
@@ -6323,12 +6333,12 @@
      "frameColor": "#bfc0bb",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#4b7c62",
+      "color": "#5a9880",
       "type": "east-003"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#4b7c62"
+      "color": "#5a9880"
      }
     },
     "chimney": true,
@@ -6515,7 +6525,7 @@
     },
     "roof": {
      "shape": "gable",
-     "ridge": "perpendicular",
+     "ridge": "parallel",
      "pitchDeg": 30,
      "material": "metal-tile",
      "color": "#517fb0",
@@ -6604,7 +6614,8 @@
     "porch": null,
     "veranda": false,
     "basementM": 0.3,
-    "notes": ""
+    "notes": "",
+    "chimneyType": "metal-pipe"
    },
    "fence": {
     "type": "plank",
@@ -6641,7 +6652,7 @@
     "floors": 1,
     "wall": {
      "material": "log",
-     "color": "#342b1d",
+     "color": "#6a5340",
      "logDiameterCm": 24,
      "cornerJoint": "saddle"
     },
@@ -6653,7 +6664,7 @@
      "color": "#805334",
      "overhangM": 0.4,
      "gableFinish": "log",
-     "gableColor": "#2e261b"
+     "gableColor": "#6a5340"
     },
     "windows": {
      "street": 3,
@@ -6820,7 +6831,7 @@
      "shape": "hip",
      "ridge": "parallel",
      "pitchDeg": 25,
-     "material": "slate",
+     "material": "corrugated",
      "color": "#cfcdc8",
      "overhangM": 0.4,
      "gableFinish": null,
@@ -6923,8 +6934,8 @@
      "shape": "hip",
      "ridge": "parallel",
      "pitchDeg": 25,
-     "material": "slate",
-     "color": "#ada79a",
+     "material": "corrugated",
+     "color": "#d4d6d2",
      "overhangM": 0.4,
      "gableFinish": null,
      "gableColor": null
@@ -6935,12 +6946,12 @@
      "frameColor": "#c5c1b7",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#46637c",
+      "color": "#7eb6d0",
       "type": "east-003"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#46637c"
+      "color": "#8ec4d8"
      }
     },
     "chimney": false,
@@ -7591,7 +7602,7 @@
      "cornerJoint": null
     },
     "roof": {
-     "shape": "gable-cross",
+     "shape": "gable",
      "ridge": "parallel",
      "pitchDeg": 30,
      "material": "metal-tile",
@@ -8023,15 +8034,15 @@
      "frameColor": "#bab2ac",
      "nalichnik": {
       "style": "carved-crown",
-      "color": "#3a6f9a",
-      "crownColor": "#3a6f9a",
+      "color": "#456d6e",
+      "crownColor": "#456d6e",
       "crownShape": "pediment",
-      "type": "east-030",
+      "type": "west-024",
       "insertColor": "#e6e8e8"
      },
      "shutters": {
       "type": "wooden",
-      "color": "#4f8fbf",
+      "color": "#456d6e",
       "closed": false,
       "panelColor": "#e6e8e8"
      }
